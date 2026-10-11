@@ -1,0 +1,1 @@
+import type { Metadata } from "next"; import "./globals.css"; export const metadata:Metadata={title:"Parcels JA | Connecting You to What Matters",description:"A clearer way to ship and track purchases to Jamaica."}; export default function Layout({children}:{children:React.ReactNode}){return <html lang="en"><body>{children}</body></html>}
