@@ -1,4 +1,4 @@
-/* global fetch */
+/* global fetch, document, innerWidth */
 import { chromium } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import { createClient } from "@supabase/supabase-js";
