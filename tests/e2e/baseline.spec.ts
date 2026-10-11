@@ -59,8 +59,8 @@ test("registration validates without creating an account or transmitting input",
   await page.getByLabel("Email", { exact: true }).fill("demo@example.test");
   await page.getByLabel("Phone").fill("8765550100");
   await page
-    .getByLabel("Shipping type")
-    .selectOption({ label: "Business / reseller" });
+    .getByRole("radio", { name: "Business / reseller", exact: false })
+    .check();
   await page.getByRole("button", { name: "Preview registration" }).click();
   await expect(page.getByRole("status")).toContainText(
     "No account was created",
