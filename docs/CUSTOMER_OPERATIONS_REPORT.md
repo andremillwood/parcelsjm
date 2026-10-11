@@ -20,9 +20,11 @@ Target: `pftjfzmbqqzzfxgypwkl`. Initial inspection found zero auth users and zer
 
 On the immutable Vercel preview, customer/admin design pages passed accessibility and overflow checks at 390 and 1440 pixels. Real Supabase sign-in, SSR profile loading, private no-store headers, non-staff admin denial, sign-out and protected redirects passed using an unprivileged temporary QA account. Public registration returned 503 without approved policies. Provider settings confirm signup disabled and email auto-confirmation false; the reviewed Auth config also raised minimum password length from 6 to 12 without changing undeclared settings.
 
-Full hosted customer-to-staff write verification is pending: automatic approval review rejected activating the synthetic QA accounts and granting a temporary QA owner role without explicit authorization for that privileged assignment. The owner has been asked to approve that exact setup. Local transactional tests cover those write paths; they are not a substitute for the pending hosted browser flow.
+Full hosted customer-to-staff write verification passed after the owner explicitly approved temporary QA activation and a temporary QA owner role. Tested: pre-alert persistence, A/B customer isolation, server-side staff denial, exact-tracking intake reconciliation, customer-visible verified receipt, subsequent staff event, stale-write rejection, support resolution visible to the owning customer, owner audit view and sign-out for all QA sessions. A read-only database check confirmed one test package, two events, five audits, one resolved support request and two deferred notifications. No email was sent. All synthetic records, the temporary owner role and the three QA accounts were removed after testing; temporary credentials were deleted.
 
-Initial implementation commit: `206a30fbad97349b363a1f32a660aa3c47e2ffed`. Draft PR: https://github.com/andremillwood/parcelsjm/pull/3. Verified preview: https://parcelsjm-mcxnikfh8-andre-millwoods-projects.vercel.app (existing project parcelsjm, Preview environment). Screenshots: `docs/evidence/customer-operations/`.
+The reusable manual runner is `scripts/verify-hosted-workflows.mjs`. It requires `PREVIEW_URL`, `QA_FIXTURES_PATH` and `PREVIEW_ACCESS_FILE`; credential/access files must stay outside the repository. Provision only owner-approved synthetic accounts (`parcels-qa-…@example.com`), use a fresh test dataset, and remove test records/roles/accounts afterward. This script intentionally does not bootstrap privileged accounts or run automatically in CI.
+
+Initial implementation commit: `206a30fbad97349b363a1f32a660aa3c47e2ffed`. Verified application commit: `db53c42485171b7f04ef4771224921aec7fe975c`; GitHub CI run `38180650811` passed. Draft PR: https://github.com/andremillwood/parcelsjm/pull/3. Verified preview: https://parcelsjm-igki8bu31-andre-millwoods-projects.vercel.app (existing project parcelsjm, Preview environment). Screenshots: `docs/evidence/customer-operations/`.
 
 ## Remaining acceptance gates
 
@@ -43,14 +45,14 @@ Public registration is controlled by `AUTH_ENABLED`, `ACCOUNT_POLICIES_APPROVED`
 
 ## PRD acceptance mapping
 
-| Requirements             | Status in this increment                                                                                                                                 |
-| ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| AUTH-01                  | SSR sign-in/session/sign-out verified; signup/reset delivery and anti-abuse launch acceptance pending                                                    |
-| AUTH-02, AUTH-03, OPS-01 | Protected routes, profiles and role boundaries implemented; hosted privileged workflow test pending approval                                             |
-| AUTH-04, AUTH-05         | Verified assignment schema and uniqueness tested locally; no real warehouse seeded                                                                       |
-| PKG-01–PKG-06            | Pre-alerts, customer list, verified timeline, sequential staff events, separate states and private matching implemented; hosted write acceptance pending |
-| OPS-02–OPS-04            | Intake/support/audit foundations implemented; assignment/priority, corrections, and full document workflows remain incomplete                            |
-| DOC-01–DOC-08            | UI only; file processing disabled, not accepted                                                                                                          |
-| FIN / NTF / DMD          | Commercial implementation gated; Resend and DMD explicitly deferred                                                                                      |
+| Requirements             | Status in this increment                                                                                                                                                                                                              |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| AUTH-01                  | SSR sign-in/session/sign-out verified; signup/reset delivery and anti-abuse launch acceptance pending                                                                                                                                 |
+| AUTH-02, AUTH-03, OPS-01 | Protected routes, profiles and role boundaries implemented; hosted customer/staff workflow verified with temporary QA accounts                                                                                                        |
+| AUTH-04, AUTH-05         | Verified assignment schema and uniqueness tested locally; no real warehouse seeded                                                                                                                                                    |
+| PKG-01–PKG-06            | Pre-alerts, customer list, verified timeline, sequential staff events, separate states and private matching implemented; hosted pre-alert, event and matching flow verified; complete PRD acceptance still pending remaining controls |
+| OPS-02–OPS-04            | Intake/support/audit foundations implemented; assignment/priority, corrections, and full document workflows remain incomplete                                                                                                         |
+| DOC-01–DOC-08            | UI only; file processing disabled, not accepted                                                                                                                                                                                       |
+| FIN / NTF / DMD          | Commercial implementation gated; Resend and DMD explicitly deferred                                                                                                                                                                   |
 
 Phase 2 and Phase 3 are **not marked complete** while the listed hosted acceptance and operational dependencies remain open.
