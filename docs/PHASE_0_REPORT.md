@@ -2,6 +2,8 @@
 
 Date: 2026-10-11. Baseline: `0b93c70a79ef65f28648aa698041c647f594f7af`. Initial audit commit: `d1006c6`. Branch: `codex/phase-0`.
 
+**Phase 0 exit: passed.** Clean build, automated checks, original logo and demo preview are verified. This is not production launch approval.
+
 ## Delivered
 
 - Read PRD v1.0 in full, preserve an unchanged local copy outside Git, replace provisional phases with the PRD's Phase 0–6 sequence and map all 57 functional requirement IDs.
@@ -20,7 +22,9 @@ The pre-existing Vercel production deployment failed with `VULNERABLE_NEXTJS_VER
 - `npm audit --audit-level=high`: pass, zero reported vulnerabilities across all dependencies.
 - `PLAYWRIGHT_CHANNEL=chrome npm test`: 30/30 pass in 51.5 seconds. Four routes × five widths have no violations in configured axe WCAG A/AA checks, no document-level horizontal overflow or page errors. Skip-link focus, preview labels and logo visibility pass. Registration validation/no transmission and unavailable pricing/404 checks pass at every width.
 - Logo SHA-256 matches supplied original. All 57 functional PRD IDs are mapped.
-- Hosted preview verification is still pending; Phase 0 exit remains open until it succeeds.
+- Vercel preview `dpl_J8eJSVLtEKwv8wAGN2wdrVzufzfA`: READY, built from `ae330b0d080b5f1fca5af664765ce46eca264050` in approximately 33 seconds. Project `parcelsjm`, team `Andre Millwood’s projects`; no production target.
+- [Verified preview](https://parcelsjm-fxzake6ei-andre-millwoods-projects.vercel.app/): authenticated HTTP checks return 200 for all four routes and 404 for an unknown route. Demo labels, noindex headers and expected unavailable/fictional states verified. Full interactive browser tests ran against the local production build, not through hosted SSO.
+- [GitHub Actions run 38175566725](https://github.com/andremillwood/parcelsjm/actions/runs/38175566725): completed successfully for implementation commit `ae330b0`, including clean npm ci, check, audit, Linux Chromium installation, browser tests and evidence upload.
 
 The initial browser pass identified a serious keyboard accessibility issue in the scrolling dashboard table. The fix adds a named focusable region; Phase 1 still needs the PRD's customer card layout and complete design system. Automated axe checks complement, rather than replace, screen-reader and touch-device testing in later phases.
 
@@ -39,3 +43,11 @@ Local Playwright's newest bundled Chromium cannot install on macOS 13. Local tes
 This phase implements PRD §13 Phase 0 foundations and §12 baseline checks. No live functional requirement is marked complete just because a demo exists. Phase 1 contact persistence/communication requires real isolated backend/email configuration; Phase 2 auth and RLS remain unimplemented. Approved commercial rules, current addresses, service coverage, legal policies and operational access remain the PRD D-01–D-10 decision gates. Original logo availability is resolved.
 
 No production deployment, domain change, Supabase mutation, Resend send or DMD portal access was performed.
+
+## Screenshots
+
+Reviewed local production-build captures: [home 360px](evidence/phase-0/home-360.png), [home 1440px](evidence/phase-0/home-1440.png), [dashboard 360px](evidence/phase-0/dashboard-360.png), [dashboard 1440px](evidence/phase-0/dashboard-1440.png). These retain the existing preview visual direction; Phase 1 is the full marketing/design-system implementation. The keyboard-test captures may show the skip link during focus traversal.
+
+## Review
+
+Implementation commit: `ae330b0`. [Draft PR #1](https://github.com/andremillwood/parcelsjm/pull/1). No database migrations in this phase.
