@@ -30,6 +30,8 @@ export default async function AdminPage({
   return (
     <WorkspaceShell
       admin
+      staff
+      superadmin={identity.roles.includes("owner")}
       name={identity.profile.full_name || "Staff"}
       path={section}
     >

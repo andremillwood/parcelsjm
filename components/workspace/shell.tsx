@@ -4,12 +4,16 @@ import { BrandLogo } from "../brand-logo";
 export function WorkspaceShell({
   admin = false,
   demo = false,
+  staff = false,
+  superadmin = false,
   path = "",
   name,
   children,
 }: {
   admin?: boolean;
   demo?: boolean;
+  staff?: boolean;
+  superadmin?: boolean;
   path?: string;
   name: string;
   children: React.ReactNode;
@@ -71,9 +75,11 @@ export function WorkspaceShell({
             <small>
               {demo
                 ? "Fictional preview"
-                : admin
-                  ? "Staff account"
-                  : "Customer account"}
+                : superadmin
+                  ? "Superadmin"
+                  : admin
+                    ? "Staff account"
+                    : "Customer account"}
             </small>
           </div>
         </div>
@@ -97,6 +103,17 @@ export function WorkspaceShell({
               : "Account security"}
           </Link>
         </header>
+        {!demo && staff && (
+          <nav className="w-mode-switch" aria-label="Application switcher">
+            <span>{superadmin ? "Superadmin" : "Staff access"}</span>
+            <Link href="/app" aria-current={!admin ? "page" : undefined}>
+              Customer app
+            </Link>
+            <Link href="/admin" aria-current={admin ? "page" : undefined}>
+              Admin app
+            </Link>
+          </nav>
+        )}
         <details className="w-mobile-menu">
           <summary>
             {admin ? "Operations" : "Account"} menu <span>＋</span>

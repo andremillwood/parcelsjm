@@ -61,6 +61,8 @@ export async function POST(
           .eq("id", identity.user.id)
           .select("id")
           .single();
+        if (!result.error && identity.profile.account_status === "active")
+          return reply(200, "Contact details saved.");
         if (!result.error) {
           const activation = await client.rpc("complete_onboarding");
           if (activation.error)

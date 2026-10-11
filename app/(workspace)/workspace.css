@@ -861,3 +861,29 @@
 .workspace .w-panel {
   overflow-wrap: anywhere;
 }
+
+.w-mode-switch {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 8px 24px;
+  background: #fff;
+  border-bottom: 1px solid var(--w-line);
+}
+.w-mode-switch span {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--w-ink);
+}
+.w-mode-switch a {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 600;
+}
+.w-mode-switch a[aria-current="page"] {
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}

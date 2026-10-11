@@ -11,6 +11,11 @@ export default async function AppPage({
   params: Promise<{ path?: string[] }>;
 }) {
   const identity = await requireIdentity();
+  const { data: assignments } = await identity.client
+    .from("admin_role_assignments")
+    .select("role")
+    .eq("profile_id", identity.user.id);
+  const roles = assignments?.map((row) => row.role) ?? [];
   const { path = [] } = await params;
   const section = path.join("/");
   if (
@@ -30,6 +35,8 @@ export default async function AppPage({
     notFound();
   return (
     <WorkspaceShell
+      staff={roles.length > 0}
+      superadmin={roles.includes("owner")}
       name={identity.profile.full_name || "Customer"}
       path={section}
     >
