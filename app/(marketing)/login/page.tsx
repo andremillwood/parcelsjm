@@ -1,36 +1,20 @@
-import {
-  PageIntro,
-  Notice,
-  ButtonLink,
-} from "../../../components/marketing/ui";
+import { AuthForm } from "../../../components/auth/auth-form";
+import { authAvailable } from "../../../lib/auth/config";
+import { PageIntro } from "../../../components/marketing/ui";
 import { pageMetadata } from "../../../lib/metadata";
+export const dynamic = "force-dynamic";
 export const metadata = pageMetadata(
-  "Login",
-  "Secure sign-in is being prepared. This preview does not accept passwords or provide access to real customer records.",
+  "Account access",
+  "Secure access to your Parcels JA account.",
   "/login",
 );
 export default function Page() {
   return (
-    <div className="m-container m-content-bottom">
-      <PageIntro
-        eyebrow="Customer account"
-        title="Your account, when it’s ready."
-      >
-        <p>
-          Secure sign-in is being prepared. This preview does not accept
-          passwords or provide access to real customer records.
-        </p>
+    <div className="m-container m-registration m-content-bottom">
+      <PageIntro eyebrow="Your Parcels JA account" title="Welcome back.">
+        Keep your packages, documents and next steps together.
       </PageIntro>
-      <Notice>
-        Not connected. No live account, tracking or address activation is
-        available yet.
-      </Notice>
-      <div className="m-link-row">
-        <ButtonLink href="/register">Preview registration</ButtonLink>
-        <ButtonLink href="/dashboard" secondary>
-          View the fictional app demo
-        </ButtonLink>
-      </div>
+      <AuthForm mode="login" available={authAvailable()} />
     </div>
   );
 }

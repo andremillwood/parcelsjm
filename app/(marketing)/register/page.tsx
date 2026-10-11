@@ -1,3 +1,5 @@
+import { AuthForm } from "../../../components/auth/auth-form";
+import { registrationAvailable } from "../../../lib/auth/config";
 import { RegistrationPreview } from "../../../components/marketing/registration-preview";
 import { PageIntro } from "../../../components/marketing/ui";
 import { pageMetadata } from "../../../lib/metadata";
@@ -23,9 +25,17 @@ export default async function Register({
           look like.
         </p>
       </PageIntro>
-      <RegistrationPreview
-        initialType={type === "business" ? "business" : "personal"}
-      />
+      {registrationAvailable() ? (
+        <AuthForm
+          mode="register"
+          available
+          initialType={type === "business" ? "business" : "personal"}
+        />
+      ) : (
+        <RegistrationPreview
+          initialType={type === "business" ? "business" : "personal"}
+        />
+      )}
     </div>
   );
 }

@@ -1,0 +1,53 @@
+import { z } from "zod";
+const text = (min: number, max: number) => z.string().trim().min(min).max(max);
+const reason = text(5, 2000),
+  uuid = z.uuid();
+export const workspaceSchemas = {
+  "pre-alert": z.object({
+    requestId: uuid,
+    tracking: text(1, 120),
+    merchant: text(1, 160),
+    carrier: text(0, 80).default(""),
+    description: text(5, 1000),
+    quantity: z.coerce.number().int().min(1).max(1000),
+    value: z.coerce.number().positive().max(1000000).multipleOf(0.01),
+    currency: z.enum(["USD", "JMD"]),
+    notes: text(0, 2000).default(""),
+    acknowledged: z.literal("on"),
+  }),
+  profile: z.object({
+    fullName: text(2, 120),
+    phone: text(7, 30),
+    accountType: z.enum(["personal", "business"]),
+  }),
+  support: z.object({
+    requestId: uuid,
+    subject: text(5, 160),
+    body: text(10, 2000),
+    packageReference: text(0, 120).default(""),
+  }),
+  event: z.object({
+    packageId: uuid,
+    expected: text(1, 40),
+    status: z.enum([
+      "received_us",
+      "processing_us",
+      "in_transit",
+      "arrived_jm",
+    ]),
+    source: text(5, 500),
+    reason,
+    occurred: z.iso.datetime(),
+  }),
+  intake: z.object({ tracking: text(1, 120), source: text(5, 500), reason }),
+  match: z.object({ id: uuid, packageId: uuid, reason }),
+  resolve: z.object({ id: uuid, reply: text(5, 2000), reason }),
+  assignment: z.object({
+    profileId: uuid,
+    warehouseId: uuid,
+    code: text(1, 120),
+    prefix: text(1, 80),
+    unit: text(1, 120),
+    reason,
+  }),
+};

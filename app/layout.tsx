@@ -18,7 +18,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           Skip to content
         </a>
         <div className="preview-banner">
-          Development preview — no live accounts, uploads or shipping quotes.
+          Development preview — registration, uploads and shipping quotes remain
+          gated.
         </div>
         {children}
       </body>
