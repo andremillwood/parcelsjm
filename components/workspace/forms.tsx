@@ -5,11 +5,15 @@ export function WorkspaceForm({
   kind,
   demo,
   name = "",
+  phone = "",
+  accountType = "personal",
 }: {
   kind: "pre-alert" | "document" | "support" | "profile";
   demo: boolean;
   packageId?: string;
   name?: string;
+  phone?: string;
+  accountType?: string;
 }) {
   const router = useRouter();
   const requestId = useRef<string | null>(null);
@@ -204,6 +208,7 @@ export function WorkspaceForm({
             <label>
               Phone
               <input
+                defaultValue={phone}
                 name="phone"
                 type="tel"
                 required
@@ -213,7 +218,7 @@ export function WorkspaceForm({
             </label>
             <label>
               Account type
-              <select name="accountType">
+              <select name="accountType" defaultValue={accountType}>
                 <option value="personal">Personal</option>
                 <option value="business">Business / reseller</option>
               </select>

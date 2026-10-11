@@ -228,7 +228,13 @@ export function CustomerWorkspace({
         >
           Your profile is separate from your approved shipping address.
         </Heading>
-        <WorkspaceForm kind="profile" demo={data.demo} name={data.name} />
+        <WorkspaceForm
+          kind="profile"
+          demo={data.demo}
+          name={data.name}
+          phone={data.phone}
+          accountType={data.accountType}
+        />
         <section className="w-panel w-pad">
           <h2>Shipping address</h2>
           <Notice>
@@ -248,6 +254,12 @@ export function CustomerWorkspace({
         Your packages, documents and next steps—all in one place.
       </Heading>
       {data.error && <Notice>{data.error}</Notice>}
+      {data.onboardingPending && (
+        <Notice>
+          Finish your contact details before creating pre-alerts.{" "}
+          <a href={`${root}/onboarding`}>Complete onboarding →</a>
+        </Notice>
+      )}
       <div className="w-stats">
         {[
           ["Packages to follow", packages.length],

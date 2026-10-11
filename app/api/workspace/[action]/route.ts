@@ -13,6 +13,25 @@ export async function POST(
     if (!(action in workspaceSchemas)) return reply(404, "Action unavailable.");
     const body = await readJson(request);
     const { client } = identity;
+    const staffActions: Record<string, string[]> = {
+      event: ["owner", "operations"],
+      intake: ["owner", "operations"],
+      match: ["owner", "operations"],
+      assignment: ["owner", "operations"],
+      resolve: ["owner", "support"],
+    };
+    if (staffActions[action]) {
+      const roles = await client
+        .from("admin_role_assignments")
+        .select("role")
+        .eq("profile_id", identity.user.id);
+      if (
+        roles.error ||
+        !roles.data?.some((row) => staffActions[action].includes(row.role))
+      )
+        return reply(403, "This action requires an authorized staff role.");
+    }
+
     let result;
     switch (action) {
       case "pre-alert": {
@@ -42,7 +61,14 @@ export async function POST(
           .eq("id", identity.user.id)
           .select("id")
           .single();
-        if (!result.error) result = await client.rpc("complete_onboarding");
+        if (!result.error) {
+          const activation = await client.rpc("complete_onboarding");
+          if (activation.error)
+            return reply(
+              200,
+              "Contact details saved. Account activation still requires verified email and policy consent.",
+            );
+        }
         break;
       }
       case "support": {

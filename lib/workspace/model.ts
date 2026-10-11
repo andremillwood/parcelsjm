@@ -13,6 +13,8 @@ export type PackageRecord = {
 export type WorkspaceData = {
   name: string;
   accountType: string;
+  phone?: string;
+  onboardingPending?: boolean;
   packages: PackageRecord[];
   demo: boolean;
   shippingAddress?: string;

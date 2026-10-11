@@ -26,7 +26,9 @@ export async function POST(request: Request) {
   const origin = new URL(request.url).origin;
   try {
     if (data.action === "logout") {
-      await client.auth.signOut();
+      const { error: signOutError } = await client.auth.signOut();
+      if (signOutError)
+        return reply(503, "Sign-out could not be confirmed. Please retry.");
       return reply(200, "Signed out.");
     }
     if (data.action === "login") {

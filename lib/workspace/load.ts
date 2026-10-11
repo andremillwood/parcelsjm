@@ -30,6 +30,8 @@ export async function loadWorkspace(
   const data: WorkspaceData = {
     name: identity.profile.full_name || "Customer",
     accountType: identity.profile.account_type,
+    phone: identity.profile.phone,
+    onboardingPending: identity.profile.account_status !== "active",
     demo: false,
     packages: (packages.data ?? []) as PackageRecord[],
     support: support.data ?? [],
