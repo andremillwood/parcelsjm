@@ -10,6 +10,7 @@ No credentials are required for the disabled marketing preview. `.env.example` d
 
 ## Verification
 
+- `npm run test:forms`: enabled contact/rates/business forms with fictional configuration and intercepted responses on port 3101; verifies consent, retry identity and truthful success/failure without contacting providers.
 - `npm run test:unit`: isolated PostgreSQL permission/rate-limit/lease tests and mocked API/provider failure tests.
 - `npm run check`: formatting, ESLint, strict TypeScript and production build.
 - `npx playwright install chromium`, then `npm test`: production-build browser tests at 360, 390, 768, 1024 and 1440px. Build first. Tests start an isolated server on port 3100.

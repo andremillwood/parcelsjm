@@ -33,4 +33,4 @@ Retention and deletion require owner/legal approval before activation. Delete an
 
 ## Verification scope
 
-`npm run test:unit` executes schema/permission/rate-limit/lease tests in PGlite and HTTP/provider contract tests with fictional inputs and mocked provider responses. `npm run test:e2e` exercises the disabled preview, responsive marketing pages and registration demo. Neither substitutes for hosted database permissions and an authorized real test notification.
+`npm run test:unit` executes schema/permission/rate-limit/lease tests in PGlite and HTTP/provider contract tests with fictional inputs and mocked provider responses. `npm run test:e2e` exercises the disabled preview, responsive marketing pages and registration demo. `npm run test:forms` enables the UI with fictional configuration and intercepts submission responses in the browser at 390/1440px, including consent, a failed attempt and successful retry. These checks do not substitute for hosted database permissions and an authorized real test notification.

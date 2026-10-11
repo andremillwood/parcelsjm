@@ -1,6 +1,6 @@
 # Phase 1 — marketing and inquiry foundation
 
-Status: implementation prepared; **phase exit gate remains open** until a hosted inquiry is stored and delivered to the approved staff inbox. No Phase 2 work or production release is implied.
+Status: marketing preview deployed and verified; **phase exit gate remains open** until a hosted inquiry is stored and delivered to the approved staff inbox. No Phase 2 work or production release is implied.
 
 ## Scope and requirement mapping
 
@@ -44,3 +44,24 @@ The owner-supplied Supabase URL, publishable key, server key and Resend key were
 5. Before public launch: approved legal/company/support details and canonical domain routing. Pricing and operational approvals remain later launch dependencies.
 
 Stay in Phase 1 until its gate passes. No production promotion, payment integration or DMD portal work was performed.
+
+## Preview verification — implementation commit 6892fa3
+
+- Project: `parcelsjm` (`prj_E4gSDv2VM7pf278v27w4EdvcCYWE`), Andre Millwood’s projects team.
+- Target: Preview, `codex/phase-1`; deployment `dpl_9uRQt9fZqvmYiUTKqxAbhLFP8KDL`, READY.
+- URL: https://parcelsjm-fn2472lz1-andre-millwoods-projects.vercel.app/
+- Build: approximately 43 seconds; Next.js 15.5.27, Node 22 package engine.
+- GitHub CI: run 38177490881 passed all checks, audit and full browser suite.
+- Authenticated hosted Chrome: nine routes returned 200/noindex with no horizontal overflow at 390px. Personal entry, business selection, fictional registration submission and Escape dismissal passed. Disabled contact POST returned 503, unauthorized retry POST returned 401. No page errors. Desktop and mobile screenshots captured.
+- Deployment Protection remained enabled. Temporary verification access is intentionally omitted from this report.
+- First local Lighthouse 13.5.0 mobile audit: performance 98, accessibility 100, best practices 96; LCP 2.2s, TBT 80ms, CLS 0.006. Its missing favicon request was corrected by referencing the unchanged original logo. SEO 69 reflects the intentional indexing block. Final audit recorded separately below.
+
+Screenshots: `evidence/phase-1/home-390-viewport.png`, `home-1440-viewport.png`, full-page mobile/desktop home and registration images, and hosted home images. The keyboard-test screenshots include a focused skip link; the dedicated evidence images show the normal initial state.
+
+Draft PR: https://github.com/andremillwood/parcelsjm/pull/2, based on Phase 0 branch. Phase 0 PR remains unmerged. The supplied document’s illustrative combined Phase 0/1 prompt was treated as reference; the user’s sequential phase request controls scope.
+
+## Final local verification additions
+
+- Six enabled-form browser tests passed (contact, rates, business at 390/1440px). They use fictional configuration and intercepted 503/202 responses, checking required consent, retry identity, reset/success messages and accessibility. No provider is contacted. They now run in CI via `npm test`.
+- Final local Lighthouse 13.5.0: **100 performance, 100 accessibility, 100 best practices**. LCP 1.1s, TBT 80ms, CLS 0.006. No console errors. Meets the PRD's 85/95/95 lab targets. This is a local simulated mobile result, not production field data. SEO remains 69 intentionally while indexing is blocked. Summary: `evidence/phase-1/lighthouse-mobile.json`.
+- The original logo now also supplies browser icon metadata, eliminating the missing favicon request without introducing a derivative logo.
