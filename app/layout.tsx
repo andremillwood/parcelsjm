@@ -1,10 +1,14 @@
 import type { Metadata } from "next";
+import "@fontsource-variable/inter";
 import "./globals.css";
 export const metadata: Metadata = {
   title: "Parcels JA | Development preview",
   description:
     "Preview the planned Parcels JA customer experience. Registration and shipping services are not activated in this demonstration.",
   robots: { index: false, follow: false },
+  icons: {
+    icon: { url: "/brand/parcels-ja-original.jpeg", type: "image/jpeg" },
+  },
 };
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (

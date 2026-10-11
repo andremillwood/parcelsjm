@@ -20,65 +20,65 @@ P0 denotes launch priority, not Phase 0. Business-dependent launch requirements 
 
 All functional IDs are listed below. A planned test is not evidence of acceptance. Phase 0 adds demo safeguards for ACQ-03 and FIN-02, but does not claim either complete for the live product. NTF-02 includes Auth templates configured in Phase 2 and operational templates delivered in Phase 4.
 
-| PRD ID  | Delivery phase             | Status                | Verification method                                              |
-| ------- | -------------------------- | --------------------- | ---------------------------------------------------------------- |
-| ACQ-01  | 1                          | Planned, not accepted | Browser journey + approved-copy review                           |
-| ACQ-02  | 1                          | Planned, not accepted | Browser journey + approved-copy review                           |
-| ACQ-03  | 1                          | Planned, not accepted | Browser journey + approved-copy review                           |
-| ACQ-04  | 5                          | Planned, not accepted | Browser journey + approved-copy review                           |
-| ACQ-05  | 1                          | Planned, not accepted | Browser journey + approved-copy review                           |
-| ACQ-06  | 1                          | Planned, not accepted | Browser journey + approved-copy review                           |
-| AUTH-01 | 2                          | Planned, not accepted | Auth integration + RLS isolation + browser flow                  |
-| AUTH-02 | 2                          | Planned, not accepted | Auth integration + RLS isolation + browser flow                  |
-| AUTH-03 | 2                          | Planned, not accepted | Auth integration + RLS isolation + browser flow                  |
-| AUTH-04 | 2                          | Planned, not accepted | Auth integration + RLS isolation + browser flow                  |
-| AUTH-05 | 2                          | Planned, not accepted | Auth integration + RLS isolation + browser flow                  |
-| AUTH-06 | 4                          | Planned, not accepted | Auth integration + RLS isolation + browser flow                  |
-| PKG-01  | 3                          | Planned, not accepted | Transition/unit + ownership integration + operational E2E        |
-| PKG-02  | 3                          | Planned, not accepted | Transition/unit + ownership integration + operational E2E        |
-| PKG-03  | 3                          | Planned, not accepted | Transition/unit + ownership integration + operational E2E        |
-| PKG-04  | 3                          | Planned, not accepted | Transition/unit + ownership integration + operational E2E        |
-| PKG-05  | 3                          | Planned, not accepted | Transition/unit + ownership integration + operational E2E        |
-| PKG-06  | 3                          | Planned, not accepted | Transition/unit + ownership integration + operational E2E        |
-| PKG-07  | 3                          | Planned, not accepted | Transition/unit + ownership integration + operational E2E        |
-| PKG-08  | 3                          | Planned, not accepted | Transition/unit + ownership integration + operational E2E        |
-| PKG-09  | 6 (deferred)               | Planned, not accepted | Transition/unit + ownership integration + operational E2E        |
-| DOC-01  | 3                          | Planned, not accepted | Upload abuse + storage isolation + review E2E                    |
-| DOC-02  | 3                          | Planned, not accepted | Upload abuse + storage isolation + review E2E                    |
-| DOC-03  | 3                          | Planned, not accepted | Upload abuse + storage isolation + review E2E                    |
-| DOC-04  | 3                          | Planned, not accepted | Upload abuse + storage isolation + review E2E                    |
-| DOC-05  | 3                          | Planned, not accepted | Upload abuse + storage isolation + review E2E                    |
-| DOC-06  | 3                          | Planned, not accepted | Upload abuse + storage isolation + review E2E                    |
-| DOC-07  | 3                          | Planned, not accepted | Upload abuse + storage isolation + review E2E                    |
-| DOC-08  | 5                          | Planned, not accepted | Upload abuse + storage isolation + review E2E                    |
-| FIN-01  | 4                          | Planned, not accepted | Approved reference-case unit tests + immutable/audit integration |
-| FIN-02  | 4                          | Planned, not accepted | Approved reference-case unit tests + immutable/audit integration |
-| FIN-03  | 4                          | Planned, not accepted | Approved reference-case unit tests + immutable/audit integration |
-| FIN-04  | 4                          | Planned, not accepted | Approved reference-case unit tests + immutable/audit integration |
-| FIN-05  | 4                          | Planned, not accepted | Approved reference-case unit tests + immutable/audit integration |
-| FIN-06  | Later, separately approved | Planned, not accepted | Approved reference-case unit tests + immutable/audit integration |
-| FIN-07  | 4                          | Planned, not accepted | Approved reference-case unit tests + immutable/audit integration |
-| FIN-08  | 4                          | Planned, not accepted | Approved reference-case unit tests + immutable/audit integration |
-| NTF-01  | 4                          | Planned, not accepted | Outbox/replay/signature integration + authorized delivery        |
-| NTF-02  | 4                          | Planned, not accepted | Outbox/replay/signature integration + authorized delivery        |
-| NTF-03  | 4                          | Planned, not accepted | Outbox/replay/signature integration + authorized delivery        |
-| NTF-04  | 4                          | Planned, not accepted | Outbox/replay/signature integration + authorized delivery        |
-| NTF-05  | 4                          | Planned, not accepted | Outbox/replay/signature integration + authorized delivery        |
-| NTF-06  | 4                          | Planned, not accepted | Outbox/replay/signature integration + authorized delivery        |
-| NTF-07  | 4                          | Planned, not accepted | Outbox/replay/signature integration + authorized delivery        |
-| NTF-08  | Later, separately approved | Planned, not accepted | Outbox/replay/signature integration + authorized delivery        |
-| OPS-01  | 3                          | Planned, not accepted | Role matrix + audit integrity + staff E2E                        |
-| OPS-02  | 3                          | Planned, not accepted | Role matrix + audit integrity + staff E2E                        |
-| OPS-03  | 3                          | Planned, not accepted | Role matrix + audit integrity + staff E2E                        |
-| OPS-04  | 3                          | Planned, not accepted | Role matrix + audit integrity + staff E2E                        |
-| OPS-05  | 3                          | Planned, not accepted | Role matrix + audit integrity + staff E2E                        |
-| OPS-06  | 5                          | Planned, not accepted | Role matrix + audit integrity + staff E2E                        |
-| DMD-01  | 6 (deferred)               | Planned, not accepted | Adapter/reconciliation contract; no portal access in MVP         |
-| DMD-02  | 6 (deferred)               | Planned, not accepted | Adapter/reconciliation contract; no portal access in MVP         |
-| DMD-03  | 6 (deferred)               | Planned, not accepted | Adapter/reconciliation contract; no portal access in MVP         |
-| DMD-04  | 6 (deferred)               | Planned, not accepted | Adapter/reconciliation contract; no portal access in MVP         |
-| DMD-05  | 6 (deferred)               | Planned, not accepted | Adapter/reconciliation contract; no portal access in MVP         |
-| DMD-06  | 6 (deferred)               | Planned, not accepted | Adapter/reconciliation contract; no portal access in MVP         |
+| PRD ID  | Delivery phase             | Status                                 | Verification method                                              |
+| ------- | -------------------------- | -------------------------------------- | ---------------------------------------------------------------- |
+| ACQ-01  | 1                          | Preview implemented; Phase 1 gate open | Browser journey + approved-copy review                           |
+| ACQ-02  | 1                          | Preview implemented; Phase 1 gate open | Browser journey + approved-copy review                           |
+| ACQ-03  | 1                          | Preview implemented; Phase 1 gate open | Browser journey + approved-copy review                           |
+| ACQ-04  | 5                          | Planned, not accepted                  | Browser journey + approved-copy review                           |
+| ACQ-05  | 1                          | Preview implemented; Phase 1 gate open | Browser journey + approved-copy review                           |
+| ACQ-06  | 1                          | Preview implemented; Phase 1 gate open | Browser journey + approved-copy review                           |
+| AUTH-01 | 2                          | Planned, not accepted                  | Auth integration + RLS isolation + browser flow                  |
+| AUTH-02 | 2                          | Planned, not accepted                  | Auth integration + RLS isolation + browser flow                  |
+| AUTH-03 | 2                          | Planned, not accepted                  | Auth integration + RLS isolation + browser flow                  |
+| AUTH-04 | 2                          | Planned, not accepted                  | Auth integration + RLS isolation + browser flow                  |
+| AUTH-05 | 2                          | Planned, not accepted                  | Auth integration + RLS isolation + browser flow                  |
+| AUTH-06 | 4                          | Planned, not accepted                  | Auth integration + RLS isolation + browser flow                  |
+| PKG-01  | 3                          | Planned, not accepted                  | Transition/unit + ownership integration + operational E2E        |
+| PKG-02  | 3                          | Planned, not accepted                  | Transition/unit + ownership integration + operational E2E        |
+| PKG-03  | 3                          | Planned, not accepted                  | Transition/unit + ownership integration + operational E2E        |
+| PKG-04  | 3                          | Planned, not accepted                  | Transition/unit + ownership integration + operational E2E        |
+| PKG-05  | 3                          | Planned, not accepted                  | Transition/unit + ownership integration + operational E2E        |
+| PKG-06  | 3                          | Planned, not accepted                  | Transition/unit + ownership integration + operational E2E        |
+| PKG-07  | 3                          | Planned, not accepted                  | Transition/unit + ownership integration + operational E2E        |
+| PKG-08  | 3                          | Planned, not accepted                  | Transition/unit + ownership integration + operational E2E        |
+| PKG-09  | 6 (deferred)               | Planned, not accepted                  | Transition/unit + ownership integration + operational E2E        |
+| DOC-01  | 3                          | Planned, not accepted                  | Upload abuse + storage isolation + review E2E                    |
+| DOC-02  | 3                          | Planned, not accepted                  | Upload abuse + storage isolation + review E2E                    |
+| DOC-03  | 3                          | Planned, not accepted                  | Upload abuse + storage isolation + review E2E                    |
+| DOC-04  | 3                          | Planned, not accepted                  | Upload abuse + storage isolation + review E2E                    |
+| DOC-05  | 3                          | Planned, not accepted                  | Upload abuse + storage isolation + review E2E                    |
+| DOC-06  | 3                          | Planned, not accepted                  | Upload abuse + storage isolation + review E2E                    |
+| DOC-07  | 3                          | Planned, not accepted                  | Upload abuse + storage isolation + review E2E                    |
+| DOC-08  | 5                          | Planned, not accepted                  | Upload abuse + storage isolation + review E2E                    |
+| FIN-01  | 4                          | Planned, not accepted                  | Approved reference-case unit tests + immutable/audit integration |
+| FIN-02  | 4                          | Planned, not accepted                  | Approved reference-case unit tests + immutable/audit integration |
+| FIN-03  | 4                          | Planned, not accepted                  | Approved reference-case unit tests + immutable/audit integration |
+| FIN-04  | 4                          | Planned, not accepted                  | Approved reference-case unit tests + immutable/audit integration |
+| FIN-05  | 4                          | Planned, not accepted                  | Approved reference-case unit tests + immutable/audit integration |
+| FIN-06  | Later, separately approved | Planned, not accepted                  | Approved reference-case unit tests + immutable/audit integration |
+| FIN-07  | 4                          | Planned, not accepted                  | Approved reference-case unit tests + immutable/audit integration |
+| FIN-08  | 4                          | Planned, not accepted                  | Approved reference-case unit tests + immutable/audit integration |
+| NTF-01  | 4                          | Planned, not accepted                  | Outbox/replay/signature integration + authorized delivery        |
+| NTF-02  | 4                          | Planned, not accepted                  | Outbox/replay/signature integration + authorized delivery        |
+| NTF-03  | 4                          | Planned, not accepted                  | Outbox/replay/signature integration + authorized delivery        |
+| NTF-04  | 4                          | Planned, not accepted                  | Outbox/replay/signature integration + authorized delivery        |
+| NTF-05  | 4                          | Planned, not accepted                  | Outbox/replay/signature integration + authorized delivery        |
+| NTF-06  | 4                          | Planned, not accepted                  | Outbox/replay/signature integration + authorized delivery        |
+| NTF-07  | 4                          | Planned, not accepted                  | Outbox/replay/signature integration + authorized delivery        |
+| NTF-08  | Later, separately approved | Planned, not accepted                  | Outbox/replay/signature integration + authorized delivery        |
+| OPS-01  | 3                          | Planned, not accepted                  | Role matrix + audit integrity + staff E2E                        |
+| OPS-02  | 3                          | Planned, not accepted                  | Role matrix + audit integrity + staff E2E                        |
+| OPS-03  | 3                          | Planned, not accepted                  | Role matrix + audit integrity + staff E2E                        |
+| OPS-04  | 3                          | Planned, not accepted                  | Role matrix + audit integrity + staff E2E                        |
+| OPS-05  | 3                          | Planned, not accepted                  | Role matrix + audit integrity + staff E2E                        |
+| OPS-06  | 5                          | Planned, not accepted                  | Role matrix + audit integrity + staff E2E                        |
+| DMD-01  | 6 (deferred)               | Planned, not accepted                  | Adapter/reconciliation contract; no portal access in MVP         |
+| DMD-02  | 6 (deferred)               | Planned, not accepted                  | Adapter/reconciliation contract; no portal access in MVP         |
+| DMD-03  | 6 (deferred)               | Planned, not accepted                  | Adapter/reconciliation contract; no portal access in MVP         |
+| DMD-04  | 6 (deferred)               | Planned, not accepted                  | Adapter/reconciliation contract; no portal access in MVP         |
+| DMD-05  | 6 (deferred)               | Planned, not accepted                  | Adapter/reconciliation contract; no portal access in MVP         |
+| DMD-06  | 6 (deferred)               | Planned, not accepted                  | Adapter/reconciliation contract; no portal access in MVP         |
 
 ## Cross-cutting acceptance
 

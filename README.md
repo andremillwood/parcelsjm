@@ -1,15 +1,17 @@
 # Parcels JA
 
-Next.js + TypeScript marketing and customer **development preview**. Phase 0 establishes a verified baseline; live registration, shipment processing, storage, pricing and communications are not connected.
+Next.js + TypeScript marketing and customer **development preview**. Phase 1 adds responsive marketing, registration entry points and a gated inquiry pipeline. Live registration, shipment processing and pricing remain unavailable. The Phase 1 stored-and-communicated inquiry gate is pending hosted configuration and verification.
 
 ## Setup
 
-Use Node 22 (`nvm use`) and npm 10.9.3. Run `npm ci`, then `npm run dev`. Existing routes: `/`, `/rates`, `/register`, `/dashboard`.
+Use Node 22 (`nvm use`) and npm 10.9.3. Run `npm ci`, then `npm run dev`. Marketing routes include `/`, `/how-it-works`, `/services`, `/rates`, `/business`, `/help`, `/contact`, `/about`, `/tracking`, `/register`, `/login`, `/forgot-password` and `/legal/*`. `/dashboard` remains fictional.
 
-No credentials are required for Phase 0. `.env.example` documents future configuration; copy it to `.env.local` only when configuring an isolated development environment. Never commit secrets or use production customer data in preview.
+No credentials are required for the disabled marketing preview. `.env.example` documents future configuration; copy it to `.env.local` only when configuring an isolated development environment. Never commit secrets or use production customer data in preview.
 
 ## Verification
 
+- `npm run test:forms`: enabled contact/rates/business forms with fictional configuration and intercepted responses on port 3101; verifies consent, retry identity and truthful success/failure without contacting providers.
+- `npm run test:unit`: isolated PostgreSQL permission/rate-limit/lease tests and mocked API/provider failure tests.
 - `npm run check`: formatting, ESLint, strict TypeScript and production build.
 - `npx playwright install chromium`, then `npm test`: production-build browser tests at 360, 390, 768, 1024 and 1440px. Build first. Tests start an isolated server on port 3100.
 - On older macOS with installed Google Chrome: `PLAYWRIGHT_CHANNEL=chrome npm test`. Uses an isolated automated browser profile, not personal browser sessions.
@@ -23,7 +25,7 @@ For an accessible preview, set `PLAYWRIGHT_BASE_URL` to its HTTPS URL. Do not di
 
 One canonical App Router application; server components by default, client components only where interactive. PascalCase components and strict typed props; formatting and lint are CI gates. Preserve existing routes until deliberate migration. Future `/app` and `/admin` routes require server and database authorization before real records are introduced.
 
-The original logo is preserved unchanged at `public/brand/parcels-ja-original.jpeg`, from the owner-supplied `Logo1_parcels2026.jpeg`. No derived logo or favicon has been invented. The full component/token system belongs to Phase 1.
+The original logo is preserved unchanged at `public/brand/parcels-ja-original.jpeg`, from the owner-supplied `Logo1_parcels2026.jpeg`. No derived logo or favicon has been invented. See [design system](docs/DESIGN_SYSTEM.md) for Phase 1 tokens and components.
 
 Every route carries a development banner, noindex metadata and response headers. Registration never sends form values; selected files stay on device. Fictional dashboard records must never become production seed data. No rates, warehouse address, payment provider or DMD connection is assumed.
 
@@ -35,5 +37,6 @@ CI runs install, checks, dependency audit and browser tests without production c
 - [Baseline audit](docs/REPOSITORY_AUDIT.md)
 - [Phases and requirement traceability](docs/DEVELOPMENT_PLAN.md)
 - [Phase 0 report](docs/PHASE_0_REPORT.md)
+- [Phase 1 report](docs/PHASE_1_REPORT.md)
 
-Supabase migrations and development seeds start in Phase 2. No migration command is claimed before those exist. DMD architecture is reserved in the plan; no portal automation has begun.
+Phase 1 includes an additive, locally tested inquiry migration. See [inquiry operations](docs/INQUIRY_RUNBOOK.md) for configuration, migration, privacy and delivery gates. Customer authentication remains Phase 2; operational notifications remain Phase 4. DMD architecture is reserved in the plan; no portal automation has begun.

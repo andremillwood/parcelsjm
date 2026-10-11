@@ -1,0 +1,36 @@
+{
+  "tool": "Lighthouse 13.5.0",
+  "url": "http://127.0.0.1:3100/",
+  "fetchTime": "2026-10-11T21:47:16.642Z",
+  "mode": "Local production build, simulated mobile throttling",
+  "scores": {
+    "performance": 100,
+    "accessibility": 100,
+    "best-practices": 100,
+    "seo": 69
+  },
+  "metrics": {
+    "first-contentful-paint": {
+      "value": 1135.7841,
+      "display": "1.1 s"
+    },
+    "largest-contentful-paint": {
+      "value": 1135.7841,
+      "display": "1.1 s"
+    },
+    "total-blocking-time": {
+      "value": 76,
+      "display": "80 ms"
+    },
+    "cumulative-layout-shift": {
+      "value": 0.005837519141703046,
+      "display": "0.006"
+    }
+  },
+  "consoleErrors": [],
+  "notes": [
+    "SEO intentionally reduced by noindex/disallow preview safeguards.",
+    "Lab results do not represent production Core Web Vitals.",
+    "PRD targets: performance >=85, accessibility >=95, best practices >=95."
+  ]
+}
