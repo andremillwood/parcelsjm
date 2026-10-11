@@ -65,3 +65,14 @@ Draft PR: https://github.com/andremillwood/parcelsjm/pull/2, based on Phase 0 br
 - Six enabled-form browser tests passed (contact, rates, business at 390/1440px). They use fictional configuration and intercepted 503/202 responses, checking required consent, retry identity, reset/success messages and accessibility. No provider is contacted. They now run in CI via `npm test`.
 - Final local Lighthouse 13.5.0: **100 performance, 100 accessibility, 100 best practices**. LCP 1.1s, TBT 80ms, CLS 0.006. No console errors. Meets the PRD's 85/95/95 lab targets. This is a local simulated mobile result, not production field data. SEO remains 69 intentionally while indexing is blocked. Summary: `evidence/phase-1/lighthouse-mobile.json`.
 - The original logo now also supplies browser icon metadata, eliminating the missing favicon request without introducing a derivative logo.
+
+## Final tested implementation — 37a6d23
+
+- Commit: `37a6d23e246a903e0f203ce525f0f6a793ec81b7` (implementation starts at `6892fa3`).
+- Vercel Preview: https://parcelsjm-95ik6qk9d-andre-millwoods-projects.vercel.app/ — READY in approximately 35 seconds, project `parcelsjm`, deployment `dpl_3nq5oWCmsHaL5TYBZW7KfwnTHJ3V`.
+- Repeated authenticated hosted checks on this commit: nine routes 200/noindex, personal and business registration journeys, fictional demo submission, mobile menu, original-logo icon 200, contact API 503 and unauthorized retry API 401. No page errors or tested viewport overflow.
+- GitHub CI [run 38177869589](https://github.com/andremillwood/parcelsjm/actions/runs/38177869589): **success**, including clean install, formatting, lint, TypeScript, production build, dependency audit and all tests.
+- Test totals: **10 unit/database/provider + 103 marketing browser + 6 mocked enabled-form tests passed**. Two desktop instances of the mobile-only menu test are intentionally skipped.
+- The report-only commit following this section does not alter the tested application. The URL above is the immutable verified implementation preview.
+
+The phase gate remains open: no hosted inquiry has yet been stored or communicated. Continue with the owner login, migration and approved sender/inbox/privacy inputs before Phase 2.
