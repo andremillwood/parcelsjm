@@ -9,6 +9,7 @@ test("customer workspace previews are responsive and accessible", async ({
     "/preview/app/pre-alert/new",
     "/preview/app/packages/demo-001",
     "/preview/app/support",
+    "/preview/app/documents",
     "/preview/app/profile",
   ]) {
     await page.goto(path);
@@ -35,6 +36,7 @@ test("operations previews retain protected workflow boundaries", async ({
     "/preview/admin/intake",
     "/preview/admin/customers",
     "/preview/admin/support",
+    "/preview/admin/documents",
     "/preview/admin/billing",
   ]) {
     await page.goto(path);

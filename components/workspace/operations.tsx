@@ -1,3 +1,4 @@
+import { Documents } from "./documents";
 import { StaffForm } from "./staff-form";
 import { CustomerWorkspace } from "./customer";
 import { Heading, Action, Empty, Notice, Pill } from "./ui";
@@ -201,17 +202,8 @@ export function OperationsWorkspace({
         <Heading eyebrow="Review queue" title="Documents to review">
           A review decision needs a reason and an immutable record.
         </Heading>
-        <PackageList
-          packages={data.packages.filter(
-            (p) => p.document_state === "under_review",
-          )}
-          root={root}
-        />
-        <Notice>
-          File access remains quarantined until the scanning policy is
-          implemented and approved. A document approval is not customs
-          clearance.
-        </Notice>
+        {data.error && <Notice>{data.error}</Notice>}
+        <Documents data={data} admin />
       </>
     );
   if (path === "support")
@@ -327,7 +319,10 @@ export function OperationsWorkspace({
               ["Resend", "Deferred by owner"],
               ["DMD", "Not connected — automation deferred"],
               ["Pricing", "Approval required"],
-              ["Document scanning", "Quarantine policy required"],
+              [
+                "Document scanning",
+                "Unscanned files quarantined; scanner activation pending",
+              ],
             ].map(([k, v]) => (
               <div key={k}>
                 <dt>{k}</dt>

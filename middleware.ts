@@ -37,5 +37,6 @@ export const config = {
     "/api/packages/:path*",
     "/api/admin/:path*",
     "/api/workspace/:path*",
+    "/api/documents/:path*",
   ],
 };

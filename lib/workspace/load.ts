@@ -9,7 +9,7 @@ export async function loadWorkspace(
   let query = c
     .from("packages")
     .select(
-      "id,carrier_tracking,merchant,description,status,document_state,payment_state,declared_value,declared_currency,created_at",
+      "id,profile_id,carrier_tracking,merchant,description,status,document_state,payment_state,declared_value,declared_currency,created_at",
     )
     .order("created_at", { ascending: false })
     .limit(100);
@@ -40,6 +40,56 @@ export async function loadWorkspace(
   if (packages.error || support.error || events.error)
     data.error =
       "Some records could not be loaded. Please retry; counts may be incomplete.";
+  const roles = await c
+    .from("admin_role_assignments")
+    .select("role")
+    .eq("profile_id", identity.user.id);
+  let requestsQuery = c
+    .from("document_requests")
+    .select(
+      "id,profile_id,package_id,document_type,instructions,status,version,created_at",
+    )
+    .order("created_at", { ascending: false })
+    .limit(100);
+  if (!admin) requestsQuery = requestsQuery.eq("profile_id", identity.user.id);
+  const requests = await requestsQuery;
+  const ids = (requests.data ?? []).map((r) => r.id);
+  const [uploads, history] = ids.length
+    ? await Promise.all([
+        c
+          .from("document_uploads")
+          .select(
+            "id,request_id,version,filename,declared_size,scan_state,amount,currency,merchant,order_reference,created_at",
+          )
+          .in("request_id", ids)
+          .order("created_at", { ascending: false })
+          .limit(500),
+        c
+          .from("document_history")
+          .select("id,request_id,upload_id,action,reason,created_at")
+          .in("request_id", ids)
+          .order("created_at", { ascending: false })
+          .limit(1000),
+      ])
+    : [
+        { data: [], error: null },
+        { data: [], error: null },
+      ];
+  data.documents = {
+    requests: requests.data ?? [],
+    uploads: uploads.data ?? [],
+    history: history.data ?? [],
+    canRequest:
+      roles.data?.some((r) =>
+        ["owner", "documents", "operations"].includes(r.role),
+      ) ?? false,
+    canReview:
+      roles.data?.some((r) => ["owner", "documents"].includes(r.role)) ?? false,
+    uploadsEnabled: process.env.DOCUMENT_UPLOADS_ENABLED === "true",
+  };
+  if (requests.error || uploads.error || history.error)
+    data.error =
+      "Document records could not be loaded. Refresh before taking action.";
   if (admin) {
     const [customers, intake, audit, warehouses] = await Promise.all([
       c

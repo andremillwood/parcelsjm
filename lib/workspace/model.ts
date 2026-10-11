@@ -1,5 +1,7 @@
+import type { DocumentData } from "../documents/model";
 export type PackageRecord = {
   id: string;
+  profile_id?: string;
   carrier_tracking: string;
   merchant: string;
   description: string;
@@ -11,6 +13,7 @@ export type PackageRecord = {
   created_at: string;
 };
 export type WorkspaceData = {
+  documents?: DocumentData;
   name: string;
   accountType: string;
   phone?: string;

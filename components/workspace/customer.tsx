@@ -1,3 +1,4 @@
+import { Documents } from "./documents";
 import type { WorkspaceData } from "../../lib/workspace/model";
 import { Heading, Action, Empty, Notice, Pill } from "./ui";
 import { PackageList } from "./packages";
@@ -116,11 +117,7 @@ export function CustomerWorkspace({
                 Respond to a specific request from the team. Do not upload
                 identity documents unless they have been lawfully requested.
               </p>
-              <WorkspaceForm
-                kind="document"
-                demo={data.demo}
-                packageId={p.id}
-              />
+              <Documents data={data} packageId={p.id} admin={!!rootOverride} />
             </section>
           </>
         ) : (
@@ -166,15 +163,8 @@ export function CustomerWorkspace({
         <Heading eyebrow="Paperwork, together" title="Your documents">
           Review requests, upload the right file and see the team’s response.
         </Heading>
-        <Notice>
-          Upload against a specific package request. PDF, JPEG and PNG are
-          planned; files remain quarantined until the required checks are
-          completed.
-        </Notice>
-        <PackageList
-          packages={packages.filter((p) => p.document_state !== "approved")}
-          root={root}
-        />
+        {data.error && <Notice>{data.error}</Notice>}
+        <Documents data={data} />
       </>
     );
   if (path === "billing")
