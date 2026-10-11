@@ -1,1 +1,23 @@
-import type { Metadata } from "next"; import "./globals.css"; export const metadata:Metadata={title:"Parcels JA | Connecting You to What Matters",description:"A clearer way to ship and track purchases to Jamaica."}; export default function Layout({children}:{children:React.ReactNode}){return <html lang="en"><body>{children}</body></html>}
+import type { Metadata } from "next";
+import "./globals.css";
+export const metadata: Metadata = {
+  title: "Parcels JA | Development preview",
+  description:
+    "Preview the planned Parcels JA customer experience. Registration and shipping services are not activated in this demonstration.",
+  robots: { index: false, follow: false },
+};
+export default function Layout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <body>
+        <a className="skip-link" href="#main-content">
+          Skip to content
+        </a>
+        <div className="preview-banner">
+          Development preview — no live accounts, uploads or shipping quotes.
+        </div>
+        {children}
+      </body>
+    </html>
+  );
+}

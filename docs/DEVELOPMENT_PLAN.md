@@ -1,42 +1,109 @@
-# Parcels JA provisional development plan
+# Parcels JA development plan — PRD v1.0
 
-This plan maps only to the ten numbered objectives in the user's request. It must be reconciled with `PARCELS_JA_PRD_CODEX.md` before Phase 0 can be completed. The gates below are proposed verification criteria, not invented PRD acceptance criteria. Do not advance phases until the preceding gate passes.
+Source: `PARCELS_JA_PRD_CODEX.md` (unchanged local reference in `docs/reference/`, excluded from Git because it includes internal commercial context), dated 2026-10-11. This replaces the provisional numbering from the intake audit. The user asked to begin with Phase 0 and verify each phase before continuing. The document's embedded request to implement Phases 0 and 1 together does not override that sequencing.
 
-| Phase | User objectives | Deliverables | Proposed completion evidence |
-| --- | --- | --- | --- |
-| 0: Audit and foundation | 1, 9, 10 | PRD traceability, architecture decisions, approved-input register, reproducible dependencies, validation commands and CI, environment separation and preview policy | Every PRD criterion mapped; baseline build/typecheck/security review recorded; no unresolved Phase 0 blockers |
-| 1: Brand and acquisition | 2, 3 | Preserve approved logo; shared tokens/components; responsive marketing and personal/business registration interfaces using approved copy | Keyboard/mobile/desktop checks; accessible forms; business journey retained; no invented claims; incomplete registration clearly disclosed |
-| 2: Identity and data security | 3, 4 | Supabase migrations, customer identity/profile lifecycle, staff authorization, private storage policy foundations | Auth and recovery flows tested; anonymous/customer-A/customer-B/staff access matrix passes; migration reset verified; privileged keys remain server-only |
-| 3: Customer shipment processing | 5 | Packages, pre-alerts, document validation/upload, history and required actions | Cross-customer isolation and invalid-upload tests; real persistence verified; loading/empty/error states; private downloads authorized |
-| 4: Administrative operations | 6 | PRD-defined intake, reconciliation, document review, status transitions and audit history | Authorized staff complete operational journeys; invalid transitions rejected; retries/concurrency do not duplicate actions; actor attribution retained |
-| 5: Transactional communication | 7 | Resend templates, durable event delivery, retry/idempotency and delivery status | Authorized test-recipient delivery; duplicate-event and provider-failure tests; no secrets or documents leaked; approved sender configured |
-| 6: Financial operations | 8 | Versioned approved pricing/cost rules; PRD-defined calculations and reporting | Business-approved reference cases, rounding/currency rules and margin checks pass; no calculation enabled without approved rule set |
-| 7: Release readiness | 9, 10 | Full regression, operational docs, privacy/security review, Vercel preview and rollback verification | Preview smoke/end-to-end tests pass against isolated data; critical blockers closed; release evidence captured before any production action |
+## Phase gates
 
-## Proposed architecture boundaries
+| Phase | Scope                                                                                                                                                             | Required exit evidence                                                                                                                                        |
+| ----- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0     | Repository/asset audit; npm and locked dependencies; TypeScript, ESLint, Prettier, browser test runner, CI, environment template, original logo, honest demo copy | Clean build/typecheck/lint/tests; mobile/desktop screenshots and accessibility findings; Vercel preview deployed and verified with demo labels                |
+| 1     | Shared brand/component system; marketing routes, approved-copy/stub policies, registration entry, business/contact leads and SEO                                  | Mobile/desktop acquisition flow; consent/anti-abuse; contact inquiry actually stored and communicated, not just a success message                             |
+| 2     | Supabase Auth, migrations/RLS, profile, onboarding and validated shipping account assignment                                                                      | Verified sign-up/reset/session flows; customer A/B isolation; server and DB roles; pending-address and activation flows                                       |
+| 3     | Pre-alert, packages, documents, manual staff events, unmatched queue and audit                                                                                    | Manual end-to-end shipment workflow without DMD; malicious upload tests; authorization matrix; explicit transitions and append-only corrections               |
+| 4     | Resend/outbox/webhooks; approved rate cards, invoices, manually verified payments and contribution                                                                | Verified event produces one logical notification; retry/replay tests; no quote without approved rules; immutable financial records and audited reconciliation |
+| 5     | Controlled launch, approved policies/contact, analytics, security/performance and pilot                                                                           | Register-to-operated-shipment pilot; no critical privacy/auth issues; profitability evidence and rollback/runbook checks                                      |
+| 6     | Deferred DMD assessment and adapter implementation                                                                                                                | Separate approval and portal review; API/export preferred; shadow reconciliation before verified publication                                                  |
 
-- Retain Next.js App Router and TypeScript. Separate marketing, authenticated customer and staff route groups, with shared accessible UI components and design tokens.
-- Use Supabase Auth and Postgres with migrations and explicit ownership/staff policies. Authorize at the server and database boundary, not only in navigation. Never derive staff access from user-editable metadata.
-- Keep document objects private. Define allowed types, limits, ownership, retention and scanning requirements from the PRD before implementation. Downloads require authorization and limited-lived access.
-- Validate mutations on the server. Keep shipment events and operational transitions distinct from customer-entered pre-alert data. Audit privileged changes.
-- Isolate transactional email behind a server-only service and durable event/outbox boundary. Provider retry must not duplicate customer notifications.
-- Keep finance rules versioned with approval and effective dates. Do not supply default rates, tax assumptions, exchange rates or cost formulas.
-- Preserve an external-provider adapter boundary and a place for provider references/idempotent reconciliation. DMD automation, credentials, scraping and portal access remain out of scope.
-- Separate local, preview and production configuration/data. Preview must not email real customers or mutate production records.
+P0 denotes launch priority, not Phase 0. Business-dependent launch requirements remain blocked until their inputs are approved. No phase completion implies the entire MVP is production ready.
 
-## Approved-input register
+## Requirement traceability
 
-| Input | Current status | Work gated |
-| --- | --- | --- |
-| Complete PRD and acceptance criteria | Missing | Definitive scope and Phase 0 completion |
-| Original logo/brand assets | Not present in repository | Brand fidelity sign-off |
-| Warehouse addresses and assignment rules | Unverified | Address display and customer activation |
-| Service capabilities, transit promises and support details | Unverified | Live marketing claims and operational workflows |
-| Pricing, costs, currency/rounding/tax rules and approvals | Unverified | All financial calculations |
-| Supabase environment and staff-role model | Not assessed | Database/auth deployment |
-| Resend verified sender and authorized test recipients | Not assessed | Email verification |
-| Vercel project/environment configuration | Not assessed | Preview deployment |
+All functional IDs are listed below. A planned test is not evidence of acceptance. Phase 0 adds demo safeguards for ACQ-03 and FIN-02, but does not claim either complete for the live product. NTF-02 includes Auth templates configured in Phase 2 and operational templates delivered in Phase 4.
 
-## Per-phase report
+| PRD ID  | Delivery phase             | Status                | Verification method                                              |
+| ------- | -------------------------- | --------------------- | ---------------------------------------------------------------- |
+| ACQ-01  | 1                          | Planned, not accepted | Browser journey + approved-copy review                           |
+| ACQ-02  | 1                          | Planned, not accepted | Browser journey + approved-copy review                           |
+| ACQ-03  | 1                          | Planned, not accepted | Browser journey + approved-copy review                           |
+| ACQ-04  | 5                          | Planned, not accepted | Browser journey + approved-copy review                           |
+| ACQ-05  | 1                          | Planned, not accepted | Browser journey + approved-copy review                           |
+| ACQ-06  | 1                          | Planned, not accepted | Browser journey + approved-copy review                           |
+| AUTH-01 | 2                          | Planned, not accepted | Auth integration + RLS isolation + browser flow                  |
+| AUTH-02 | 2                          | Planned, not accepted | Auth integration + RLS isolation + browser flow                  |
+| AUTH-03 | 2                          | Planned, not accepted | Auth integration + RLS isolation + browser flow                  |
+| AUTH-04 | 2                          | Planned, not accepted | Auth integration + RLS isolation + browser flow                  |
+| AUTH-05 | 2                          | Planned, not accepted | Auth integration + RLS isolation + browser flow                  |
+| AUTH-06 | 4                          | Planned, not accepted | Auth integration + RLS isolation + browser flow                  |
+| PKG-01  | 3                          | Planned, not accepted | Transition/unit + ownership integration + operational E2E        |
+| PKG-02  | 3                          | Planned, not accepted | Transition/unit + ownership integration + operational E2E        |
+| PKG-03  | 3                          | Planned, not accepted | Transition/unit + ownership integration + operational E2E        |
+| PKG-04  | 3                          | Planned, not accepted | Transition/unit + ownership integration + operational E2E        |
+| PKG-05  | 3                          | Planned, not accepted | Transition/unit + ownership integration + operational E2E        |
+| PKG-06  | 3                          | Planned, not accepted | Transition/unit + ownership integration + operational E2E        |
+| PKG-07  | 3                          | Planned, not accepted | Transition/unit + ownership integration + operational E2E        |
+| PKG-08  | 3                          | Planned, not accepted | Transition/unit + ownership integration + operational E2E        |
+| PKG-09  | 6 (deferred)               | Planned, not accepted | Transition/unit + ownership integration + operational E2E        |
+| DOC-01  | 3                          | Planned, not accepted | Upload abuse + storage isolation + review E2E                    |
+| DOC-02  | 3                          | Planned, not accepted | Upload abuse + storage isolation + review E2E                    |
+| DOC-03  | 3                          | Planned, not accepted | Upload abuse + storage isolation + review E2E                    |
+| DOC-04  | 3                          | Planned, not accepted | Upload abuse + storage isolation + review E2E                    |
+| DOC-05  | 3                          | Planned, not accepted | Upload abuse + storage isolation + review E2E                    |
+| DOC-06  | 3                          | Planned, not accepted | Upload abuse + storage isolation + review E2E                    |
+| DOC-07  | 3                          | Planned, not accepted | Upload abuse + storage isolation + review E2E                    |
+| DOC-08  | 5                          | Planned, not accepted | Upload abuse + storage isolation + review E2E                    |
+| FIN-01  | 4                          | Planned, not accepted | Approved reference-case unit tests + immutable/audit integration |
+| FIN-02  | 4                          | Planned, not accepted | Approved reference-case unit tests + immutable/audit integration |
+| FIN-03  | 4                          | Planned, not accepted | Approved reference-case unit tests + immutable/audit integration |
+| FIN-04  | 4                          | Planned, not accepted | Approved reference-case unit tests + immutable/audit integration |
+| FIN-05  | 4                          | Planned, not accepted | Approved reference-case unit tests + immutable/audit integration |
+| FIN-06  | Later, separately approved | Planned, not accepted | Approved reference-case unit tests + immutable/audit integration |
+| FIN-07  | 4                          | Planned, not accepted | Approved reference-case unit tests + immutable/audit integration |
+| FIN-08  | 4                          | Planned, not accepted | Approved reference-case unit tests + immutable/audit integration |
+| NTF-01  | 4                          | Planned, not accepted | Outbox/replay/signature integration + authorized delivery        |
+| NTF-02  | 4                          | Planned, not accepted | Outbox/replay/signature integration + authorized delivery        |
+| NTF-03  | 4                          | Planned, not accepted | Outbox/replay/signature integration + authorized delivery        |
+| NTF-04  | 4                          | Planned, not accepted | Outbox/replay/signature integration + authorized delivery        |
+| NTF-05  | 4                          | Planned, not accepted | Outbox/replay/signature integration + authorized delivery        |
+| NTF-06  | 4                          | Planned, not accepted | Outbox/replay/signature integration + authorized delivery        |
+| NTF-07  | 4                          | Planned, not accepted | Outbox/replay/signature integration + authorized delivery        |
+| NTF-08  | Later, separately approved | Planned, not accepted | Outbox/replay/signature integration + authorized delivery        |
+| OPS-01  | 3                          | Planned, not accepted | Role matrix + audit integrity + staff E2E                        |
+| OPS-02  | 3                          | Planned, not accepted | Role matrix + audit integrity + staff E2E                        |
+| OPS-03  | 3                          | Planned, not accepted | Role matrix + audit integrity + staff E2E                        |
+| OPS-04  | 3                          | Planned, not accepted | Role matrix + audit integrity + staff E2E                        |
+| OPS-05  | 3                          | Planned, not accepted | Role matrix + audit integrity + staff E2E                        |
+| OPS-06  | 5                          | Planned, not accepted | Role matrix + audit integrity + staff E2E                        |
+| DMD-01  | 6 (deferred)               | Planned, not accepted | Adapter/reconciliation contract; no portal access in MVP         |
+| DMD-02  | 6 (deferred)               | Planned, not accepted | Adapter/reconciliation contract; no portal access in MVP         |
+| DMD-03  | 6 (deferred)               | Planned, not accepted | Adapter/reconciliation contract; no portal access in MVP         |
+| DMD-04  | 6 (deferred)               | Planned, not accepted | Adapter/reconciliation contract; no portal access in MVP         |
+| DMD-05  | 6 (deferred)               | Planned, not accepted | Adapter/reconciliation contract; no portal access in MVP         |
+| DMD-06  | 6 (deferred)               | Planned, not accepted | Adapter/reconciliation contract; no portal access in MVP         |
 
-Record delivered requirements and acceptance IDs, changed behavior, commands/tests and their actual results, browser/database/preview evidence where relevant, commit SHA, remaining blockers and whether the phase gate passed. Never report planned checks as completed tests.
+## Cross-cutting acceptance
+
+- PRD §3: explicitly enumerate URLs; reserve `/app` for authenticated customers and `/admin` for staff. Existing `/dashboard` stays clearly a demo until replaced/redirected deliberately.
+- §4: preserve the original full logo. Phase 1 establishes tokens, accessible components, consistent font, touch sizing and reduced-motion behavior.
+- §6–8: migrations reproducible; server and RLS authorization; transactional event/state/outbox writes; journeys A–F exercised end to end.
+- §9–10: no historical tariff promoted to approved rates, no fabricated social proof, no implicit freight/coverage commitments.
+- §11–12: structured redacted errors, private files, quarantine policy, anti-abuse, retention/counsel review, recovery plan, tests at 360/390/768/1024/1440 and Lighthouse targets. Phase 0 accessibility checks do not certify later flows.
+- §14: funnel through profitable repeat shipments; consent/retention before analytics; no sensitive item/customer data in third-party events.
+- §15 / D-01–D-10: maintain the open decisions from the PRD. The supplied logo resolves asset availability only. Historical tariff and flyer are not current commercial approval. Vercel access is verified for preview; Supabase/Resend production access is not yet assessed.
+
+## Architecture decisions
+
+Retain one Next.js App Router app. Use npm with exact direct dependencies and committed lockfile. Keep client components limited to interactive forms/demo controls; authorization belongs on the server and database.
+
+Use separate unmatched observations rather than customer-visible packages with uncertain ownership in Phase 3. Reconciliation explicitly associates a verified observation with a customer package. Customer pre-alert fields cannot set warehouse-received, verified, paid or delivered states. Fulfillment, document and payment states remain separate.
+
+Use DB-validated staff role assignments, not customer-editable JWT metadata. Supabase service credentials stay server-only. Private storage authorizes both intent and completed object, with MIME/size verification and quarantine before review/download.
+
+Use a durable event outbox; append verified shipment events and enqueue notification atomically. Provider acceptance and delivery are distinct. Retry/replay must preserve logical message identity.
+
+Keep approved pricing snapshots separate from experimental cost assumptions. Missing/unallocated costs remain visible rather than silently zero. Payment capture is excluded until a provider is approved.
+
+Reserve an external-provider boundary for `listPackagesSince`, `getPackage`, `normalizeExternalEvent`, `reconcile`, and `health`. Future observations include source, raw ID, capture time, checksum and validation result. No executable DMD adapter, credential collection, fake sync or portal automation in Phase 0.
+
+## Phase reporting
+
+Each report records requirement IDs, files/behavior, migrations, actual check results, commit, preview URL/status, screenshots, accessibility findings and blockers. Stop at a failed phase gate; do not label scaffolding as a completed external integration.

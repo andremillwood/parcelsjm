@@ -8,24 +8,24 @@ Working branch: `codex/phase-0`
 
 All ten tracked files were inspected. The repository is a frontend demonstration, not a production application. README explicitly describes the limitations. The local workspace initially had no commits or source files; the remote main branch was fetched without replacing existing work.
 
-`PARCELS_JA_PRD_CODEX.md` is absent from the repository and accessible workspace. No attachment content was supplied to this chat. Consequently, this is a source audit against the user's request, not a completed PRD compliance audit. Phase 0 remains blocked on that document.
+The initial audit lacked the PRD. The user subsequently supplied its path; PRD v1.0 has now been read and archived unchanged in `docs/reference/PARCELS_JA_PRD_CODEX.md`. The original logo was also found beside the PRD and copied unchanged to `public/brand/parcels-ja-original.jpeg`. Findings below describe the original baseline, not the subsequent Phase 0 changes. See PHASE_0_REPORT.md for current verification.
 
 ## Architecture and implementation
 
-| Area | Evidence | Assessment |
-| --- | --- | --- |
-| Framework | package.json | Next.js 15.5.0, React 19.1.0, TypeScript; App Router |
-| Type safety | tsconfig.json | Strict mode enabled; no separate typecheck command |
-| Marketing | app/page.tsx | Static hero, feature cards, process and business CTA |
-| Registration | app/register/page.tsx | Browser required/email validation; submission changes local state only |
-| Customer UI | app/dashboard/page.tsx | Public fictional records; navigation changes title only; file selection is local |
-| Pricing | app/rates/page.tsx | No prices or calculation; correctly defers approved pricing |
-| Styling | app/globals.css | Navy/yellow CSS variables and responsive breakpoints; no reusable component system |
-| Identity | Repeated JSX wordmarks | No original logo/image assets present; preserve current styling pending source assets |
-| Data and auth | Entire tracked tree | No Supabase dependency, clients, migrations, authentication or authorization |
-| Operations | Entire tracked tree | No admin routes, workflows, verified shipment event model or audit trail |
-| Communication | Entire tracked tree | No Resend integration, templates, queue or delivery handling |
-| Quality/release | Entire tracked tree | No tests, lockfile, CI, environment template, deployment config or release runbook |
+| Area            | Evidence               | Assessment                                                                            |
+| --------------- | ---------------------- | ------------------------------------------------------------------------------------- |
+| Framework       | package.json           | Next.js 15.5.0, React 19.1.0, TypeScript; App Router                                  |
+| Type safety     | tsconfig.json          | Strict mode enabled; no separate typecheck command                                    |
+| Marketing       | app/page.tsx           | Static hero, feature cards, process and business CTA                                  |
+| Registration    | app/register/page.tsx  | Browser required/email validation; submission changes local state only                |
+| Customer UI     | app/dashboard/page.tsx | Public fictional records; navigation changes title only; file selection is local      |
+| Pricing         | app/rates/page.tsx     | No prices or calculation; correctly defers approved pricing                           |
+| Styling         | app/globals.css        | Navy/yellow CSS variables and responsive breakpoints; no reusable component system    |
+| Identity        | Repeated JSX wordmarks | No original logo/image assets present; preserve current styling pending source assets |
+| Data and auth   | Entire tracked tree    | No Supabase dependency, clients, migrations, authentication or authorization          |
+| Operations      | Entire tracked tree    | No admin routes, workflows, verified shipment event model or audit trail              |
+| Communication   | Entire tracked tree    | No Resend integration, templates, queue or delivery handling                          |
+| Quality/release | Entire tracked tree    | No tests, lockfile, CI, environment template, deployment config or release runbook    |
 
 ## Findings, ordered by release impact
 

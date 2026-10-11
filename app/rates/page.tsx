@@ -1,1 +1,36 @@
-import Link from "next/link";export default function Rates(){return <><header className="nav"><div className="wrap"><Link className="brand" href="/">PARCELS <b>JA</b></Link><Link className="btn" href="/register">Get started</Link></div></header><main className="section pale"><div className="wrap"><div className="tag">Clear shipping costs</div><h1 style={{color:"#0b1f3b"}}>Rates without surprises.</h1><p className="intro">We are validating our freight, consolidation and administrative costs before publishing the new price schedule. Historical rates should not be used for live quotes.</p><div className="card" style={{maxWidth:600,marginTop:30}}><h3>Price schedule coming soon</h3><p>Shipping, applicable handling, customs and optional last-mile delivery fees will be identified separately.</p><Link href="/">← Back to website</Link></div></div></main></>}
+import Link from "next/link";
+import { BrandLogo } from "../../components/brand-logo";
+export default function Rates() {
+  return (
+    <>
+      <header className="nav">
+        <div className="wrap">
+          <BrandLogo />
+          <Link className="btn" href="/register">
+            Preview registration
+          </Link>
+        </div>
+      </header>
+      <main id="main-content" tabIndex={-1} className="section pale">
+        <div className="wrap">
+          <div className="tag">Clear shipping costs</div>
+          <h1 style={{ color: "#0b1f3b" }}>Rates being updated.</h1>
+          <p className="intro">
+            We are validating our freight, consolidation and administrative
+            costs before publishing the new price schedule. Historical rates
+            should not be used for live quotes.
+          </p>
+          <div className="card" style={{ maxWidth: 600, marginTop: 30 }}>
+            <h3>Estimate unavailable</h3>
+            <p>
+              No approved rate card is available. This preview cannot provide a
+              quote. Charges and service availability must be confirmed before
+              booking.
+            </p>
+            <Link href="/">← Back to website</Link>
+          </div>
+        </div>
+      </main>
+    </>
+  );
+}

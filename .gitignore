@@ -1,0 +1,14 @@
+node_modules/
+.next/
+out/
+.vercel/
+.env*
+!.env.example
+*.tsbuildinfo
+playwright-report/
+test-results/
+.DS_Store
+coverage/
+
+# Owner-supplied PRD includes internal commercial context; keep local.
+docs/reference/
