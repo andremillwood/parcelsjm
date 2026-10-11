@@ -337,10 +337,15 @@ try {
     mimeType: "application/pdf",
     buffer: big,
   });
+  const confirmation = a.waitForResponse(
+    (r) =>
+      r.url().endsWith("/api/documents/complete") &&
+      r.request().method() === "POST",
+    { timeout: 60000 },
+  );
   await a.getByRole("button", { name: "Upload document", exact: true }).click();
-  await a
-    .getByText("Quarantined — scanning pending", { exact: false })
-    .waitFor({ timeout: 60000 });
+  const confirmed = await confirmation;
+  assert.equal(confirmed.status(), 200, await confirmed.text());
   const latest = (
     await clients[0]
       .from("document_uploads")

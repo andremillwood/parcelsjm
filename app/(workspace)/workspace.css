@@ -960,3 +960,10 @@
   max-width: 100%;
   overflow-wrap: anywhere;
 }
+.w-document-card .w-panel-heading > div {
+  min-width: 0;
+}
+.w-document-card .w-pill {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
