@@ -54,6 +54,7 @@ try {
     pages.push(p);
   }
   const [a, b, staff] = pages;
+  console.log("PASS three authenticated QA sessions");
   const pre = await a.evaluate(async (requestId) => {
     const r = await fetch("/api/workspace/pre-alert", {
       method: "POST",
@@ -68,6 +69,7 @@ try {
         value: 12,
         currency: "USD",
         notes: "",
+        acknowledged: "on",
       }),
     });
     return r.status;
@@ -81,7 +83,7 @@ try {
   const packageId = href.split("/").at(-1);
   await staff.goto(base + "/admin/documents");
   await staff
-    .getByLabel("Package (optional)", { exact: true })
+    .getByRole("combobox", { name: "Package (optional)", exact: true })
     .selectOption(packageId);
   await staff
     .getByLabel("Why needed and what to upload")
@@ -97,10 +99,11 @@ try {
     .waitFor();
   await a.goto(base + "/app/documents");
   await a
-    .getByText(
-      "QA only: upload the fictional purchase invoice showing merchant, goods and total.",
-      { exact: true },
-    )
+    .locator(".w-document-instructions")
+    .filter({
+      hasText:
+        "QA only: upload the fictional purchase invoice showing merchant, goods and total.",
+    })
     .waitFor();
   assert.equal(
     (
@@ -112,6 +115,9 @@ try {
       })
     ).status,
     403,
+  );
+  console.log(
+    "PASS customer-specific document request and staff authorization",
   );
   // Generate a real, fictional PDF in memory; never use customer documents in QA.
   const pdfPage = await browser.newPage();
@@ -125,13 +131,11 @@ try {
       r.url().endsWith("/api/documents/intent") &&
       r.request().method() === "POST",
   );
-  await a
-    .getByLabel("Document file", { exact: true })
-    .setInputFiles({
-      name: "qa-invoice.pdf",
-      mimeType: "application/pdf",
-      buffer: pdf,
-    });
+  await a.getByLabel("Document file", { exact: true }).setInputFiles({
+    name: "qa-invoice.pdf",
+    mimeType: "application/pdf",
+    buffer: pdf,
+  });
   await a.getByLabel("Invoice amount (optional)").fill("12");
   await a.getByLabel("Invoice merchant (optional)").fill("QA fictional store");
   await a.getByRole("button", { name: "Upload document", exact: true }).click();
@@ -305,7 +309,9 @@ try {
   console.log(
     "PASS populated document screens: accessibility and no overflow at all five widths",
   );
-  await staff.getByLabel("Decision", { exact: true }).selectOption("rejected");
+  await staff
+    .getByRole("combobox", { name: "Decision", exact: true })
+    .selectOption("rejected");
   await staff
     .getByLabel("Reason and customer instructions")
     .fill(
@@ -326,13 +332,11 @@ try {
   const big = Buffer.alloc(10 * 1024 * 1024, 32);
   pdf.copy(big);
   Buffer.from("\n%%EOF").copy(big, big.length - 6);
-  await a
-    .getByLabel("Document file", { exact: true })
-    .setInputFiles({
-      name: "qa-10mb.pdf",
-      mimeType: "application/pdf",
-      buffer: big,
-    });
+  await a.getByLabel("Document file", { exact: true }).setInputFiles({
+    name: "qa-10mb.pdf",
+    mimeType: "application/pdf",
+    buffer: big,
+  });
   await a.getByRole("button", { name: "Upload document", exact: true }).click();
   await a
     .getByText("Quarantined — scanning pending", { exact: false })

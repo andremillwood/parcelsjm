@@ -258,6 +258,70 @@ test("document RLS, storage quarantine, trusted scan, review history and stale-v
       (await db.query("select * from public.document_history")).rows.length,
       5,
     );
+    await as(owner);
+    const profileRequest = await scalar(
+      "select public.request_document($1,null,'invoice','Upload invoice for the profile test') id",
+      [a],
+    );
+    await as(a);
+    const cleanUpload = await scalar(reserve, [profileRequest]);
+    const cleanPath = await scalar(
+      "select object_path id from public.document_uploads where id=$1",
+      [cleanUpload],
+    );
+    await db.query(
+      "insert into storage.objects(bucket_id,name)values('customer-documents',$1)",
+      [cleanPath],
+    );
+    await db.exec(
+      "reset role;set role service_role;select set_config('request.jwt.claim.sub','',false)",
+    );
+    await db.query(
+      "select public.complete_document_upload($1,'application/pdf',20,$2,true)",
+      [cleanUpload, hash],
+    );
+    await db.query(
+      "select public.record_document_scan($1,$2,'error','Unit-test scanner unavailable fixture')",
+      [cleanUpload, hash],
+    );
+    await as(owner);
+    await assert.rejects(
+      db.query("select public.authorize_document_download($1)", [cleanUpload]),
+      /unavailable/,
+    );
+    await db.exec(
+      "reset role;set role service_role;select set_config('request.jwt.claim.sub','',false)",
+    );
+    await db.query(
+      "select public.record_document_scan($1,$2,'clean','Local unit-test fixture; not a real scan')",
+      [cleanUpload, hash],
+    );
+    await as(owner);
+    await db.query(
+      "select public.review_document($1,1,'under_review','approved','Verified invoice fields in local test fixture')",
+      [profileRequest],
+    );
+    assert.equal(
+      await scalar(
+        "select status id from public.document_requests where id=$1",
+        [profileRequest],
+      ),
+      "approved",
+    );
+    await assert.rejects(
+      db.query(
+        "select public.review_document($1,1,'approved','rejected','Cannot overwrite a terminal approval')",
+        [profileRequest],
+      ),
+      /changed/,
+    );
+    await as(a);
+    assert.equal(
+      await scalar("select public.authorize_document_download($1) id", [
+        cleanUpload,
+      ]),
+      cleanPath,
+    );
     // A clean scan alone cannot approve a superseded upload or change shipment status.
     await as(a);
     await assert.rejects(

@@ -8,9 +8,8 @@ export function WorkspaceForm({
   phone = "",
   accountType = "personal",
 }: {
-  kind: "pre-alert" | "document" | "support" | "profile";
+  kind: "pre-alert" | "support" | "profile";
   demo: boolean;
-  packageId?: string;
   name?: string;
   phone?: string;
   accountType?: string;
@@ -29,9 +28,7 @@ export function WorkspaceForm({
         setError(false);
         if (demo) {
           setMessage(
-            kind === "document"
-              ? "Preview checked. Your file has not been uploaded or saved."
-              : "Preview complete. No record was saved and no notification was sent.",
+            "Preview complete. No record was saved and no notification was sent.",
           );
           return;
         }
@@ -61,7 +58,7 @@ export function WorkspaceForm({
         }
       }}
     >
-      <fieldset disabled={busy || (!demo && kind === "document")}>
+      <fieldset disabled={busy}>
         <legend className="sr-only">{kind} details</legend>
         {kind === "pre-alert" && (
           <>
@@ -147,31 +144,6 @@ export function WorkspaceForm({
             </label>
           </>
         )}
-        {kind === "document" && (
-          <>
-            <label>
-              Requested package document
-              <input
-                name="file"
-                type="file"
-                accept="application/pdf,image/jpeg,image/png"
-                required
-                onChange={(e) => {
-                  const f = e.target.files?.[0];
-                  e.target.setCustomValidity(
-                    f && f.size > 10 * 1024 * 1024
-                      ? "Choose a file no larger than 10 MB."
-                      : "",
-                  );
-                }}
-              />
-            </label>
-            <p className="w-muted">
-              PDF, JPEG or PNG · up to 10 MB. Live uploads remain unavailable
-              until quarantine and scanning are verified.
-            </p>
-          </>
-        )}
         {kind === "support" && (
           <>
             <h2>Start a support request</h2>
@@ -234,9 +206,7 @@ export function WorkspaceForm({
                 ? "Create pre-alert"
                 : kind === "support"
                   ? "Submit request"
-                  : kind === "document"
-                    ? "Upload unavailable"
-                    : "Save profile"}
+                  : "Save profile"}
           <span aria-hidden="true">↗</span>
         </button>
       </fieldset>
