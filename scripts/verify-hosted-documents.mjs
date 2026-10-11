@@ -125,6 +125,8 @@ try {
     "<h1>Fictional QA invoice</h1><p>Test goods USD 12.00. Not a real transaction.</p>",
   );
   const pdf = await pdfPage.pdf();
+  const png = await pdfPage.screenshot({ type: "png" });
+  const jpeg = await pdfPage.screenshot({ type: "jpeg" });
   await pdfPage.close();
   const intentResponse = a.waitForResponse(
     (r) =>
@@ -433,6 +435,44 @@ try {
     (await api(a, "complete", { uploadId: badIntent.body.uploadId })).status,
     422,
   );
+  for (const [mime, extension, bytes] of [
+    ["image/png", "png", png],
+    ["image/jpeg", "jpg", jpeg],
+  ]) {
+    const imageRequest = await api(staff, "request", {
+      profileId: fixtures[0].id,
+      packageId: null,
+      type: "other",
+      instructions: "QA image document validation only: " + extension,
+    });
+    assert.equal(imageRequest.status, 200);
+    const imageIntent = await api(a, "intent", {
+      requestId: imageRequest.body.id,
+      filename: "qa-image." + extension,
+      mime,
+      size: bytes.length,
+      amount: null,
+      currency: null,
+      merchant: "",
+      orderReference: "",
+    });
+    assert.equal(imageIntent.status, 200);
+    assert(
+      (
+        await fetch(imageIntent.body.signedUrl, {
+          method: "PUT",
+          headers: { "Content-Type": mime },
+          body: bytes,
+        })
+      ).ok,
+    );
+    assert.equal(
+      (await api(a, "complete", { uploadId: imageIntent.body.uploadId }))
+        .status,
+      200,
+    );
+  }
+  console.log("PASS real PNG and JPEG uploads validated into quarantine");
   assert.equal(
     (
       await api(staff, "review", {

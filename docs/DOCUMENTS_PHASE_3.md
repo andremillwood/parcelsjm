@@ -46,4 +46,25 @@ Requests and histories are customer-readable under RLS. Owner/documents can revi
 
 Automated checks cover filename traversal/control characters, unsupported and spoofed types, size limit, invoice metadata, customer isolation, storage read denial, role escalation, scan-hash mismatch, unscanned approval denial, review conflicts, rejection/replacement history, waivers, independent shipment state, deferred outbox and suspended accounts. Browser checks include customer/admin document pages at 360/390/768/1024/1440 with axe accessibility and overflow checks.
 
-Hosted evidence and preview commit will be recorded after verification. No production deployment is authorized by this phase.
+### Verified preview
+
+Application commit: `68a079e58bca680c35f0fa5f920b6086bb3eeae3` (document implementation starts at `8031fce`). Existing Vercel project: **parcelsjm**, deployment `dpl_7a7r57CWvZQyRTjShi3mtnSKd23W`, READY, target `null` (preview), branch `codex/customer-operations`.
+
+[Verified preview](https://parcelsjm-et2o09ttj-andre-millwoods-projects.vercel.app) — `/app/documents` and `/admin/documents`. The real owner keeps their existing login. Customer test flow: staff requests a document, customer opens Documents or the package, uploads a file, and sees quarantine. Admin can reject with instructions or waive a requirement. Clean-file opening and approval intentionally remain blocked until a scanner exists.
+
+- [GitHub Actions run 38183687011](https://github.com/andremillwood/parcelsjm/actions/runs/38183687011) passed the full check, dependency audit and test pipeline for application commit `68a079e`.
+- Local build, TypeScript, lint, formatting and 16 unit/database tests passed. The successful approval/clean-download branch is tested only with a synthetic local scan fixture.
+- Fifteen local workspace browser tests passed across 360/390/768/1024/1440 widths, including existing package, support and protected-route regressions.
+- Hosted browser/API tests passed: real PDF upload, full 10 MiB replacement upload, JPEG and PNG intake, optional invoice metadata, customer-specific request, rejection and visible instructions, version history, stale-decision conflict, profile-level request, waiver without file release or shipment change, wrong-MIME rejection, traversal/oversize validation and sign-out.
+- Hosted security checks passed: user B cannot read/complete/download user A's upload; public bucket access fails; customers and owner cannot forge scanner attestations; direct downloads/long-lived signing fail; reuse of the signed upload URL cannot overwrite the file even with an upsert header; unscanned approval/download returns a denial.
+- Populated customer and admin pages passed axe WCAG 2 A/AA and 2.1 AA checks and horizontal-overflow checks at all five widths. Mobile/desktop screenshots are in [evidence/documents](evidence/documents/). Visual review fixed a wrapping mobile status badge. This automated coverage does not constitute a complete WCAG 2.2 audit.
+- Hosted schema verification: private bucket, 10,485,760-byte limit, PDF/JPEG/PNG allowlist, only a reserved-path INSERT storage policy, all four document tables have RLS, and authenticated users cannot execute validation/scan attestation functions.
+- Supabase security advisor reports no document-schema finding. It reports existing Auth leaked-password protection disabled; assess/enable it before production. Runtime dependency audit reports zero vulnerabilities.
+- Cleanup verified after hosted tests: zero QA Auth users, document requests, uploads, history, deferred document outbox rows or bucket objects. Five synthetic files and three temporary accounts were removed. The real owner account remains active with its owner role.
+- Original logo SHA-256 remains `f7077fc6689a760db3888f7aa4b179fe36388b9306e7d79366d5deb83f6952b8`.
+
+Run hosted checks with `scripts/verify-hosted-documents.mjs` and explicit `PREVIEW_URL`, `QA_FIXTURES_PATH`, `PREVIEW_ACCESS_FILE`, public Supabase variables and optional `QA_SCREENSHOT_DIR`. Only synthetic `parcels-qa-…@example.com` accounts are accepted. Credentials and temporary protection links must stay outside the repository; remove QA records and storage objects afterward.
+
+### Remaining exit gates
+
+This completes the authorized quarantined-upload/manual-review increment, **not the full Phase 3 production exit**. An approved scanner is needed to release real files for inspection and approval. Document retention/DSAR policy, rule automation, broader pagination and the existing legal/warehouse dependencies remain follow-up work. Resend, pricing/payments and DMD remain deferred; no production deployment was made.
