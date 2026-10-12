@@ -1,0 +1,111 @@
+import { readJson, InputError } from "../../../lib/http/input";
+import { authAvailable, registrationAvailable } from "../../../lib/auth/config";
+import { authSchema } from "../../../lib/auth/schema";
+import { serverClient } from "../../../lib/supabase/server";
+export async function POST(request: Request) {
+  const reply = (status: number, message: string) =>
+    Response.json(
+      { message },
+      { status, headers: { "Cache-Control": "no-store" } },
+    );
+  if (!authAvailable())
+    return reply(503, "Account access is not yet activated.");
+  let input;
+  try {
+    input = authSchema.safeParse(await readJson(request));
+  } catch (error) {
+    return reply(
+      error instanceof InputError ? error.status : 400,
+      error instanceof InputError ? error.message : "Invalid request.",
+    );
+  }
+  if (!input.success)
+    return reply(400, "Check required fields, password length and consent.");
+  const client = await serverClient();
+  const data = input.data;
+  const origin = new URL(request.url).origin;
+  try {
+    if (data.action === "logout") {
+      const { error: signOutError } = await client.auth.signOut();
+      if (signOutError)
+        return reply(503, "Sign-out could not be confirmed. Please retry.");
+      return reply(200, "Signed out.");
+    }
+    if (data.action === "login") {
+      const { error } = await client.auth.signInWithPassword({
+        email: data.email,
+        password: data.password,
+      });
+      return error
+        ? reply(
+            error.status === 429 ? 429 : 400,
+            "Sign-in failed. Check your details and email verification.",
+          )
+        : reply(200, "Signed in.");
+    }
+    if (data.action === "register") {
+      if (!registrationAvailable())
+        return reply(503, "Registration awaits approved account policies.");
+      const { error } = await client.auth.signUp({
+        email: data.email,
+        password: data.password,
+        options: {
+          emailRedirectTo: `${origin}/auth/callback`,
+          data: {
+            full_name: data.fullName,
+            phone: data.phone,
+            account_type: data.accountType,
+            policy_version: process.env.ACCOUNT_POLICY_VERSION,
+          },
+        },
+      });
+      if (error)
+        return reply(
+          error.status === 429 ? 429 : 400,
+          "Registration could not be completed. Please try again later.",
+        );
+      return reply(
+        200,
+        "If registration can proceed, check your email to verify your account. No shipping address is active yet.",
+      );
+    }
+    if (data.action === "reset") {
+      const { error: resetError } = await client.auth.resetPasswordForEmail(
+        data.email,
+        {
+          redirectTo: `${origin}/auth/callback?next=/app/security`,
+        },
+      );
+      if (resetError)
+        return reply(
+          503,
+          "Password reset is temporarily unavailable. Please try again later.",
+        );
+      return reply(
+        200,
+        "If the account is eligible, a password-reset email will arrive. Please check your inbox.",
+      );
+    }
+    const {
+      data: { user },
+      error,
+    } = await client.auth.getUser();
+    if (error || !user)
+      return reply(401, "Sign in or open a valid reset link first.");
+    const { error: updateError } = await client.auth.updateUser({
+      password: data.password,
+    });
+    if (updateError)
+      return reply(
+        400,
+        "The password could not be changed. Try a new reset link.",
+      );
+    await client.auth.signOut({ scope: "global" });
+    return reply(200, "Password updated. Sign in again.");
+  } catch {
+    return reply(
+      503,
+      "Account service is temporarily unavailable. Please try again.",
+    );
+  }
+}
