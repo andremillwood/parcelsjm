@@ -1129,3 +1129,183 @@
   white-space: nowrap;
   border: 0;
 }
+
+/* Campaign imagery: warm everyday scenes, anchored in the original navy/yellow. */
+.m-campaign-hero .m-hero-grid {
+  grid-template-columns: 1fr 1.04fr;
+  gap: 64px;
+  padding-top: 48px;
+  padding-bottom: 40px;
+}
+.m-campaign-hero h1 {
+  font-size: clamp(48px, 5.5vw, 76px);
+}
+.m-lifestyle {
+  margin: 0;
+  min-width: 0;
+}
+.m-lifestyle-frame {
+  position: relative;
+  overflow: hidden;
+  background: #e9dfcf;
+}
+.m-lifestyle img {
+  object-fit: cover;
+}
+.m-hero-lifestyle .m-lifestyle-frame {
+  aspect-ratio: 4 / 5;
+  border-radius: 140px 8px 8px 8px;
+}
+.m-lifestyle figcaption {
+  font-size: 10px;
+  line-height: 1.6;
+  padding-top: 12px;
+  color: #b7c4d6;
+}
+.m-photo-note {
+  position: absolute;
+  bottom: 28px;
+  left: 24px;
+  right: 24px;
+  padding: 18px 22px;
+  background: #fff8e9;
+  color: var(--ink);
+  border-left: 4px solid var(--yellow);
+}
+.m-photo-note span {
+  display: block;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  font-weight: 700;
+}
+.m-photo-note strong {
+  display: block;
+  font-size: 25px;
+  font-weight: 550;
+  letter-spacing: -0.04em;
+}
+.m-warm {
+  background: #faf7f0;
+}
+.m-experience-link {
+  border-top: 1px solid var(--border);
+  padding-top: 24px;
+  margin-top: 40px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.m-experience-link > span {
+  font-size: 12px;
+  color: var(--muted);
+}
+.m-business-story {
+  background: var(--navy);
+  color: white;
+}
+.m-story-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+.m-business-lifestyle .m-lifestyle-frame {
+  aspect-ratio: 1 / 1;
+  border-radius: 4px;
+}
+.m-business-lifestyle img {
+  object-position: 46% center;
+}
+.m-story-copy .m-eyebrow,
+.m-story-copy h2 em {
+  color: var(--yellow);
+  font-style: normal;
+}
+.m-story-copy > p:not(.m-eyebrow) {
+  color: #bdcada;
+}
+.m-story-copy .m-small {
+  margin: 16px 0 0;
+}
+.m-business-story :focus-visible {
+  outline-color: var(--yellow);
+}
+.m-business-intro {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 64px;
+  align-items: center;
+  padding: 64px 0;
+}
+.m-business-intro .m-page-intro {
+  padding: 0;
+}
+.m-business-intro .m-lifestyle-frame {
+  aspect-ratio: 4 / 3;
+  border-radius: 4px 80px 4px 4px;
+}
+.m-business-intro figcaption {
+  color: var(--muted);
+}
+@media (max-width: 1100px) {
+  .m-campaign-hero .m-hero-grid,
+  .m-story-grid,
+  .m-business-intro {
+    gap: 40px;
+  }
+}
+@media (max-width: 900px) {
+  .m-campaign-hero .m-hero-grid,
+  .m-story-grid,
+  .m-business-intro {
+    grid-template-columns: 1fr;
+  }
+  .m-hero-lifestyle {
+    width: 100%;
+    max-width: 600px;
+    justify-self: center;
+  }
+  .m-hero-lifestyle .m-lifestyle-frame {
+    aspect-ratio: 5 / 4;
+    border-top-left-radius: 100px;
+  }
+  .m-hero-lifestyle img {
+    object-position: center 40%;
+  }
+  .m-business-lifestyle .m-lifestyle-frame {
+    aspect-ratio: 3 / 2;
+  }
+  .m-business-intro {
+    padding: 48px 0;
+  }
+}
+@media (max-width: 560px) {
+  .m-campaign-hero .m-hero-grid {
+    padding-top: 40px;
+    gap: 32px;
+  }
+  .m-campaign-hero h1 {
+    font-size: clamp(44px, 11.6vw, 60px);
+  }
+  .m-hero-lifestyle .m-lifestyle-frame {
+    aspect-ratio: 4 / 5;
+    border-top-left-radius: 80px;
+  }
+  .m-photo-note {
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    padding: 14px 16px;
+  }
+  .m-photo-note strong {
+    font-size: 22px;
+  }
+  .m-campaign-hero .m-hero-links {
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .m-experience-link {
+    gap: 8px;
+  }
+}
