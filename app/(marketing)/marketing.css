@@ -1587,3 +1587,53 @@
     transform: none;
   }
 }
+
+/* Registration keeps identity inputs in-page only; no browser draft storage. */
+.m-field-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 650;
+  margin-bottom: 8px;
+}
+.m-form-panel .m-signup-group {
+  border-top: 1px solid var(--border);
+  padding-top: 24px;
+  margin-bottom: 24px;
+}
+.m-signup-group > legend {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  padding: 0 0 12px;
+}
+.marketing .m-field-error {
+  font-size: 12px;
+  color: #842020;
+  line-height: 1.6;
+  margin: 8px 0 16px;
+}
+.m-field [aria-invalid="true"] {
+  border-color: #ad2929;
+}
+.m-signup-result h2 {
+  font-size: 26px;
+  margin-bottom: 16px;
+}
+.m-signup-result p:last-of-type {
+  margin-bottom: 16px;
+}
+.m-signup-result:focus {
+  outline: 3px solid #1664c0;
+  outline-offset: 4px;
+}
+@media (max-width: 560px) {
+  .m-signup-panel {
+    padding: 24px 20px;
+  }
+  .m-signup-panel .m-options {
+    grid-template-columns: 1fr;
+  }
+  .m-signup-panel > form > .m-signup-fields > .m-button {
+    width: 100%;
+  }
+}

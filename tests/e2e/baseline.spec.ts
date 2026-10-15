@@ -59,9 +59,25 @@ test("registration validates without creating an account or transmitting input",
   await page.getByLabel("Email", { exact: true }).fill("demo@example.test");
   await page.getByLabel("Phone").fill("8765550100");
   await page
+    .getByLabel("TRN (Taxpayer Registration Number)", { exact: true })
+    .fill("012-345-678");
+  await page
+    .getByLabel("Home address", { exact: true })
+    .fill("Sample district, Sample town, Jamaica");
+  await page
+    .getByLabel("Sample password", { exact: true })
+    .fill("SamplePassword123!");
+  await page
+    .getByLabel("Confirm sample password", { exact: true })
+    .fill("SamplePassword123!");
+  await page.getByRole("checkbox").check();
+  await page
     .getByRole("radio", { name: "Business / reseller", exact: false })
     .check();
   await page.getByRole("button", { name: "Preview registration" }).click();
+  await expect(
+    page.getByLabel("TRN (Taxpayer Registration Number)", { exact: true }),
+  ).toHaveValue("");
   await expect(page.getByRole("status")).toContainText(
     "No account was created",
   );

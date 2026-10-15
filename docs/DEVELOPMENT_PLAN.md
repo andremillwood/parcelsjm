@@ -107,3 +107,11 @@ Reserve an external-provider boundary for `listPackagesSince`, `getPackage`, `no
 ## Phase reporting
 
 Each report records requirement IDs, files/behavior, migrations, actual check results, commit, preview URL/status, screenshots, accessibility findings and blockers. Stop at a failed phase gate; do not label scaffolding as a completed external integration.
+
+## Signup identity requirements
+
+Registration for personal and business accounts must collect the account holder's TRN and full home address in addition to name, phone, email, password, and policy acknowledgement. TRN is a required nine-digit string (preserve leading zeros; accept spaces or hyphens between groups of three). Home address is required, 10–500 characters, including street/district, town/city, parish and country. It is distinct from an assigned overseas shipping address. Format validation does not verify TRN ownership.
+
+Store these details in a private, RLS-enabled table, outside general profile queries. Remove them from Auth metadata during insertion so they are not carried in session tokens. Do not include them in analytics, logs, notifications, or audit payloads. Existing accounts need a separately planned authenticated collection flow; do not invent missing details. Policy approval must explicitly cover TRN and residential address collection, use, access and retention before enabling registration.
+
+Apply the signup identity migration before deploying the updated registration form/API. Verify successful persistence, metadata removal, invalid-input rejection and denied access for anonymous/ordinary authenticated roles. Live registration remains subject to the existing Auth and approved-policy gates.

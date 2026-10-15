@@ -1,6 +1,5 @@
-import { AuthForm } from "../../../components/auth/auth-form";
+import { RegistrationForm } from "../../../components/auth/registration-form";
 import { registrationAvailable } from "../../../lib/auth/config";
-import { RegistrationPreview } from "../../../components/marketing/registration-preview";
 import { PageIntro } from "../../../components/marketing/ui";
 import { pageMetadata } from "../../../lib/metadata";
 export const metadata = pageMetadata(
@@ -25,17 +24,10 @@ export default async function Register({
           look like.
         </p>
       </PageIntro>
-      {registrationAvailable() ? (
-        <AuthForm
-          mode="register"
-          available
-          initialType={type === "business" ? "business" : "personal"}
-        />
-      ) : (
-        <RegistrationPreview
-          initialType={type === "business" ? "business" : "personal"}
-        />
-      )}
+      <RegistrationForm
+        mode={registrationAvailable() ? "live" : "preview"}
+        initialType={type === "business" ? "business" : "personal"}
+      />
     </div>
   );
 }

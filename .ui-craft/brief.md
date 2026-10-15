@@ -34,3 +34,7 @@ A new visitor can identify who Parcels JA serves, find registration and understa
 ## 7. Composition
 
 Homepage: marketing refresh, variance 6, existing navy/yellow and Inter. Signature: the hero photograph framed with a single clipped parcel-label corner. Keep the approved split hero, simplify it to two desktop headline lines, then change the next section to a full-width real demo stage and editorial feature rows. The ui-craft MCP fold-drawing/check tools are unavailable; composition and measurements will be checked in rendered browser evidence instead. No automated fold classification is claimed.
+
+## 8. Signup form scope
+
+Customer signup has grouped contact, identity/address and security fields. Personal/business intent is preserved. The disabled preview uses sample inputs, performs local validation only and clears sensitive fields on success. No draft autosave or browser storage is permitted for identity values or passwords. Existing branding and CSS-only interactions apply. The success signal is an accessible validated preview, followed by honest verification/onboarding guidance; enabling live signup or email is outside this pass.

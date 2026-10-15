@@ -1,6 +1,6 @@
 import { readJson, InputError } from "../../../lib/http/input";
 import { authAvailable, registrationAvailable } from "../../../lib/auth/config";
-import { authSchema } from "../../../lib/auth/schema";
+import { authSchema, registrationErrors } from "../../../lib/auth/schema";
 import { serverClient } from "../../../lib/supabase/server";
 export async function POST(request: Request) {
   const reply = (status: number, message: string) =>
@@ -12,7 +12,17 @@ export async function POST(request: Request) {
     return reply(503, "Account access is not yet activated.");
   let input;
   try {
-    input = authSchema.safeParse(await readJson(request));
+    const body = await readJson(request);
+    // Fail closed before parsing identity fields or constructing a provider client.
+    if (
+      body &&
+      typeof body === "object" &&
+      "action" in body &&
+      body.action === "register" &&
+      !registrationAvailable()
+    )
+      return reply(503, "Registration awaits approved account policies.");
+    input = authSchema.safeParse(body);
   } catch (error) {
     return reply(
       error instanceof InputError ? error.status : 400,
@@ -20,7 +30,13 @@ export async function POST(request: Request) {
     );
   }
   if (!input.success)
-    return reply(400, "Check required fields, password length and consent.");
+    return Response.json(
+      {
+        message: "Check the required fields and try again.",
+        fieldErrors: registrationErrors(input.error.issues),
+      },
+      { status: 400, headers: { "Cache-Control": "no-store" } },
+    );
   const client = await serverClient();
   const data = input.data;
   const origin = new URL(request.url).origin;
@@ -54,6 +70,8 @@ export async function POST(request: Request) {
           data: {
             full_name: data.fullName,
             phone: data.phone,
+            trn: data.trn,
+            home_address: data.homeAddress,
             account_type: data.accountType,
             policy_version: process.env.ACCOUNT_POLICY_VERSION,
           },
@@ -64,6 +82,7 @@ export async function POST(request: Request) {
           error.status === 429 ? 429 : 400,
           "Registration could not be completed. Please try again later.",
         );
+      // Auth create responses can echo input metadata. Never return user/session payloads here.
       return reply(
         200,
         "If registration can proceed, check your email to verify your account. No shipping address is active yet.",

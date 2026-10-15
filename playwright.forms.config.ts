@@ -20,6 +20,10 @@ export default defineConfig({
     // Fictional values enable UI tests only. Requests are intercepted in-browser;
     // example.invalid cannot be a live provider. No real keys are loaded.
     env: {
+      AUTH_ENABLED: "true",
+      ACCOUNT_POLICIES_APPROVED: "true",
+      ACCOUNT_POLICY_VERSION: "fictional-test-policy",
+      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: "fictional-key",
       LEAD_CAPTURE_ENABLED: "true",
       LEAD_PRIVACY_APPROVED: "true",
       LEAD_PRIVACY_VERSION: "fictional-test-policy",
