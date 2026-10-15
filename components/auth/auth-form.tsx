@@ -5,11 +5,9 @@ import Link from "next/link";
 export function AuthForm({
   mode,
   available,
-  initialType = "personal",
 }: {
-  mode: "login" | "register" | "reset" | "password";
+  mode: "login" | "reset" | "password";
   available: boolean;
-  initialType?: "personal" | "business";
 }) {
   const [busy, setBusy] = useState(false),
     [message, setMessage] = useState(""),
@@ -38,14 +36,6 @@ export function AuthForm({
                 action: mode,
                 ...(mode !== "password" ? { email: data.get("email") } : {}),
                 ...(mode !== "reset" ? { password: data.get("password") } : {}),
-                ...(mode === "register"
-                  ? {
-                      fullName: data.get("fullName"),
-                      phone: data.get("phone"),
-                      accountType: data.get("accountType"),
-                      consent: data.get("consent") === "on",
-                    }
-                  : {}),
               }),
             });
             const result = await response.json();
@@ -65,38 +55,6 @@ export function AuthForm({
       >
         <fieldset disabled={!available || busy}>
           <legend className="sr-only">Account details</legend>
-          {mode === "register" && (
-            <>
-              <label className="m-field">
-                Full name
-                <input
-                  name="fullName"
-                  required
-                  minLength={2}
-                  maxLength={120}
-                  autoComplete="name"
-                />
-              </label>
-              <label className="m-field">
-                Phone
-                <input
-                  name="phone"
-                  type="tel"
-                  required
-                  minLength={7}
-                  maxLength={30}
-                  autoComplete="tel"
-                />
-              </label>
-              <label className="m-field">
-                Account type
-                <select name="accountType" defaultValue={initialType}>
-                  <option value="personal">Personal</option>
-                  <option value="business">Business / reseller</option>
-                </select>
-              </label>
-            </>
-          )}
           {mode !== "password" && (
             <label className="m-field">
               Email
@@ -125,27 +83,14 @@ export function AuthForm({
               {mode !== "login" && <small>Use at least 12 characters.</small>}
             </label>
           )}
-          {mode === "register" && (
-            <label className="m-checkbox">
-              <input type="checkbox" name="consent" required />
-              <span>
-                I accept the <Link href="/legal/terms">terms</Link> and
-                acknowledge the{" "}
-                <Link href="/legal/privacy">privacy policy</Link>. This does not
-                subscribe me to marketing.
-              </span>
-            </label>
-          )}
           <button className="m-button" type="submit">
             {busy
               ? "Please wait…"
               : mode === "login"
                 ? "Sign in"
-                : mode === "register"
-                  ? "Create account"
-                  : mode === "reset"
-                    ? "Send reset link"
-                    : "Update password"}
+                : mode === "reset"
+                  ? "Send reset link"
+                  : "Update password"}
           </button>
         </fieldset>
         {message && (
