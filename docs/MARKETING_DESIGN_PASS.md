@@ -6,7 +6,7 @@ Apply benefit-led advertising to the homepage and business journey: make the ple
 
 The art direction uses contemporary Jamaican home and small-business settings, warm cream, original navy/yellow, human-scale scenes and restrained typography. The original Parcels JA logo is unchanged. Real signup, address activation, rates, contact sending and other operational gates remain unchanged. Resend remains deferred. No fabricated statistics, testimonials, warehouse photography, delivery promises or rates were introduced.
 
-The homepage offers registration exploration, a how-it-works journey and a clearly identified customer demo with fictional packages. Business imagery continues into the business account journey. AI-generated scenes carry visible captions and illustrative alt text so they are not presented as real customers or facilities.
+The homepage offers registration exploration, a how-it-works journey and a clearly identified customer demo with fictional packages. Business imagery continues into the business account journey. AI-generated scenes retain illustrative alt text and internal provenance. At the owner’s request, the public-facing AI captions were removed; the scenes do not carry customer names, testimonials or claims of actual facilities.
 
 ## Assets and provenance
 
@@ -25,4 +25,4 @@ Use case photorealistic-natural. A premium editorial lifestyle photograph for a 
 
 ## Release scope
 
-Branch `codex/marketing-imagery`, Vercel project `parcelsjm`, preview only. Production must not be updated until the user reviews this preview and authorizes release. No database migrations or environment changes are required by this visual pass.
+Branch `codex/marketing-imagery`, Vercel project `parcelsjm`, preview only. The user approved merging and releasing this design on 15 October 2026, with the public-facing AI captions removed. No database migrations or environment changes are required by this visual pass.

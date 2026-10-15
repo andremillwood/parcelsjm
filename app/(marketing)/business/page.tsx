@@ -37,10 +37,6 @@ export default function Business() {
               sizes="(max-width: 900px) 100vw, 50vw"
             />
           </div>
-          <figcaption>
-            AI-created business illustration, not a Parcels JA customer or
-            facility.
-          </figcaption>
         </figure>
       </div>
       <div className="m-split">

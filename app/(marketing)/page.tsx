@@ -54,9 +54,6 @@ export default function Home() {
                 <strong>A very good feeling.</strong>
               </div>
             </div>
-            <figcaption>
-              AI-created lifestyle illustration, not a customer testimonial.
-            </figcaption>
           </figure>
         </div>
         <div className="m-container m-hero-bottom">
@@ -169,10 +166,6 @@ export default function Home() {
                 sizes="(max-width: 900px) 100vw, 50vw"
               />
             </div>
-            <figcaption>
-              AI-created business illustration, not a Parcels JA customer or
-              facility.
-            </figcaption>
           </figure>
           <div className="m-story-copy">
             <Eyebrow>For the business you’re building</Eyebrow>
