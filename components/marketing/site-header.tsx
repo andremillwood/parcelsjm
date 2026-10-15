@@ -43,7 +43,7 @@ export function SiteHeader() {
             Sign in
           </Link>
           <Link className="m-button m-button-small" href="/register">
-            Get started <span aria-hidden="true">↗</span>
+            Explore registration <span aria-hidden="true">↗</span>
           </Link>
         </div>
         <button
@@ -67,7 +67,7 @@ export function SiteHeader() {
             ...links,
             ["/tracking", "Track your package"],
             ["/login", "Sign in"],
-            ["/register", "Get started"],
+            ["/register", "Explore registration"],
           ].map(([href, label]) => (
             <Link
               key={href}
