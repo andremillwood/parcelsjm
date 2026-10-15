@@ -1,147 +1,98 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ButtonLink, CTA, Eyebrow } from "../../components/marketing/ui";
 import { FAQ } from "../../components/marketing/content";
 import { pageMetadata } from "../../lib/metadata";
 export const metadata = pageMetadata(
-  "Shop globally. Ship with clarity.",
-  "Explore the Parcels JA shipping experience for US purchases coming to Jamaica. Registration and rates are not yet active.",
+  "For the things you can’t wait to make yours.",
+  "Shopping in the US, living in Jamaica? Explore Parcels JA: your packages, pre-alerts and documents in one place. Registration and rates are not yet active.",
   "/",
 );
 export default function Home() {
   return (
     <>
-      <section className="m-hero">
+      <section className="m-hero m-campaign-hero">
         <div className="m-container m-hero-grid">
           <div className="m-hero-copy">
-            <Eyebrow>US purchases. Jamaica in mind.</Eyebrow>
+            <Eyebrow>Shopping in the US. Living in Jamaica.</Eyebrow>
             <h1>
-              Shop globally.
+              That find.
               <br />
-              Ship with <em>clarity.</em>
+              That feeling.
+              <br />
+              <em>Make it yours.</em>
             </h1>
             <p>
-              Your packages. Your documents. Your next step.
-              <br className="m-desktop-break" /> An experience designed to bring
-              it all together.
+              For the things you can’t wait to unpack. Get to know an account
+              that brings your packages, pre-alerts and documents together.
             </p>
-            <ButtonLink href="/register">
-              Get your US shipping address
-            </ButtonLink>
+            <ButtonLink href="/register">Explore registration</ButtonLink>
             <p className="m-small">
-              Explore registration. Address activation is not yet available.
+              Registration preview. Shipping address activation is not yet
+              available.
             </p>
             <div className="m-hero-links">
-              <Link href="/rates">
-                Calculate shipping <span aria-hidden="true">↗</span>
+              <Link href="/how-it-works">
+                See how it works <span aria-hidden="true">↗</span>
               </Link>
-              <Link href="/tracking">
-                Track your package <span aria-hidden="true">↗</span>
+              <Link href="/preview/app">
+                Look inside the app <span aria-hidden="true">↗</span>
               </Link>
             </div>
           </div>
-          <div
-            className="m-waybill"
-            aria-label="Illustration of the planned package journey"
-          >
-            <div className="m-waybill-top">
-              <span>PARCELS JA / THE JOURNEY</span>
-              <span className="m-chip">Preview</span>
-            </div>
-            <div className="m-route">
-              <div>
-                <small>SHOP</small>
-                <strong>US</strong>
-                <span>United States</span>
-              </div>
-              <svg viewBox="0 0 160 64" aria-hidden="true">
-                <path
-                  d="M4 50 Q80 -30 156 50"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeDasharray="4 6"
-                />
-                <path
-                  d="m144 43 12 7-14 4"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                />
-              </svg>
-              <div>
-                <small>DESTINATION</small>
-                <strong>JM</strong>
-                <span>Jamaica</span>
+          <figure className="m-lifestyle m-hero-lifestyle">
+            <div className="m-lifestyle-frame">
+              <Image
+                src="/marketing/unpack-at-home.webp"
+                alt="Illustrative scene of a woman unpacking new sneakers in a sunlit Jamaican home"
+                fill
+                priority
+                sizes="(max-width: 900px) 100vw, 50vw"
+              />
+              <div className="m-photo-note" aria-hidden="true">
+                <span>A LITTLE ANTICIPATION.</span>
+                <strong>A very good feeling.</strong>
               </div>
             </div>
-            <div className="m-waybill-rule" />
-            <p className="m-eyebrow">Clarity at every step</p>
-            <ol className="m-journey-list">
-              <li>
-                <span>01</span>
-                <div>
-                  <strong>Your address</strong>
-                  <p>Assigned after account verification</p>
-                </div>
-              </li>
-              <li>
-                <span>02</span>
-                <div>
-                  <strong>Your documents</strong>
-                  <p>Matched to the right package</p>
-                </div>
-              </li>
-              <li>
-                <span>03</span>
-                <div>
-                  <strong>Your next step</strong>
-                  <p>Guided by verified shipment events</p>
-                </div>
-              </li>
-            </ol>
-            <div className="m-waybill-footer">
-              <span className="m-barcode" aria-hidden="true" />
-              <small>A planned workflow, not a live shipment.</small>
-            </div>
-          </div>
+          </figure>
         </div>
         <div className="m-container m-hero-bottom">
-          <span>CONNECTING YOU TO WHAT MATTERS</span>
-          <a href="#the-experience">Explore the experience ↓</a>
+          <span>YOUR PURCHASE. YOUR PLANS. YOUR NEXT STEP.</span>
+          <a href="#the-experience">Meet your Parcels JA experience ↓</a>
         </div>
       </section>
-      <section id="the-experience" className="m-section">
+      <section id="the-experience" className="m-section m-warm">
         <div className="m-container">
           <div className="m-section-heading">
             <div>
-              <Eyebrow>Less chasing. More clarity.</Eyebrow>
+              <Eyebrow>Make room for the exciting part</Eyebrow>
               <h2>
-                Know what’s next.
+                Less wondering.
                 <br />
-                Keep moving.
+                More knowing.
               </h2>
             </div>
             <p>
-              The planned Parcels JA account puts the details that matter in one
-              place, from your first pre-alert to the next required action.
+              The order is only the beginning. Keep the details together so it’s
+              easier to see what you’ve submitted and what needs your attention.
             </p>
           </div>
           <div className="m-feature-grid">
             {[
               [
                 "01",
-                "An address that’s yours",
-                "A verified warehouse assignment and personal shipping identifier. No guesswork about where your order belongs.",
+                "Remember the purchase. Not every detail.",
+                "Add a pre-alert with your store, tracking number and purchase details. Give each expected package a place in your account.",
               ],
               [
                 "02",
-                "Paperwork in its place",
-                "An invoice belongs with its package. See what’s requested, what’s under review and what needs another look.",
+                "The right paperwork. In the right place.",
+                "See which document is requested for which package, submit it and follow its review status.",
               ],
               [
                 "03",
-                "Updates with meaning",
-                "A clear distinction between confirmed shipment events and actions still pending. No assumed arrival dates.",
+                "Know what needs you next.",
+                "See recorded package updates and outstanding requests together. Check the next action without piecing it together yourself.",
               ],
             ].map(([number, title, copy]) => (
               <article className="m-feature" key={number}>
@@ -151,33 +102,47 @@ export default function Home() {
               </article>
             ))}
           </div>
+          <div className="m-experience-link">
+            <Link className="m-text-link" href="/preview/app">
+              Try the customer app demo <span aria-hidden="true">↗</span>
+            </Link>
+            <span>
+              Explore with fictional sample packages. No account needed.
+            </span>
+          </div>
         </div>
       </section>
-      <section className="m-section m-soft">
+      <section className="m-section">
         <div className="m-container m-split">
           <div>
-            <Eyebrow>From order to next step</Eyebrow>
+            <Eyebrow>Before you click “buy”</Eyebrow>
             <h2>
               A little preparation.
               <br />A clearer journey.
             </h2>
             <p className="m-prose">
-              Know the process before you place an order. Start with a verified
-              account and approved address, then prepare the information your
-              package needs.
+              Found something you love? First, understand the shipping process.
+              Confirm service availability, an approved address and the
+              applicable charges before placing your order.
             </p>
             <ButtonLink href="/how-it-works" secondary>
-              See how it works
+              Plan your first shipment
             </ButtonLink>
           </div>
           <ol className="m-process">
             {[
-              ["Register & verify", "Wait for your approved shipping address."],
               [
-                "Shop & prepare",
-                "Add a pre-alert and the requested documents.",
+                "Start with your account",
+                "Registration and address activation are not yet open. Explore the steps now so you know what to expect.",
               ],
-              ["Track & act", "Follow confirmed updates and required actions."],
+              [
+                "Prepare your purchase details",
+                "Once your account and address are approved, add a pre-alert and any requested documents.",
+              ],
+              [
+                "Follow the next step",
+                "Check recorded updates and requests in your account. Shipment dates are confirmed separately.",
+              ],
             ].map(([title, description], i) => (
               <li key={title}>
                 <span>{String(i + 1).padStart(2, "0")}</span>
@@ -190,47 +155,51 @@ export default function Home() {
           </ol>
         </div>
       </section>
-      <section className="m-section">
-        <div className="m-container m-business-band">
-          <div>
-            <Eyebrow>For resellers & regular importers</Eyebrow>
+      <section className="m-section m-business-story">
+        <div className="m-container m-story-grid">
+          <figure className="m-lifestyle m-business-lifestyle">
+            <div className="m-lifestyle-frame">
+              <Image
+                src="/marketing/small-business-jamaica.webp"
+                alt="Illustrative scene of a Jamaican small-business owner checking textiles and purchase details at his studio table"
+                fill
+                sizes="(max-width: 900px) 100vw, 50vw"
+              />
+            </div>
+          </figure>
+          <div className="m-story-copy">
+            <Eyebrow>For the business you’re building</Eyebrow>
             <h2>
-              Your business has
+              Big plans.
               <br />
-              enough moving parts.
+              Small details.
+              <br />
+              <em>Keep them together.</em>
             </h2>
             <p>
-              Tell us what you import and how often. Business arrangements and
-              pricing require review before they can be confirmed.
+              When a purchase is part of your livelihood, the details matter.
+              Explore a place for your package information and documents, then
+              tell us what your business needs.
             </p>
             <ButtonLink href="/business">Explore business shipping</ButtonLink>
-          </div>
-          <div className="m-business-note">
-            <span aria-hidden="true">↗</span>
-            <h3>
-              More context.
-              <br />
-              Better conversations.
-            </h3>
-            <p>
-              Your volume, product categories and document needs help shape the
-              right conversation.
+            <p className="m-small">
+              Business services, arrangements and pricing require confirmation.
             </p>
-            <Link href="/business#inquiry">Start a business inquiry →</Link>
           </div>
         </div>
       </section>
-      <section className="m-section m-soft">
+      <section className="m-section m-warm">
         <div className="m-container m-split">
           <div>
-            <Eyebrow>Before you ship</Eyebrow>
+            <Eyebrow>Confidence starts with the facts</Eyebrow>
             <h2>
-              Good questions.
+              Before you commit,
               <br />
-              Clear answers.
+              get clear.
             </h2>
             <p>
-              Start with the facts, including what is still being confirmed.
+              Check what’s available, what you’ll need and what still needs
+              confirmation.
             </p>
             <Link className="m-text-link" href="/help">
               Visit the help centre ↗

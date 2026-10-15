@@ -1,3 +1,4 @@
+import Image from "next/image";
 import {
   PageIntro,
   Notice,
@@ -15,15 +16,29 @@ export const metadata = pageMetadata(
 export default function Business() {
   return (
     <div className="m-container m-content-bottom">
-      <PageIntro
-        eyebrow="For resellers & regular importers"
-        title="Built around the way you buy."
-      >
-        <p>
-          More orders mean more details to manage. Tell us about your volume,
-          products and shipping needs so the right arrangements can be reviewed.
-        </p>
-      </PageIntro>
+      <div className="m-business-intro">
+        <PageIntro
+          eyebrow="For resellers & regular importers"
+          title="Built around the way you buy."
+        >
+          <p>
+            More orders mean more details to manage. Tell us about your volume,
+            products and shipping needs so the right arrangements can be
+            reviewed.
+          </p>
+        </PageIntro>
+        <figure className="m-lifestyle">
+          <div className="m-lifestyle-frame">
+            <Image
+              src="/marketing/small-business-jamaica.webp"
+              alt="Illustrative scene of a Jamaican small-business owner checking a purchase in his studio"
+              fill
+              priority
+              sizes="(max-width: 900px) 100vw, 50vw"
+            />
+          </div>
+        </figure>
+      </div>
       <div className="m-split">
         <div>
           <h2>Start with your needs.</h2>

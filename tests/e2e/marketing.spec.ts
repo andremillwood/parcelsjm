@@ -41,7 +41,7 @@ test("home acquisition CTAs and business registration preserve intent", async ({
 }) => {
   await page.goto("/");
   await page
-    .getByRole("link", { name: "Get your US shipping address", exact: false })
+    .getByRole("link", { name: "Explore registration", exact: false })
     .first()
     .click();
   await expect(page).toHaveURL(/\/register$/);

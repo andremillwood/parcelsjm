@@ -65,7 +65,7 @@ export function CTA() {
           <p>Explore how your Parcels JA account will work.</p>
         </div>
         <div>
-          <ButtonLink href="/register">Get your US shipping address</ButtonLink>
+          <ButtonLink href="/register">Explore registration</ButtonLink>
           <p className="m-small">
             Registration preview. Address activation is not yet available.
           </p>
