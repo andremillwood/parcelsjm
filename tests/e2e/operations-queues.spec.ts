@@ -53,7 +53,9 @@ test("work queue filters, pagination and assignment preview remain truthful", as
     ).violations,
   ).toEqual([]);
   await page.getByRole("link", { name: "Reset filters" }).click();
-  await page.getByLabel("Assignment", { exact: true }).selectOption("mine");
+  await page
+    .getByRole("combobox", { name: "Assignment", exact: true })
+    .selectOption("mine");
   await page.getByRole("button", { name: "Apply filters" }).click();
   await expect(
     page.getByRole("heading", { name: "No matching work" }),
