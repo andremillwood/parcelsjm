@@ -14,6 +14,7 @@ export async function POST(
     const body = await readJson(request);
     const { client } = identity;
     const staffActions: Record<string, string[]> = {
+      correction: ["owner", "operations"],
       event: ["owner", "operations"],
       intake: ["owner", "operations"],
       match: ["owner", "operations"],
@@ -32,6 +33,7 @@ export async function POST(
         return reply(403, "This action requires an authorized staff role.");
     }
 
+    // Queue authorization is source-specific and is enforced atomically by its RPC.
     let result;
     switch (action) {
       case "pre-alert": {
@@ -92,6 +94,31 @@ export async function POST(
           p_source: d.source,
           p_reason: d.reason,
           p_occurred: d.occurred,
+        });
+        break;
+      }
+      case "correction": {
+        const d = workspaceSchemas.correction.parse(body);
+        result = await client.rpc("correct_package_event", {
+          p_package: d.packageId,
+          p_event: d.eventId,
+          p_status: d.status,
+          p_source: d.source,
+          p_reason: d.reason,
+          p_explanation: d.explanation,
+          p_occurred: d.occurred,
+        });
+        break;
+      }
+      case "queue": {
+        const d = workspaceSchemas.queue.parse(body);
+        result = await client.rpc("manage_operational_task", {
+          p_id: d.id,
+          p_version: d.version,
+          p_assignee: d.assignee || null,
+          p_priority: d.priority,
+          p_due: d.due || null,
+          p_reason: d.reason,
         });
         break;
       }

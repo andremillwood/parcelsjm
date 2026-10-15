@@ -7,8 +7,12 @@ import { AuthForm } from "../../../../components/auth/auth-form";
 export const dynamic = "force-dynamic";
 export default async function AppPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ path?: string[] }>;
+  searchParams: Promise<
+    import("../../../../lib/workspace/pagination").QueryParams
+  >;
 }) {
   const identity = await requireIdentity();
   const { data: assignments } = await identity.client
@@ -48,7 +52,12 @@ export default async function AppPage({
       ) : (
         <CustomerWorkspace
           path={section}
-          data={await loadWorkspace(identity)}
+          data={await loadWorkspace(
+            identity,
+            false,
+            section,
+            await searchParams,
+          )}
         />
       )}
     </WorkspaceShell>

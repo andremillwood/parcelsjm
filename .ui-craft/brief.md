@@ -38,3 +38,7 @@ Homepage: marketing refresh, variance 6, existing navy/yellow and Inter. Signatu
 ## 8. Signup form scope
 
 Customer signup has grouped contact, identity/address and security fields. Personal/business intent is preserved. The disabled preview uses sample inputs, performs local validation only and clears sensitive fields on success. No draft autosave or browser storage is permitted for identity values or passwords. Existing branding and CSS-only interactions apply. The success signal is an accessible validated preview, followed by honest verification/onboarding guidance; enabling live signup or email is outside this pass.
+
+## Operations queues increment
+
+Owner-authorized scope supersedes the earlier marketing-only exclusions for this increment. Preserve the workspace navy/yellow, Inter and scoped CSS. Operator command composition: filters, priority/aging, source link, then progressively disclosed assignment controls. No charts or motion additions. Signature is a yellow work-item edge, not an invented metric. Mobile stacks controls; all records are searchable/paginated server-side. Empty, failed, closed, stale-conflict and forbidden states must remain distinct. Corrections retain prior events visibly.

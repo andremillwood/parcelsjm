@@ -1,31 +1,83 @@
 import "server-only";
 import type { getIdentity } from "../auth/session";
+import { listOptions, type QueryParams } from "./pagination";
 import type { WorkspaceData, PackageRecord } from "./model";
 export async function loadWorkspace(
   identity: NonNullable<Awaited<ReturnType<typeof getIdentity>>>,
   admin = false,
+  section = "",
+  params: QueryParams = {},
 ): Promise<WorkspaceData> {
   const c = identity.client;
+  const o = listOptions(params),
+    detail = section.startsWith("packages/") ? section.split("/")[1] : null;
+  const collection =
+    section === "packages"
+      ? "packages"
+      : section === "support"
+        ? "support"
+        : section === "customers"
+          ? "customers"
+          : section === "intake"
+            ? "intake"
+            : section === "audit"
+              ? "audit"
+              : section === "documents"
+                ? "documents"
+                : null;
   let query = c
     .from("packages")
     .select(
       "id,profile_id,carrier_tracking,merchant,description,status,document_state,payment_state,declared_value,declared_currency,created_at",
+      { count: "exact" },
     )
     .order("created_at", { ascending: false })
-    .limit(100);
+    .order("id");
+  if (detail) query = query.eq("id", detail);
+  else if (collection === "packages") {
+    if (o.search)
+      query = query.or(
+        `carrier_tracking.ilike.%${o.search}%,merchant.ilike.%${o.search}%,description.ilike.%${o.search}%`,
+      );
+    if (o.status === "action") query = query.eq("document_state", "requested");
+    else if (
+      [
+        "pre_alerted",
+        "received_us",
+        "processing_us",
+        "in_transit",
+        "arrived_jm",
+      ].includes(o.status)
+    )
+      query = query.eq("status", o.status);
+    query = query.range(o.from, o.to);
+  } else query = query.limit(25);
   if (!admin) query = query.eq("profile_id", identity.user.id);
+  let supportQuery = c
+    .from("support_requests")
+    .select("id,subject,body,status,reply,created_at", { count: "exact" })
+    .order("created_at", { ascending: false })
+    .order("id");
+  if (collection === "support") {
+    if (o.search)
+      supportQuery = /^[a-f0-9-]{36}$/.test(o.search)
+        ? supportQuery.eq("id", o.search)
+        : supportQuery.ilike("subject", `%${o.search}%`);
+    supportQuery = supportQuery.range(o.from, o.to);
+  } else supportQuery = supportQuery.limit(25);
+  let eventQuery = c
+    .from("package_events")
+    .select(
+      "id,package_id,status,occurred_at,sequence,corrects_event_id,correction_reason",
+    )
+    .order("sequence");
+  // Detail lookup must not depend on the first page of packages or other customers' events.
+  if (detail) eventQuery = eventQuery.eq("package_id", detail);
+  else eventQuery = eventQuery.limit(100);
   const [packages, support, events] = await Promise.all([
     query,
-    c
-      .from("support_requests")
-      .select("id,subject,body,status,reply,created_at")
-      .order("created_at", { ascending: false })
-      .limit(100),
-    c
-      .from("package_events")
-      .select("id,package_id,status,occurred_at")
-      .order("occurred_at")
-      .limit(500),
+    supportQuery,
+    eventQuery,
   ]);
   const data: WorkspaceData = {
     name: identity.profile.full_name || "Customer",
@@ -37,6 +89,12 @@ export async function loadWorkspace(
     support: support.data ?? [],
     events: events.data ?? [],
   };
+  if (collection === "packages" || collection === "support")
+    data.pagination = {
+      page: o.page,
+      total: (collection === "packages" ? packages.count : support.count) ?? 0,
+      params,
+    };
   if (packages.error || support.error || events.error)
     data.error =
       "Some records could not be loaded. Please retry; counts may be incomplete.";
@@ -48,11 +106,22 @@ export async function loadWorkspace(
     .from("document_requests")
     .select(
       "id,profile_id,package_id,document_type,instructions,status,version,created_at",
+      { count: "exact" },
     )
     .order("created_at", { ascending: false })
-    .limit(100);
+    .order("id");
+  if (collection === "documents") {
+    if (o.search)
+      requestsQuery = /^[a-f0-9-]{36}$/.test(o.search)
+        ? requestsQuery.eq("id", o.search)
+        : requestsQuery.ilike("document_type", `%${o.search}%`);
+    requestsQuery = requestsQuery.range(o.from, o.to);
+  } else if (detail) requestsQuery = requestsQuery.eq("package_id", detail);
+  else requestsQuery = requestsQuery.limit(25);
   if (!admin) requestsQuery = requestsQuery.eq("profile_id", identity.user.id);
   const requests = await requestsQuery;
+  if (collection === "documents")
+    data.pagination = { page: o.page, total: requests.count ?? 0, params };
   const ids = (requests.data ?? []).map((r) => r.id);
   const [uploads, history] = ids.length
     ? await Promise.all([
@@ -91,27 +160,54 @@ export async function loadWorkspace(
     data.error =
       "Document records could not be loaded. Refresh before taking action.";
   if (admin) {
+    function staffList(
+      table: string,
+      fields: string,
+      key: string,
+      searchField: string,
+    ) {
+      let q = c
+        .from(table)
+        .select(fields, { count: "exact" })
+        .order("created_at", { ascending: false })
+        .order("id");
+      if (collection !== key) return q.limit(25);
+      if (o.search)
+        q = /^[a-f0-9-]{36}$/.test(o.search)
+          ? q.eq("id", o.search)
+          : q.ilike(searchField, `%${o.search}%`);
+      return q.range(o.from, o.to);
+    }
     const [customers, intake, audit, warehouses] = await Promise.all([
-      c
-        .from("profiles")
-        .select("id,full_name,account_status")
-        .order("created_at", { ascending: false })
-        .limit(100),
-      c
-        .from("intake_observations")
-        .select("id,tracking,source_reference,package_id,created_at")
-        .order("created_at", { ascending: false })
-        .limit(100),
-      c
-        .from("audit_logs")
-        .select("id,entity_type,entity_id,action,reason,created_at")
-        .order("created_at", { ascending: false })
-        .limit(100),
+      staffList(
+        "profiles",
+        "id,full_name,account_status",
+        "customers",
+        "full_name",
+      ),
+      staffList(
+        "intake_observations",
+        "id,tracking,source_reference,package_id,created_at",
+        "intake",
+        "tracking",
+      ),
+      staffList(
+        "audit_logs",
+        "id,entity_type,entity_id,action,reason,created_at",
+        "audit",
+        "action",
+      ),
       c.from("warehouses").select("id,name").eq("active", true),
     ]);
-    data.customers = customers.data ?? [];
-    data.intake = intake.data ?? [];
-    data.audit = audit.data ?? [];
+    const current = { customers, intake, audit }[
+      collection as "customers" | "intake" | "audit"
+    ];
+    if (current)
+      data.pagination = { page: o.page, total: current.count ?? 0, params };
+    data.customers = (customers.data ??
+      []) as unknown as WorkspaceData["customers"];
+    data.intake = (intake.data ?? []) as unknown as WorkspaceData["intake"];
+    data.audit = (audit.data ?? []) as unknown as WorkspaceData["audit"];
     data.warehouses = warehouses.data ?? [];
     if (customers.error || intake.error || audit.error || warehouses.error)
       data.error =
