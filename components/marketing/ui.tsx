@@ -2,7 +2,20 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 
 export function Arrow() {
-  return <span aria-hidden="true">↗</span>;
+  return (
+    <svg
+      className="m-arrow"
+      viewBox="0 0 20 20"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M4 16 16 4M5 4h11v11" />
+    </svg>
+  );
 }
 export function ButtonLink({
   href,
@@ -56,11 +69,10 @@ export function CTA() {
     <section className="m-cta">
       <div className="m-container m-split">
         <div>
-          <Eyebrow>Your next step</Eyebrow>
           <h2>
-            A clearer journey
+            Get to know your
             <br />
-            starts here.
+            Parcels JA account.
           </h2>
           <p>Explore how your Parcels JA account will work.</p>
         </div>
