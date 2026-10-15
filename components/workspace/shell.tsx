@@ -22,6 +22,7 @@ export function WorkspaceShell({
   const links = admin
     ? [
         ["", "Overview"],
+        ["queues", "Work queues"],
         ["customers", "Customers"],
         ["packages", "Packages"],
         ["intake", "Unmatched intake"],

@@ -1,9 +1,10 @@
+import { Pagination, RecordSearch } from "./pagination";
 import { Documents } from "./documents";
 import type { WorkspaceData } from "../../lib/workspace/model";
 import { Heading, Action, Empty, Notice, Pill } from "./ui";
 import { PackageList } from "./packages";
 import { WorkspaceForm } from "./forms";
-export function CustomerWorkspace({
+function CustomerContent({
   data,
   path,
   rootOverride,
@@ -59,7 +60,21 @@ export function CustomerWorkspace({
                       <li key={event.id}>
                         <span />
                         <div>
-                          <strong>{event.status.replaceAll("_", " ")}</strong>
+                          <strong>
+                            {event.corrects_event_id ? "Correction: " : ""}
+                            {event.status.replaceAll("_", " ")}
+                          </strong>
+                          {data.events?.some(
+                            (e) => e.corrects_event_id === event.id,
+                          ) && (
+                            <p>
+                              Superseded by a correction below; retained for
+                              history.
+                            </p>
+                          )}
+                          {event.correction_reason && (
+                            <p>{event.correction_reason}</p>
+                          )}
                           <small>
                             {new Date(event.occurred_at).toLocaleString(
                               "en-JM",
@@ -141,7 +156,11 @@ export function CustomerWorkspace({
         >
           Find your orders and see what needs your attention.
         </Heading>
-        <PackageList packages={packages} root={root} />
+        <PackageList
+          packages={packages}
+          root={root}
+          serverPagination={data.pagination}
+        />
       </>
     );
   if (path === "pre-alert/new")
@@ -277,7 +296,11 @@ export function CustomerWorkspace({
             <h2>Your latest packages</h2>
             <a href={`${root}/packages`}>View all ↗</a>
           </div>
-          <PackageList packages={packages} root={root} />
+          <PackageList
+            packages={packages}
+            root={root}
+            serverPagination={data.pagination}
+          />
         </section>
         <aside className="w-address-card">
           <p className="w-eyebrow">Your US shipping address</p>
@@ -309,6 +332,22 @@ export function CustomerWorkspace({
           Review the process
         </Action>
       </section>
+    </>
+  );
+}
+
+export function CustomerWorkspace(props: {
+  data: WorkspaceData;
+  path: string;
+  rootOverride?: string;
+}) {
+  return (
+    <>
+      {!props.rootOverride && props.path !== "packages" && (
+        <RecordSearch data={props.data.pagination} />
+      )}
+      <CustomerContent {...props} />
+      {!props.rootOverride && <Pagination data={props.data.pagination} />}
     </>
   );
 }

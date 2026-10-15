@@ -13,6 +13,7 @@ export type PackageRecord = {
   created_at: string;
 };
 export type WorkspaceData = {
+  pagination?: import("./pagination").Pagination;
   documents?: DocumentData;
   name: string;
   accountType: string;
@@ -28,6 +29,9 @@ export type WorkspaceData = {
     package_id: string;
     status: string;
     occurred_at: string;
+    sequence?: number;
+    corrects_event_id?: string | null;
+    correction_reason?: string | null;
   }[];
   support?: {
     id: string;

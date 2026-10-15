@@ -7,6 +7,7 @@ type Field = {
   value?: string;
   options?: { value: string; label: string }[];
   type?: string;
+  optional?: boolean;
 };
 export function StaffForm({
   action,
@@ -35,8 +36,10 @@ export function StaffForm({
         setBusy(true);
         try {
           const d = Object.fromEntries(new FormData(e.currentTarget));
-          if (action === "event")
+          if (action === "event" || action === "correction")
             d.occurred = new Date(String(d.occurred)).toISOString();
+          if (action === "queue" && d.due)
+            d.due = new Date(String(d.due) + "-05:00").toISOString();
           const response = await fetch(`/api/workspace/${action}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -62,7 +65,11 @@ export function StaffForm({
             <label key={f.name}>
               {f.label}
               {f.options ? (
-                <select required name={f.name} defaultValue={f.value}>
+                <select
+                  required={!f.optional}
+                  name={f.name}
+                  defaultValue={f.value}
+                >
                   <option value="">Select…</option>
                   {f.options.map((o) => (
                     <option key={o.value} value={o.value}>
@@ -72,7 +79,7 @@ export function StaffForm({
                 </select>
               ) : (
                 <input
-                  required
+                  required={!f.optional}
                   name={f.name}
                   type={f.type ?? "text"}
                   defaultValue={f.value}

@@ -967,3 +967,72 @@
   flex-shrink: 0;
   white-space: nowrap;
 }
+
+.w-pagination,
+.w-task-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.w-pagination {
+  margin: 24px 0;
+}
+.w-pagination div {
+  display: flex;
+  gap: 12px;
+}
+.w-queue-filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  align-items: end;
+}
+.w-task {
+  margin: 16px 0;
+  border-left: 4px solid var(--w-yellow);
+}
+.w-task h2 {
+  overflow-wrap: anywhere;
+}
+.w-task details {
+  margin-top: 20px;
+}
+.w-task summary {
+  cursor: pointer;
+  min-height: 44px;
+  padding: 10px 0;
+  font-weight: 600;
+}
+.w-task .w-dl {
+  margin-bottom: 20px;
+}
+.w-task .w-dl dd {
+  overflow-wrap: anywhere;
+}
+.w-queue-filters label {
+  display: grid;
+  gap: 6px;
+}
+.w-queue-filters input,
+.w-queue-filters select {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid var(--w-line);
+  border-radius: 6px;
+  padding: 8px;
+  background: white;
+  color: var(--w-ink);
+}
+.w-queue-filters .w-check {
+  display: flex;
+  align-items: center;
+}
+.w-queue-filters input[type="checkbox"] {
+  width: 20px;
+  min-height: 20px;
+}
+.w-task .w-task-heading p {
+  margin-bottom: 8px;
+}
