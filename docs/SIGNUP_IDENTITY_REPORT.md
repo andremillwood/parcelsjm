@@ -1,5 +1,7 @@
 # Customer signup identity increment
 
+Follow-up: see [Signup Auth provisioning fix](SIGNUP_AUTH_FIX_REPORT.md) for the confirmed-create replay guard and provider identity redaction. The original verification below is historical; it does not establish live-signup acceptance.
+
 Scope: required nine-digit TRN and full residential address for personal/business signup; one shared preview/live form; password confirmation, inline validation, focus/error/success handling and accurate next steps. Live signup and Resend remain disabled.
 
 ## Data handling
