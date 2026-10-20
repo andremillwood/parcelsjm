@@ -1,3 +1,5 @@
+import { Billing } from "../../../../components/workspace/billing";
+import { loadBilling } from "../../../../lib/billing/load";
 import { loadWorkspace } from "../../../../lib/workspace/load";
 import { notFound } from "next/navigation";
 import { requireIdentity } from "../../../../lib/auth/session";
@@ -7,8 +9,12 @@ import { AuthForm } from "../../../../components/auth/auth-form";
 export const dynamic = "force-dynamic";
 export default async function AppPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ path?: string[] }>;
+  searchParams: Promise<
+    import("../../../../lib/workspace/pagination").QueryParams
+  >;
 }) {
   const identity = await requireIdentity();
   const { data: assignments } = await identity.client
@@ -30,7 +36,8 @@ export default async function AppPage({
       "onboarding",
       "security",
     ].includes(section) &&
-    !/^packages\/[a-f0-9-]{36}$/.test(section)
+    !/^packages\/[a-f0-9-]{36}$/.test(section) &&
+    !/^billing\/[a-f0-9-]{36}$/.test(section)
   )
     notFound();
   return (
@@ -40,7 +47,16 @@ export default async function AppPage({
       name={identity.profile.full_name || "Customer"}
       path={section}
     >
-      {section === "security" ? (
+      {section.startsWith("billing") ? (
+        <Billing
+          id={section.split("/")[1]}
+          data={await loadBilling(
+            identity,
+            await searchParams,
+            section.split("/")[1],
+          )}
+        />
+      ) : section === "security" ? (
         <>
           <h1>Account security</h1>
           <AuthForm mode="password" available />
@@ -48,7 +64,12 @@ export default async function AppPage({
       ) : (
         <CustomerWorkspace
           path={section}
-          data={await loadWorkspace(identity)}
+          data={await loadWorkspace(
+            identity,
+            false,
+            section,
+            await searchParams,
+          )}
         />
       )}
     </WorkspaceShell>

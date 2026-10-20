@@ -1,4 +1,5 @@
 "use client";
+import { SHIPMENT_STATES } from "../../lib/billing/pricing";
 import { useState } from "react";
 import Link from "next/link";
 import type { PackageRecord } from "../../lib/workspace/model";
@@ -6,9 +7,11 @@ import { Pill, Empty } from "./ui";
 export function PackageList({
   packages,
   root,
+  serverPagination,
 }: {
   packages: PackageRecord[];
   root: string;
+  serverPagination?: import("../../lib/workspace/pagination").Pagination;
 }) {
   const [search, setSearch] = useState(""),
     [status, setStatus] = useState("all");
@@ -24,26 +27,56 @@ export function PackageList({
   );
   return (
     <section className="w-panel">
-      <div className="w-toolbar">
-        <label>
-          <span className="sr-only">Search packages</span>
-          <input
-            type="search"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search tracking, store or item…"
-          />
-        </label>
-        <label>
-          <span className="sr-only">Filter packages</span>
-          <select value={status} onChange={(e) => setStatus(e.target.value)}>
-            <option value="all">All packages</option>
-            <option value="action">Action needed</option>
-            <option value="pre_alerted">Pre-alerted</option>
-            <option value="in_transit">In transit</option>
-          </select>
-        </label>
-      </div>
+      {serverPagination ? (
+        <form method="get" className="w-toolbar">
+          <label>
+            Search packages
+            <input
+              name="q"
+              type="search"
+              defaultValue={String(serverPagination.params.q ?? "")}
+              maxLength={120}
+            />
+          </label>
+          <label>
+            Filter packages
+            <select
+              name="status"
+              defaultValue={String(serverPagination.params.status ?? "all")}
+            >
+              <option value="all">All packages</option>
+              <option value="action">Action needed</option>
+              {SHIPMENT_STATES.map((s) => (
+                <option key={s} value={s}>
+                  {s.replaceAll("_", " ")}
+                </option>
+              ))}
+            </select>
+          </label>
+          <button className="w-button">Search all records</button>
+        </form>
+      ) : (
+        <div className="w-toolbar">
+          <label>
+            <span className="sr-only">Search packages</span>
+            <input
+              type="search"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search tracking, store or item…"
+            />
+          </label>
+          <label>
+            <span className="sr-only">Filter packages</span>
+            <select value={status} onChange={(e) => setStatus(e.target.value)}>
+              <option value="all">All packages</option>
+              <option value="action">Action needed</option>
+              <option value="pre_alerted">Pre-alerted</option>
+              <option value="in_transit">In transit</option>
+            </select>
+          </label>
+        </div>
+      )}
       {filtered.length ? (
         <div className="w-package-list">
           {filtered.map((p) => (

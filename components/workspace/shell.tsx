@@ -22,12 +22,14 @@ export function WorkspaceShell({
   const links = admin
     ? [
         ["", "Overview"],
+        ["queues", "Work queues"],
         ["customers", "Customers"],
         ["packages", "Packages"],
+        ["shipments", "Consolidations"],
         ["intake", "Unmatched intake"],
         ["documents", "Document review"],
         ["support", "Support"],
-        ["billing", "Billing & rates"],
+        ["billing", "Billing & collections"],
         ["audit", "Audit history"],
         ["settings", "Settings"],
       ]

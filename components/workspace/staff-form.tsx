@@ -7,6 +7,7 @@ type Field = {
   value?: string;
   options?: { value: string; label: string }[];
   type?: string;
+  optional?: boolean;
 };
 export function StaffForm({
   action,
@@ -35,9 +36,20 @@ export function StaffForm({
         setBusy(true);
         try {
           const d = Object.fromEntries(new FormData(e.currentTarget));
-          if (action === "event")
+          if (action === "event" || action === "correction")
             d.occurred = new Date(String(d.occurred)).toISOString();
-          const response = await fetch(`/api/workspace/${action}`, {
+          if ((action === "queue" || action === "billing-draft") && d.due)
+            d.due = new Date(String(d.due) + "-05:00").toISOString();
+          if (action === "billing-rate")
+            d.effective = new Date(
+              String(d.effective) + "-05:00",
+            ).toISOString();
+          const endpoint = action.startsWith("billing-")
+            ? `/api/billing/${action.slice(8)}`
+            : action.startsWith("shipment-")
+              ? `/api/shipments/${action.slice(9)}`
+              : `/api/workspace/${action}`;
+          const response = await fetch(endpoint, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(d),
@@ -62,7 +74,11 @@ export function StaffForm({
             <label key={f.name}>
               {f.label}
               {f.options ? (
-                <select required name={f.name} defaultValue={f.value}>
+                <select
+                  required={!f.optional}
+                  name={f.name}
+                  defaultValue={f.value}
+                >
                   <option value="">Select…</option>
                   {f.options.map((o) => (
                     <option key={o.value} value={o.value}>
@@ -72,7 +88,7 @@ export function StaffForm({
                 </select>
               ) : (
                 <input
-                  required
+                  required={!f.optional}
                   name={f.name}
                   type={f.type ?? "text"}
                   defaultValue={f.value}

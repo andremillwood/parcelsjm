@@ -1,3 +1,4 @@
+import { SHIPMENT_STATES } from "../billing/pricing";
 import { z } from "zod";
 const text = (min: number, max: number) => z.string().trim().min(min).max(max);
 const reason = text(5, 2000),
@@ -29,7 +30,16 @@ export const workspaceSchemas = {
   event: z.object({
     packageId: uuid,
     expected: text(1, 40),
+    status: z.enum(SHIPMENT_STATES),
+    source: text(5, 500),
+    reason,
+    occurred: z.iso.datetime(),
+  }),
+  correction: z.object({
+    packageId: uuid,
+    eventId: uuid,
     status: z.enum([
+      "pre_alerted",
       "received_us",
       "processing_us",
       "in_transit",
@@ -37,7 +47,16 @@ export const workspaceSchemas = {
     ]),
     source: text(5, 500),
     reason,
+    explanation: text(5, 1000),
     occurred: z.iso.datetime(),
+  }),
+  queue: z.object({
+    id: uuid,
+    version: z.coerce.number().int().positive(),
+    assignee: z.union([uuid, z.literal("")]),
+    priority: z.coerce.number().int().min(0).max(3),
+    due: z.union([z.iso.datetime(), z.literal("")]),
+    reason,
   }),
   intake: z.object({ tracking: text(1, 120), source: text(5, 500), reason }),
   match: z.object({ id: uuid, packageId: uuid, reason }),

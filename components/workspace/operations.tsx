@@ -1,10 +1,12 @@
+import { NEXT_STATES } from "../../lib/billing/pricing";
+import { Pagination, RecordSearch } from "./pagination";
 import { Documents } from "./documents";
 import { StaffForm } from "./staff-form";
 import { CustomerWorkspace } from "./customer";
 import { Heading, Action, Empty, Notice, Pill } from "./ui";
 import { PackageList } from "./packages";
 import type { WorkspaceData } from "../../lib/workspace/model";
-export function OperationsWorkspace({
+function OperationsContent({
   data,
   path,
 }: {
@@ -14,16 +16,101 @@ export function OperationsWorkspace({
   const root = data.demo ? "/preview/admin" : "/admin";
   if (path.startsWith("packages/")) {
     const p = data.packages.find((p) => p.id === path.split("/")[1]);
-    const next: Record<string, string> = {
-      pre_alerted: "received_us",
-      received_us: "processing_us",
-      processing_us: "in_transit",
-      in_transit: "arrived_jm",
-    };
+    const next = NEXT_STATES;
+    const latest = data.events?.filter((e) => e.package_id === p?.id).at(-1);
+    const chain = [
+      "pre_alerted",
+      "received_us",
+      "processing_us",
+      "in_transit",
+      "arrived_jm",
+    ];
+    const original = (() => {
+      let e = latest;
+      while (e?.corrects_event_id) {
+        const parent = data.events?.find((x) => x.id === e?.corrects_event_id);
+        if (!parent) break;
+        e = parent;
+      }
+      return e;
+    })();
+    const prior = original
+      ? data.events
+          ?.filter(
+            (e) =>
+              e.package_id === p?.id &&
+              (e.sequence ?? 0) < (original.sequence ?? 0),
+          )
+          .at(-1)
+      : null;
     return (
       <>
         <CustomerWorkspace path={path} data={data} rootOverride={root} />
-        {p && next[p.status] && (
+        {p &&
+          latest &&
+          [
+            "pre_alerted",
+            "received_us",
+            "processing_us",
+            "in_transit",
+            "arrived_jm",
+          ].includes(p.status) && (
+            <details className="w-panel w-pad">
+              <summary>Correct the latest checkpoint</summary>
+              <Notice>
+                Repair its evidence/time or retract it to the previous
+                checkpoint. The original stays visible, and a customer-visible
+                explanation is required. Refresh before correcting.
+              </Notice>
+              <StaffForm
+                demo={data.demo}
+                action="correction"
+                title="Append shipment correction"
+                fields={[
+                  {
+                    name: "packageId",
+                    label: "Package",
+                    type: "hidden",
+                    value: p.id,
+                  },
+                  {
+                    name: "eventId",
+                    label: "Latest event",
+                    type: "hidden",
+                    value: latest.id,
+                  },
+                  {
+                    name: "status",
+                    label: "Corrected checkpoint",
+                    options: [
+                      ...new Set([
+                        original?.status ?? p.status,
+                        prior?.status ?? chain[0],
+                      ]),
+                    ].map((value) => ({
+                      value,
+                      label: value.replaceAll("_", " "),
+                    })),
+                  },
+                  {
+                    name: "source",
+                    label: "Verified evidence / source reference",
+                  },
+                  {
+                    name: "occurred",
+                    label: "Corrected effective time (your local time)",
+                    type: "datetime-local",
+                  },
+                  {
+                    name: "explanation",
+                    label: "Customer-visible explanation",
+                  },
+                  { name: "reason", label: "Internal audit reason" },
+                ]}
+              />
+            </details>
+          )}
+        {p && (next[p.status] || p.resume_status) && (
           <StaffForm
             demo={data.demo}
             action="event"
@@ -44,12 +131,13 @@ export function OperationsWorkspace({
               {
                 name: "status",
                 label: "Verified next state",
-                options: [
-                  {
-                    value: next[p.status],
-                    label: next[p.status].replaceAll("_", " "),
-                  },
-                ],
+                options: (p.status === "exception" && p.resume_status
+                  ? [p.resume_status, "returned"]
+                  : (next[p.status] ?? [])
+                ).map((value) => ({
+                  value,
+                  label: value.replaceAll("_", " "),
+                })),
               },
               { name: "source", label: "Evidence / source reference" },
               {
@@ -70,7 +158,11 @@ export function OperationsWorkspace({
         <Heading eyebrow="Shipment operations" title="Package workspace">
           Search records and review the evidence before updating a customer.
         </Heading>
-        <PackageList packages={data.packages} root={root} />
+        <PackageList
+          packages={data.packages}
+          root={root}
+          serverPagination={data.pagination}
+        />
       </>
     );
   if (path === "customers")
@@ -246,34 +338,6 @@ export function OperationsWorkspace({
         )}
       </>
     );
-  if (path === "billing")
-    return (
-      <>
-        <Heading eyebrow="Finance controls" title="Billing & approved rates">
-          Commercial rules must be approved before they become customer charges.
-        </Heading>
-        {data.error && <Notice>{data.error}</Notice>}
-        <div className="w-stats">
-          {["Rate publication", "Invoice issuance", "Online payments"].map(
-            (v) => (
-              <div className="w-stat" key={v}>
-                <span>{v}</span>
-                <strong className="w-stat-word">Not enabled</strong>
-                <small>Required approvals pending</small>
-              </div>
-            ),
-          )}
-        </div>
-        <Notice>
-          No historical tariff, proposed price or missing cost is treated as an
-          approved rate or zero cost.
-        </Notice>
-        <Empty title="Ready for approved rules">
-          Rate versions, immutable invoice lines and payment evidence will be
-          connected once pricing and reconciliation rules are approved.
-        </Empty>
-      </>
-    );
   if (path === "audit")
     return (
       <>
@@ -338,7 +402,7 @@ export function OperationsWorkspace({
       <Heading
         eyebrow="Operations workspace"
         title="Keep the next step moving."
-        action={<Action href={`${root}/intake`}>Review intake</Action>}
+        action={<Action href={`${root}/queues`}>Open work queues</Action>}
       >
         Prioritise exceptions, verify the facts and keep the customer informed.
       </Heading>
@@ -366,7 +430,7 @@ export function OperationsWorkspace({
             <small>
               {data.demo
                 ? "Fictional preview queue"
-                : "Visible to your staff role"}
+                : "Recent records only — use work queues for all work"}
             </small>
           </div>
         ))}
@@ -402,6 +466,22 @@ export function OperationsWorkspace({
         Resend and DMD are not connected in this preview. No notification or
         partner sync is claimed.
       </Notice>
+    </>
+  );
+}
+
+export function OperationsWorkspace(props: {
+  data: WorkspaceData;
+  path: string;
+}) {
+  return (
+    <>
+      {props.data.error && <Notice>{props.data.error}</Notice>}
+      {props.path !== "packages" && (
+        <RecordSearch data={props.data.pagination} />
+      )}
+      <OperationsContent {...props} />
+      <Pagination data={props.data.pagination} />
     </>
   );
 }

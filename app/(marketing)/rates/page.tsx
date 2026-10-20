@@ -5,7 +5,7 @@ import { pageMetadata } from "../../../lib/metadata";
 export const dynamic = "force-dynamic";
 export const metadata = pageMetadata(
   "Rates being updated",
-  "Shipping estimates are unavailable until current rates and charge inclusions are approved.",
+  "Shipping estimates are unavailable until the complete public quoting rules are confirmed.",
   "/rates",
 );
 export default function Rates() {
@@ -16,16 +16,17 @@ export default function Rates() {
         title="Clear costs start with confirmed rates."
       >
         <p>
-          We are preparing the price schedule. Historical tariffs and suggested
-          prices are not current shipping quotes.
+          The shipping schedule is approved for staff-issued invoices. A
+          complete public estimate also needs the applicable separate charges.
         </p>
       </PageIntro>
       <div className="m-split">
         <div>
           <Notice>
-            <strong>Estimate unavailable.</strong> No approved rate card is
-            published. The calculator will remain unavailable until rates and
-            charge inclusions are confirmed.
+            <strong>Estimate unavailable.</strong> The public calculator is not
+            activated. Customs duties/taxes, local delivery and storage are
+            separate assessed charges, so the shipping price alone is not a
+            complete quote.
           </Notice>
           <h2>What to look for in your quote</h2>
           <ul className="m-policy-list">
