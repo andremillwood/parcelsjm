@@ -32,7 +32,7 @@ export function ButtonLink({
       href={href}
     >
       {children}
-      <Arrow />
+      {!secondary && <Arrow />}
     </Link>
   );
 }

@@ -43,7 +43,7 @@ export function SiteHeader() {
             Sign in
           </Link>
           <Link className="m-button m-button-small" href="/register">
-            Explore registration <span aria-hidden="true">↗</span>
+            Explore registration
           </Link>
         </div>
         <button

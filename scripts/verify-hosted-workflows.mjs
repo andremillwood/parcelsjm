@@ -134,7 +134,7 @@ const share = fs.readFileSync(process.env.PREVIEW_ACCESS_FILE, "utf8");
     await staff.getByText("Matched", { exact: true }).waitFor();
     console.log("PASS hosted intake reconciliation");
     await a.goto(base + href);
-    await a.getByText("Received us", { exact: true }).waitFor();
+    await a.getByText("Received in US", { exact: true }).waitFor();
     assert(await a.getByText("received us", { exact: true }).count());
     console.log("PASS customer sees verified event");
     await staff.goto(base + "/admin" + href.slice(4));

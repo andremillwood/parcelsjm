@@ -1,8 +1,10 @@
 "use client";
+import { WorkspaceIcon } from "./icons";
+("use client");
 import { SHIPMENT_STATES } from "../../lib/billing/pricing";
 import { useState } from "react";
 import Link from "next/link";
-import type { PackageRecord } from "../../lib/workspace/model";
+import { label, type PackageRecord } from "../../lib/workspace/model";
 import { Pill, Empty } from "./ui";
 export function PackageList({
   packages,
@@ -48,7 +50,7 @@ export function PackageList({
               <option value="action">Action needed</option>
               {SHIPMENT_STATES.map((s) => (
                 <option key={s} value={s}>
-                  {s.replaceAll("_", " ")}
+                  {label(s)}
                 </option>
               ))}
             </select>
@@ -85,8 +87,8 @@ export function PackageList({
               key={p.id}
               href={`${root}/packages/${p.id}`}
             >
-              <span className="w-package-icon" aria-hidden="true">
-                □
+              <span className="w-package-icon">
+                <WorkspaceIcon name="package" />
               </span>
               <div className="w-package-description">
                 <strong>{p.merchant}</strong>
@@ -103,7 +105,7 @@ export function PackageList({
                       : "View package details"}
                 </small>
               </div>
-              <span aria-hidden="true">↗</span>
+              <WorkspaceIcon name="arrow" />
             </Link>
           ))}
         </div>
