@@ -717,7 +717,7 @@
   font-size: 11px;
   color: var(--w-muted);
 }
-.w-task-urgent {
+.w-task.w-task-urgent {
   border-left-color: var(--w-yellow);
 }
 .w-task .w-dl > div {
