@@ -1,6 +1,5 @@
 "use client";
 import { WorkspaceIcon } from "./icons";
-("use client");
 import { SHIPMENT_STATES } from "../../lib/billing/pricing";
 import { useState } from "react";
 import Link from "next/link";
