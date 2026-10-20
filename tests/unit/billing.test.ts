@@ -371,6 +371,15 @@ test("finance and fulfillment migration applies with ownership and role protecti
       "select public.adjust_billing_invoice($1,$2,'shipping',1000,'Post-handover adjustment','Verified charge correction')",
       [invoice, i.version],
     );
+    assert.equal(
+      (
+        await db.query<{ state: string }>(
+          "select state from public.operational_tasks where kind='invoice' and source_id=$1",
+          [invoice],
+        )
+      ).rows[0].state,
+      "open",
+    );
     await as(a);
     const heavy = await scalar(
       "select public.create_pre_alert(gen_random_uuid(),'FIN-HEAVY','Sample store','','Sample goods',1,12,'USD','')id",
@@ -444,6 +453,15 @@ test("finance and fulfillment migration applies with ownership and role protecti
         )
       ).rows[0].status,
       "delivered",
+    );
+    assert.equal(
+      (
+        await db.query<{ state: string }>(
+          "select state from public.operational_tasks where kind='shipment' and source_id=$1",
+          [pkg],
+        )
+      ).rows[0].state,
+      "closed",
     );
     assert.equal(
       (

@@ -116,7 +116,7 @@ export function Shipments({ data, id }: { data: ShipmentData; id?: string }) {
               </>
             )}
           </section>
-          {manage && (
+          {manage && !["closed", "cancelled"].includes(s.status) && (
             <>
               <StaffForm
                 key={`manifest-${s.version}`}

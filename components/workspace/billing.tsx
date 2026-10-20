@@ -99,7 +99,7 @@ export function Billing({
             : "JMD · issued charges and verified collections"}
         </Heading>
         {data.error && <p role="alert">{data.error}</p>}
-        <div className="w-stats">
+        <div className="w-stats w-billing-stats">
           <div className="w-stat">
             <span>Outstanding</span>
             <strong className="w-money">
@@ -180,7 +180,12 @@ export function Billing({
         </section>
         <section className="w-panel w-pad">
           <h2>Collection ledger</h2>
-          {data.payments.length ? (
+          {admin && !data.canManage ? (
+            <p>
+              Receipt details are restricted to finance staff. Verified net
+              collections are summarized above.
+            </p>
+          ) : data.payments.length ? (
             <ol className="w-ledger">
               {data.payments.map((p) => (
                 <li key={p.id}>
@@ -527,6 +532,12 @@ function InvoiceActions({
   invoice: Invoice;
   data: BillingData;
 }) {
+  if (i.status === "void")
+    return (
+      <Notice>
+        This invoice is void. Its financial history remains available.
+      </Notice>
+    );
   const fields = hidden(i),
     active = ["issued", "disputed"].includes(i.status);
   return (

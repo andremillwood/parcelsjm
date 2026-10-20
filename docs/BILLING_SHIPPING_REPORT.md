@@ -29,10 +29,11 @@ This increment uses the owner's 20 October 2026 approval of the supplied shippin
 
 - Local production build, formatting, lint and TypeScript checks passed.
 - Full local suite: 25 unit/database tests, 173 browser tests and 10 form tests passed; two existing mobile-menu cases skip at larger viewports. The expanded finance test additionally checks exact audit snapshots and case-folded references.
-- Full initial CI run [39452591199](https://github.com/andremillwood/parcelsjm/actions/runs/39452591199) passed, including dependency audit. Final hardening is carried in the subsequent branch revision and must pass the same CI gate.
+- Full initial CI run [39452591199](https://github.com/andremillwood/parcelsjm/actions/runs/39452591199) passed, including dependency audit. Final revisions use the same CI gate; the immutable commit/run result is available in [PR #9 checks](https://github.com/andremillwood/parcelsjm/pull/9/checks).
 - The `parcelsjm` Vercel preview was tested with three isolated synthetic identities through the browser, real API handlers and hosted Supabase. Verified draft/issue/payment UI, customer isolation, duplicate/stale denial, manual manifest/AWB sealing, unpaid/disputed/document release blocks, unscanned approval denial, actual-cost completeness, post-handover reversal, owner credit, batch closure, accessibility and disabled registration. No real customer shipment or payment was used.
 - Reproducible hosted harness: `scripts/verify-hosted-billing.mjs`. It requires an immutable Parcels preview URL and explicit private QA credential/access files. It never provisions real users or embeds secrets. Fixture provisioning and cleanup remain separate, scoped administrative actions.
 - Migrations through the exact audit/case-fold hardening form the new database foundation. They apply to the shared authorized Supabase backend; the production frontend and production feature flags remain unchanged. Billing is enabled only on this preview branch.
+- Hosted cleanup verified zero synthetic Auth users, profiles, invoices, packages, consolidations and warehouses; all QA sessions and temporary roles were removed. The real owner role remained present. Private payment evidence and internal audit helpers were not callable/selectable by ordinary authenticated users. Security advisors reported no issues after all four migrations.
 - Resend and DMD automation remain deferred. Public signup and policy approval remain disabled. The original logo and brand identity are preserved.
 
 ## Remaining launch decisions/work

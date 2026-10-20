@@ -1091,3 +1091,13 @@
     grid-column: 1/-1;
   }
 }
+
+.w-billing-stats .w-money {
+  font-size: clamp(1.65rem, 3vw, 2.5rem);
+  white-space: nowrap;
+}
+@media (max-width: 640px) {
+  .w-billing-stats {
+    grid-template-columns: 1fr;
+  }
+}
