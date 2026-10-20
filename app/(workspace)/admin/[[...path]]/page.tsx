@@ -1,3 +1,7 @@
+import { Shipments } from "../../../../components/workspace/shipments";
+import { loadShipments } from "../../../../lib/shipments/load";
+import { Billing } from "../../../../components/workspace/billing";
+import { loadBilling } from "../../../../lib/billing/load";
 import { Queues } from "../../../../components/workspace/queues";
 import { loadQueues } from "../../../../lib/workspace/queues";
 import { loadWorkspace } from "../../../../lib/workspace/load";
@@ -24,6 +28,7 @@ export default async function AdminPage({
       "queues",
       "customers",
       "packages",
+      "shipments",
       "intake",
       "documents",
       "support",
@@ -31,7 +36,9 @@ export default async function AdminPage({
       "audit",
       "settings",
     ].includes(section) &&
-    !/^packages\/[a-f0-9-]{36}$/.test(section)
+    !/^packages\/[a-f0-9-]{36}$/.test(section) &&
+    !/^billing\/[a-f0-9-]{36}$/.test(section) &&
+    !/^shipments\/[a-f0-9-]{36}$/.test(section)
   )
     notFound();
   return (
@@ -42,7 +49,26 @@ export default async function AdminPage({
       name={identity.profile.full_name || "Staff"}
       path={section}
     >
-      {section === "queues" ? (
+      {section.startsWith("shipments") ? (
+        <Shipments
+          id={section.split("/")[1]}
+          data={await loadShipments(
+            identity,
+            await searchParams,
+            section.split("/")[1],
+          )}
+        />
+      ) : section.startsWith("billing") ? (
+        <Billing
+          admin
+          id={section.split("/")[1]}
+          data={await loadBilling(
+            identity,
+            await searchParams,
+            section.split("/")[1],
+          )}
+        />
+      ) : section === "queues" ? (
         <Queues data={await loadQueues(identity, await searchParams)} />
       ) : (
         <OperationsWorkspace

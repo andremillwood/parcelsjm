@@ -2,6 +2,7 @@ import type { DocumentData } from "../documents/model";
 export type PackageRecord = {
   id: string;
   profile_id?: string;
+  resume_status?: string | null;
   carrier_tracking: string;
   merchant: string;
   description: string;

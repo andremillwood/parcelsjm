@@ -1637,3 +1637,15 @@
     width: 100%;
   }
 }
+
+.m-policy-draft {
+  max-width: 76ch;
+  margin: 2.5rem 0;
+}
+.m-policy-draft section + section {
+  margin-top: 2rem;
+}
+.m-policy-draft p {
+  line-height: 1.75;
+  overflow-wrap: anywhere;
+}

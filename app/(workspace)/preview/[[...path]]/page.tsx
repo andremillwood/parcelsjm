@@ -1,3 +1,7 @@
+import { Shipments } from "../../../../components/workspace/shipments";
+import { demoShipments } from "../../../../lib/shipments/load";
+import { Billing } from "../../../../components/workspace/billing";
+import { sampleBilling } from "../../../../lib/billing/demo";
 import { Queues } from "../../../../components/workspace/queues";
 import {
   listOptions,
@@ -30,6 +34,8 @@ export default async function Preview({
         "documents",
         "support",
         "billing",
+        "shipments",
+        "shipments/demo-batch",
         "audit",
         "settings",
       ]
@@ -45,7 +51,8 @@ export default async function Preview({
       ];
   if (
     !valid.includes(section) &&
-    !sampleData.packages.some((p) => section === `packages/${p.id}`)
+    !sampleData.packages.some((p) => section === `packages/${p.id}`) &&
+    section !== "billing/demo-invoice-001"
   )
     notFound();
   const query = await searchParams,
@@ -91,7 +98,15 @@ export default async function Preview({
       name={admin ? "Operations team" : sampleData.name}
       path={section}
     >
-      {admin ? (
+      {section.startsWith("shipments") ? (
+        <Shipments id={section.split("/")[1]} data={demoShipments} />
+      ) : section.startsWith("billing") ? (
+        <Billing
+          admin={admin}
+          id={section.split("/")[1]}
+          data={sampleBilling}
+        />
+      ) : admin ? (
         section === "queues" ? (
           <Queues
             demo

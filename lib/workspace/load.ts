@@ -1,3 +1,4 @@
+import { SHIPMENT_STATES } from "../billing/pricing";
 import "server-only";
 import type { getIdentity } from "../auth/session";
 import { listOptions, type QueryParams } from "./pagination";
@@ -28,7 +29,7 @@ export async function loadWorkspace(
   let query = c
     .from("packages")
     .select(
-      "id,profile_id,carrier_tracking,merchant,description,status,document_state,payment_state,declared_value,declared_currency,created_at",
+      "id,profile_id,carrier_tracking,merchant,description,status,resume_status,document_state,payment_state,declared_value,declared_currency,created_at",
       { count: "exact" },
     )
     .order("created_at", { ascending: false })
@@ -40,15 +41,7 @@ export async function loadWorkspace(
         `carrier_tracking.ilike.%${o.search}%,merchant.ilike.%${o.search}%,description.ilike.%${o.search}%`,
       );
     if (o.status === "action") query = query.eq("document_state", "requested");
-    else if (
-      [
-        "pre_alerted",
-        "received_us",
-        "processing_us",
-        "in_transit",
-        "arrived_jm",
-      ].includes(o.status)
-    )
+    else if ((SHIPMENT_STATES as readonly string[]).includes(o.status))
       query = query.eq("status", o.status);
     query = query.range(o.from, o.to);
   } else query = query.limit(25);

@@ -38,9 +38,18 @@ export function StaffForm({
           const d = Object.fromEntries(new FormData(e.currentTarget));
           if (action === "event" || action === "correction")
             d.occurred = new Date(String(d.occurred)).toISOString();
-          if (action === "queue" && d.due)
+          if ((action === "queue" || action === "billing-draft") && d.due)
             d.due = new Date(String(d.due) + "-05:00").toISOString();
-          const response = await fetch(`/api/workspace/${action}`, {
+          if (action === "billing-rate")
+            d.effective = new Date(
+              String(d.effective) + "-05:00",
+            ).toISOString();
+          const endpoint = action.startsWith("billing-")
+            ? `/api/billing/${action.slice(8)}`
+            : action.startsWith("shipment-")
+              ? `/api/shipments/${action.slice(9)}`
+              : `/api/workspace/${action}`;
+          const response = await fetch(endpoint, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(d),

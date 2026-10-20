@@ -1,4 +1,5 @@
 "use client";
+import { SHIPMENT_STATES } from "../../lib/billing/pricing";
 import { useState } from "react";
 import Link from "next/link";
 import type { PackageRecord } from "../../lib/workspace/model";
@@ -45,13 +46,7 @@ export function PackageList({
             >
               <option value="all">All packages</option>
               <option value="action">Action needed</option>
-              {[
-                "pre_alerted",
-                "received_us",
-                "processing_us",
-                "in_transit",
-                "arrived_jm",
-              ].map((s) => (
+              {SHIPMENT_STATES.map((s) => (
                 <option key={s} value={s}>
                   {s.replaceAll("_", " ")}
                 </option>

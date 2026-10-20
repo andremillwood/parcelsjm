@@ -1,3 +1,4 @@
+import { NEXT_STATES } from "../../lib/billing/pricing";
 import { Pagination, RecordSearch } from "./pagination";
 import { Documents } from "./documents";
 import { StaffForm } from "./staff-form";
@@ -15,12 +16,7 @@ function OperationsContent({
   const root = data.demo ? "/preview/admin" : "/admin";
   if (path.startsWith("packages/")) {
     const p = data.packages.find((p) => p.id === path.split("/")[1]);
-    const next: Record<string, string> = {
-      pre_alerted: "received_us",
-      received_us: "processing_us",
-      processing_us: "in_transit",
-      in_transit: "arrived_jm",
-    };
+    const next = NEXT_STATES;
     const latest = data.events?.filter((e) => e.package_id === p?.id).at(-1);
     const chain = [
       "pre_alerted",
@@ -50,60 +46,71 @@ function OperationsContent({
     return (
       <>
         <CustomerWorkspace path={path} data={data} rootOverride={root} />
-        {p && latest && (
-          <details className="w-panel w-pad">
-            <summary>Correct the latest checkpoint</summary>
-            <Notice>
-              Repair its evidence/time or retract it to the previous checkpoint.
-              The original stays visible, and a customer-visible explanation is
-              required. Refresh before correcting.
-            </Notice>
-            <StaffForm
-              demo={data.demo}
-              action="correction"
-              title="Append shipment correction"
-              fields={[
-                {
-                  name: "packageId",
-                  label: "Package",
-                  type: "hidden",
-                  value: p.id,
-                },
-                {
-                  name: "eventId",
-                  label: "Latest event",
-                  type: "hidden",
-                  value: latest.id,
-                },
-                {
-                  name: "status",
-                  label: "Corrected checkpoint",
-                  options: [
-                    ...new Set([
-                      original?.status ?? p.status,
-                      prior?.status ?? chain[0],
-                    ]),
-                  ].map((value) => ({
-                    value,
-                    label: value.replaceAll("_", " "),
-                  })),
-                },
-                {
-                  name: "source",
-                  label: "Verified evidence / source reference",
-                },
-                {
-                  name: "occurred",
-                  label: "Corrected effective time (your local time)",
-                  type: "datetime-local",
-                },
-                { name: "explanation", label: "Customer-visible explanation" },
-                { name: "reason", label: "Internal audit reason" },
-              ]}
-            />
-          </details>
-        )}
-        {p && next[p.status] && (
+        {p &&
+          latest &&
+          [
+            "pre_alerted",
+            "received_us",
+            "processing_us",
+            "in_transit",
+            "arrived_jm",
+          ].includes(p.status) && (
+            <details className="w-panel w-pad">
+              <summary>Correct the latest checkpoint</summary>
+              <Notice>
+                Repair its evidence/time or retract it to the previous
+                checkpoint. The original stays visible, and a customer-visible
+                explanation is required. Refresh before correcting.
+              </Notice>
+              <StaffForm
+                demo={data.demo}
+                action="correction"
+                title="Append shipment correction"
+                fields={[
+                  {
+                    name: "packageId",
+                    label: "Package",
+                    type: "hidden",
+                    value: p.id,
+                  },
+                  {
+                    name: "eventId",
+                    label: "Latest event",
+                    type: "hidden",
+                    value: latest.id,
+                  },
+                  {
+                    name: "status",
+                    label: "Corrected checkpoint",
+                    options: [
+                      ...new Set([
+                        original?.status ?? p.status,
+                        prior?.status ?? chain[0],
+                      ]),
+                    ].map((value) => ({
+                      value,
+                      label: value.replaceAll("_", " "),
+                    })),
+                  },
+                  {
+                    name: "source",
+                    label: "Verified evidence / source reference",
+                  },
+                  {
+                    name: "occurred",
+                    label: "Corrected effective time (your local time)",
+                    type: "datetime-local",
+                  },
+                  {
+                    name: "explanation",
+                    label: "Customer-visible explanation",
+                  },
+                  { name: "reason", label: "Internal audit reason" },
+                ]}
+              />
+            </details>
+          )}
+        {p && (next[p.status] || p.resume_status) && (
           <StaffForm
             demo={data.demo}
             action="event"
@@ -124,12 +131,13 @@ function OperationsContent({
               {
                 name: "status",
                 label: "Verified next state",
-                options: [
-                  {
-                    value: next[p.status],
-                    label: next[p.status].replaceAll("_", " "),
-                  },
-                ],
+                options: (p.status === "exception" && p.resume_status
+                  ? [p.resume_status, "returned"]
+                  : (next[p.status] ?? [])
+                ).map((value) => ({
+                  value,
+                  label: value.replaceAll("_", " "),
+                })),
               },
               { name: "source", label: "Evidence / source reference" },
               {
@@ -328,34 +336,6 @@ function OperationsContent({
             responses are available in the customer workspace.
           </Empty>
         )}
-      </>
-    );
-  if (path === "billing")
-    return (
-      <>
-        <Heading eyebrow="Finance controls" title="Billing & approved rates">
-          Commercial rules must be approved before they become customer charges.
-        </Heading>
-        {data.error && <Notice>{data.error}</Notice>}
-        <div className="w-stats">
-          {["Rate publication", "Invoice issuance", "Online payments"].map(
-            (v) => (
-              <div className="w-stat" key={v}>
-                <span>{v}</span>
-                <strong className="w-stat-word">Not enabled</strong>
-                <small>Required approvals pending</small>
-              </div>
-            ),
-          )}
-        </div>
-        <Notice>
-          No historical tariff, proposed price or missing cost is treated as an
-          approved rate or zero cost.
-        </Notice>
-        <Empty title="Ready for approved rules">
-          Rate versions, immutable invoice lines and payment evidence will be
-          connected once pricing and reconciliation rules are approved.
-        </Empty>
       </>
     );
   if (path === "audit")

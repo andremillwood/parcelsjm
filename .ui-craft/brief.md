@@ -42,3 +42,7 @@ Customer signup has grouped contact, identity/address and security fields. Perso
 ## Operations queues increment
 
 Owner-authorized scope supersedes the earlier marketing-only exclusions for this increment. Preserve the workspace navy/yellow, Inter and scoped CSS. Operator command composition: filters, priority/aging, source link, then progressively disclosed assignment controls. No charts or motion additions. Signature is a yellow work-item edge, not an invented metric. Mobile stacks controls; all records are searchable/paginated server-side. Empty, failed, closed, stale-conflict and forbidden states must remain distinct. Corrections retain prior events visibly.
+
+## Billing and shipment scope — 2026-10-20
+
+Owner approved the supplied pricing/cost inputs and requested billing, collections and shipping operations plus policy drafts. This supersedes previous no-pricing-change exclusions for these workflows. Preserve navy/yellow/Inter and existing workspace CSS. Use an invoice/ledger composition: amount/status/next action first, itemized immutable charges and collection history next, staff actions progressively disclosed. Customer money is JMD with tabular numbers; planning contribution is clearly separate from actual known costs. No new motion or visual library. Draft legal copy must never look like accepted policy; signup and email remain deferred. Verify keyboard, narrow viewports, stale/error/empty/denied states and payment-release guards before release.

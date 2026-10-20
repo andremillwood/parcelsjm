@@ -40,9 +40,11 @@ export function Queues({
           Work type
           <select name="kind" defaultValue={o.kind}>
             <option value="">All types</option>
-            {["shipment", "intake", "document", "support"].map((v) => (
-              <option key={v}>{v}</option>
-            ))}
+            {["shipment", "intake", "document", "support", "invoice"].map(
+              (v) => (
+                <option key={v}>{v}</option>
+              ),
+            )}
           </select>
         </label>
         <label>
@@ -105,7 +107,9 @@ export function Queues({
             href =
               t.kind === "shipment"
                 ? `${root}/packages/${t.source_id}`
-                : `${root}/${t.kind === "document" ? "documents" : t.kind === "intake" ? "intake" : "support"}?q=${encodeURIComponent(t.source_id)}`;
+                : t.kind === "invoice"
+                  ? `${root}/billing/${t.source_id}`
+                  : `${root}/${t.kind === "document" ? "documents" : t.kind === "intake" ? "intake" : "support"}?q=${encodeURIComponent(t.source_id)}`;
           return (
             <section key={t.id} className="w-panel w-pad w-task">
               <div className="w-task-heading">

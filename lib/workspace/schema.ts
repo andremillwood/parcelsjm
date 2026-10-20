@@ -1,3 +1,4 @@
+import { SHIPMENT_STATES } from "../billing/pricing";
 import { z } from "zod";
 const text = (min: number, max: number) => z.string().trim().min(min).max(max);
 const reason = text(5, 2000),
@@ -29,12 +30,7 @@ export const workspaceSchemas = {
   event: z.object({
     packageId: uuid,
     expected: text(1, 40),
-    status: z.enum([
-      "received_us",
-      "processing_us",
-      "in_transit",
-      "arrived_jm",
-    ]),
+    status: z.enum(SHIPMENT_STATES),
     source: text(5, 500),
     reason,
     occurred: z.iso.datetime(),

@@ -29,7 +29,7 @@ export async function loadQueues(
     .order("opened_at")
     .order("id");
   q = q.eq("state", o.status === "closed" ? "closed" : "open");
-  if (["shipment", "intake", "document", "support"].includes(o.kind))
+  if (["shipment", "intake", "document", "support", "invoice"].includes(o.kind))
     q = q.eq("kind", o.kind);
   if (o.search) q = q.ilike("reference", `%${o.search}%`);
   if (o.assignee === "mine") q = q.eq("assignee_id", identity.user.id);
@@ -39,7 +39,7 @@ export async function loadQueues(
     q = q.lt("due_at", new Date().toISOString()).eq("state", "open");
   const [result, ...staff] = await Promise.all([
     q.range(o.from, o.to),
-    ...["shipment", "intake", "document", "support"].map((kind) =>
+    ...["shipment", "intake", "document", "support", "invoice"].map((kind) =>
       c.rpc("queue_assignees", { p_kind: kind }),
     ),
   ]);
@@ -48,10 +48,9 @@ export async function loadQueues(
     tasks: (result.data ?? []) as OperationalTask[],
     pagination: { page: o.page, total: result.count ?? 0, params },
     assignees: Object.fromEntries(
-      ["shipment", "intake", "document", "support"].map((kind, i) => [
-        kind,
-        staff[i].data ?? [],
-      ]),
+      ["shipment", "intake", "document", "support", "invoice"].map(
+        (kind, i) => [kind, staff[i].data ?? []],
+      ),
     ) as Record<string, { id: string; name: string }[]>,
     error:
       result.error || staff.some((s) => s.error)
