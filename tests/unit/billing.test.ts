@@ -39,6 +39,8 @@ test("finance and fulfillment migration applies with ownership and role protecti
       "20261020151025_fix_signup_identity_provisioning.sql",
       "20261020152737_billing_collections_and_fulfillment.sql",
       "20261020154651_manual_consolidations_and_finance_audit.sql",
+      "20261020155500_exact_financial_audit_snapshots.sql",
+      "20261020155756_casefold_payment_references.sql",
     ])
       await db.exec(await readFile("supabase/migrations/" + f, "utf8"));
     const a = "00000000-0000-4000-8000-000000000011",
@@ -162,6 +164,13 @@ test("finance and fulfillment migration applies with ownership and role protecti
     await assert.rejects(
       db.query(
         "select public.record_billing_payment($1,$2,100,'Bank reference','TX-001','Verified bank evidence','Collection verified')",
+        [invoice, i.version],
+      ),
+      /already recorded/,
+    );
+    await assert.rejects(
+      db.query(
+        "select public.record_billing_payment($1,$2,100,' BANK REFERENCE ','tx-001','Verified duplicate evidence','Casefold duplicate prevention')",
         [invoice, i.version],
       ),
       /already recorded/,
@@ -408,7 +417,25 @@ test("finance and fulfillment migration applies with ownership and role protecti
       (await db.query("select * from public.billing_invoices")).rows.length,
       0,
     );
+    await assert.rejects(
+      db.query("select * from public.billing_payment_proofs($1)", [invoice]),
+      /Finance/,
+    );
     await db.exec("reset role");
+    const audit = (
+      await db.query<{
+        before_data: { version: number };
+        after_data: { snapshot: { version: number } };
+      }>(
+        "select before_data,after_data from public.audit_logs where entity_id=$1 and action='invoice_adjusted' order by created_at desc limit 1",
+        [invoice],
+      )
+    ).rows[0];
+    assert.equal(
+      Number(audit.after_data.snapshot.version),
+      Number(audit.before_data.version) + 1,
+    );
+
     assert.equal(
       (
         await db.query<{ status: string }>(
