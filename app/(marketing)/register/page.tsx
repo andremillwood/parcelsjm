@@ -17,7 +17,7 @@ export default async function Register({
     <div className="m-container m-content-bottom m-registration">
       <PageIntro
         eyebrow="Your Parcels JA account"
-        title="Start with a little clarity."
+        title="Create your Parcels JA account."
       >
         <p>
           Personal purchases or business imports. See what getting started will

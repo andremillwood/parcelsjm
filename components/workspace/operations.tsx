@@ -3,7 +3,7 @@ import { Pagination, RecordSearch } from "./pagination";
 import { Documents } from "./documents";
 import { StaffForm } from "./staff-form";
 import { CustomerWorkspace } from "./customer";
-import { Heading, Action, Empty, Notice, Pill } from "./ui";
+import { Heading, Action, Empty, Notice, Pill, SummaryStrip } from "./ui";
 import { PackageList } from "./packages";
 import type { WorkspaceData } from "../../lib/workspace/model";
 function OperationsContent({
@@ -401,40 +401,39 @@ function OperationsContent({
     <>
       <Heading
         eyebrow="Operations workspace"
-        title="Keep the next step moving."
+        title="Shipment operations"
         action={<Action href={`${root}/queues`}>Open work queues</Action>}
       >
         Prioritise exceptions, verify the facts and keep the customer informed.
       </Heading>
       {data.error && <Notice>{data.error}</Notice>}
-      <div className="w-stats">
-        {[
-          [
-            "Document review",
-            data.packages.filter((p) => p.document_state === "under_review")
+      <SummaryStrip
+        items={[
+          {
+            label: "Document review",
+            value: data.packages.filter(
+              (p) => p.document_state === "under_review",
+            ).length,
+            href: `${root}/documents`,
+          },
+          {
+            label: "Missing documents",
+            value: data.packages.filter((p) => p.document_state === "requested")
               .length,
-          ],
-          [
-            "Missing documents",
-            data.packages.filter((p) => p.document_state === "requested")
-              .length,
-          ],
-          [
-            "Unmatched intake",
-            data.intake?.filter((o) => !o.package_id).length ?? 0,
-          ],
-        ].map(([title, n]) => (
-          <div className="w-stat" key={title}>
-            <span>{title}</span>
-            <strong>{n}</strong>
-            <small>
-              {data.demo
-                ? "Fictional preview queue"
-                : "Recent records only — use work queues for all work"}
-            </small>
-          </div>
-        ))}
-      </div>
+            href: `${root}/documents`,
+          },
+          {
+            label: "Unmatched intake",
+            value: data.intake?.filter((o) => !o.package_id).length ?? 0,
+            href: `${root}/intake`,
+          },
+        ]}
+        note={
+          data.demo
+            ? "Fictional activity for interface review."
+            : "Recent records only. Open work queues for the complete workload."
+        }
+      />
       <div className="w-dashboard-grid">
         <section>
           <div className="w-section-title">

@@ -335,12 +335,13 @@ input[type="file"] {
 }
 /* Phase 0 accessibility and responsive baseline; full token system is Phase 1. */
 .preview-banner {
-  padding: 10px 24px;
-  background: #ffc800;
+  padding: 9px 24px;
+  background: #fff8df;
+  border-bottom: 1px solid #e5d8a7;
   color: #07172b;
   text-align: center;
-  font-weight: 700;
-  font-size: 13px;
+  font-weight: 550;
+  font-size: 12px;
 }
 .brand-logo {
   display: inline-block;

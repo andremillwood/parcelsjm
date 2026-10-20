@@ -111,7 +111,10 @@ export function Queues({
                   ? `${root}/billing/${t.source_id}`
                   : `${root}/${t.kind === "document" ? "documents" : t.kind === "intake" ? "intake" : "support"}?q=${encodeURIComponent(t.source_id)}`;
           return (
-            <section key={t.id} className="w-panel w-pad w-task">
+            <section
+              key={t.id}
+              className={`w-panel w-pad w-task${t.priority >= 2 || overdue ? " w-task-urgent" : ""}`}
+            >
               <div className="w-task-heading">
                 <div>
                   <p className="w-muted">

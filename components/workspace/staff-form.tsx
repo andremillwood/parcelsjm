@@ -21,7 +21,8 @@ export function StaffForm({
   title: string;
 }) {
   const [message, setMessage] = useState(""),
-    [busy, setBusy] = useState(false);
+    [busy, setBusy] = useState(false),
+    [error, setError] = useState(false);
   const router = useRouter();
   return (
     <form
@@ -29,6 +30,7 @@ export function StaffForm({
       onSubmit={async (e) => {
         e.preventDefault();
         if (busy) return;
+        setError(false);
         if (demo) {
           setMessage("Preview checked. No operational record changed.");
           return;
@@ -56,8 +58,10 @@ export function StaffForm({
           });
           const result = await response.json();
           setMessage(result.message);
+          setError(!response.ok);
           if (response.ok) router.refresh();
         } catch {
+          setError(true);
           setMessage("The change could not be confirmed. Please retry.");
         } finally {
           setBusy(false);
@@ -107,7 +111,14 @@ export function StaffForm({
           {busy ? "Saving…" : demo ? "Check preview" : "Save verified change"}
         </button>
       </fieldset>
-      {message && <p role="status">{message}</p>}
+      {message && (
+        <p
+          className={error ? "w-error" : "w-form-feedback"}
+          role={error ? "alert" : "status"}
+        >
+          {message}
+        </p>
+      )}
     </form>
   );
 }

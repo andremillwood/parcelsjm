@@ -594,7 +594,8 @@
   max-width: 850px;
 }
 .m-page-intro h1 {
-  font-size: clamp(40px, 5vw, 64px);
+  font-size: clamp(36px, 4.5vw, 58px);
+  letter-spacing: -0.04em;
 }
 .m-lead {
   max-width: 680px;
@@ -1202,8 +1203,11 @@
   line-height: 1.7;
 }
 .m-campaign-hero .m-eyebrow {
-  font-size: 12px;
-  letter-spacing: 0.08em;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: none;
+  color: var(--on-dark);
+  letter-spacing: 0;
   margin-bottom: 24px;
 }
 .m-campaign-actions {

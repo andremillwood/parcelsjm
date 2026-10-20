@@ -1,3 +1,4 @@
+import { WorkspaceIcon, type IconName } from "./icons";
 import { SignOut } from "../auth/sign-out";
 import Link from "next/link";
 import { BrandLogo } from "../brand-logo";
@@ -42,17 +43,40 @@ export function WorkspaceShell({
         ["support", "Get help"],
         ["profile", "My profile"],
       ];
+  const iconFor: Record<string, IconName> = {
+    "": "overview",
+    packages: "package",
+    "pre-alert/new": "add",
+    documents: "documents",
+    billing: "billing",
+    support: "support",
+    profile: "profile",
+    queues: "queue",
+    customers: "customers",
+    shipments: "shipments",
+    intake: "intake",
+    audit: "audit",
+    settings: "settings",
+  };
+  const current =
+    links.find(
+      ([href]) => href === path || (href && path.startsWith(href + "/")),
+    )?.[1] ?? "Overview";
   const navigation = (
     <>
       {links.map(([href, text]) => (
         <Link
           key={href}
           href={`${root}${href ? `/${href}` : ""}`}
-          aria-current={path === href ? "page" : undefined}
+          aria-current={
+            path === href
+              ? "page"
+              : href && path.startsWith(href + "/")
+                ? "location"
+                : undefined
+          }
         >
-          <span aria-hidden="true">
-            {href === "" ? "◉" : href.includes("pre-alert") ? "＋" : "↗"}
-          </span>
+          <WorkspaceIcon name={iconFor[href] ?? "package"} />
           {text}
         </Link>
       ))}
@@ -86,22 +110,23 @@ export function WorkspaceShell({
           </div>
         </div>
         <Link className="w-back" href="/">
-          ← Back to website
+          <WorkspaceIcon name="back" /> Back to website
         </Link>
       </aside>
       <div className="w-main">
         <header className="w-topbar">
-          <span>
-            PARCELS JA <span className="w-top-divider">/</span>{" "}
-            {admin ? "OPERATIONS" : "MY ACCOUNT"}
-          </span>
+          <div className="w-breadcrumb">
+            <Link href={root}>{admin ? "Operations" : "My account"}</Link>
+            <span aria-hidden="true">/</span>
+            <span>{current}</span>
+          </div>
           <Link
             href={
               demo ? `/preview/${admin ? "app" : "admin"}` : "/app/security"
             }
           >
             {demo
-              ? `Explore ${admin ? "customer" : "operations"} preview ↗`
+              ? `Explore ${admin ? "customer" : "operations"} preview`
               : "Account security"}
           </Link>
         </header>
@@ -118,7 +143,8 @@ export function WorkspaceShell({
         )}
         <details className="w-mobile-menu">
           <summary>
-            {admin ? "Operations" : "Account"} menu <span>＋</span>
+            {admin ? "Operations" : "Account"} menu{" "}
+            <WorkspaceIcon name="menu" />
           </summary>
           <nav aria-label="Workspace mobile navigation">{navigation}</nav>
         </details>

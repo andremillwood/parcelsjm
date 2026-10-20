@@ -64,6 +64,37 @@ export const sampleData: WorkspaceData = {
   name: "Alex",
   accountType: "personal",
   demo: true,
+  documents: {
+    canRequest: false,
+    canReview: false,
+    uploadsEnabled: false,
+    uploads: [],
+    history: [],
+    requests: [
+      {
+        id: "demo-request-001",
+        profile_id: "demo-customer",
+        package_id: "demo-001",
+        document_type: "invoice",
+        instructions:
+          "Fictional example: provide the purchase invoice for these two shirts. No file is uploaded or reviewed in this demo.",
+        status: "requested",
+        version: 0,
+        created_at: "2026-10-10T13:00:00Z",
+      },
+      {
+        id: "demo-request-002",
+        profile_id: "demo-customer",
+        package_id: "demo-002",
+        document_type: "invoice",
+        instructions:
+          "Fictional example of a request in review. No real document, scan result or customs clearance is represented.",
+        status: "under_review",
+        version: 1,
+        created_at: "2026-10-09T13:00:00Z",
+      },
+    ],
+  },
   packages: [
     {
       id: "demo-001",
@@ -103,5 +134,12 @@ export const sampleData: WorkspaceData = {
     },
   ],
 };
+const statusLabels: Record<string, string> = {
+  received_us: "Received in US",
+  processing_us: "Processing in US",
+  arrived_jm: "Arrived in Jamaica",
+  pre_alerted: "Pre-alerted",
+};
 export const label = (value: string) =>
+  statusLabels[value] ??
   value.replaceAll("_", " ").replace(/^./, (v) => v.toUpperCase());

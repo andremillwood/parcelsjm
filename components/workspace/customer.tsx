@@ -1,7 +1,7 @@
 import { Pagination, RecordSearch } from "./pagination";
 import { Documents } from "./documents";
-import type { WorkspaceData } from "../../lib/workspace/model";
-import { Heading, Action, Empty, Notice, Pill } from "./ui";
+import { label, type WorkspaceData } from "../../lib/workspace/model";
+import { Heading, Action, Empty, Notice, Pill, SummaryStrip } from "./ui";
 import { PackageList } from "./packages";
 import { WorkspaceForm } from "./forms";
 function CustomerContent({
@@ -62,7 +62,7 @@ function CustomerContent({
                         <div>
                           <strong>
                             {event.corrects_event_id ? "Correction: " : ""}
-                            {event.status.replaceAll("_", " ")}
+                            {label(event.status)}
                           </strong>
                           {data.events?.some(
                             (e) => e.corrects_event_id === event.id,
@@ -257,10 +257,11 @@ function CustomerContent({
     <>
       <Heading
         eyebrow="Your shipping workspace"
-        title={`Good to see you, ${data.name.split(" ")[0]}.`}
+        title="Your shipping overview"
         action={<Action href={`${root}/pre-alert/new`}>Add a pre-alert</Action>}
       >
-        Your packages, documents and next steps—all in one place.
+        {data.name.split(" ")[0]}, review your packages and anything that needs
+        your attention.
       </Heading>
       {data.error && <Notice>{data.error}</Notice>}
       {data.onboardingPending && (
@@ -269,27 +270,32 @@ function CustomerContent({
           <a href={`${root}/onboarding`}>Complete onboarding →</a>
         </Notice>
       )}
-      <div className="w-stats">
-        {[
-          ["Packages to follow", packages.length],
-          [
-            "Need your attention",
-            packages.filter((p) => p.document_state === "requested").length,
-          ],
-          [
-            "Documents in review",
-            packages.filter((p) => p.document_state === "under_review").length,
-          ],
-        ].map(([title, value]) => (
-          <div className="w-stat" key={title}>
-            <span>{title}</span>
-            <strong>{value}</strong>
-            <small>
-              {data.demo ? "Fictional sample records" : "In your account"}
-            </small>
-          </div>
-        ))}
-      </div>
+      <SummaryStrip
+        items={[
+          {
+            label: "Documents requested",
+            value: packages.filter((p) => p.document_state === "requested")
+              .length,
+            href: `${root}/documents`,
+          },
+          {
+            label: "Recent packages",
+            value: packages.length,
+            href: `${root}/packages`,
+          },
+          {
+            label: "Documents in review",
+            value: packages.filter((p) => p.document_state === "under_review")
+              .length,
+            href: `${root}/documents`,
+          },
+        ]}
+        note={
+          data.demo
+            ? "Fictional activity from the sample packages below."
+            : "Activity from your recent package records."
+        }
+      />
       <div className="w-dashboard-grid">
         <section>
           <div className="w-section-title">
