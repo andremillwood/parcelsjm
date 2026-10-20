@@ -23,3 +23,11 @@ Reskin, not rebuild. Preserve Parcels JA's original logo, approved Jamaican life
 Build, formatting, lint/types, full existing unit/browser/form suite, narrow/desktop screenshots, keyboard/navigation/zoom checks and axe accessibility. Verify summary links, package filtering, child-route navigation context and demo non-persistence. Check the authorized parcelsjm preview with disabled registration and protected real apps. Compare source detector results with the same baseline; document heuristic false positives rather than suppressing them. Confirm original logo/lifestyle asset checksums unchanged. Release only after preview review.
 
 The source detector's document warning points at the shared `post` helper. Existing callers catch failures and the rendered document list provides an empty/error state; inspect those actual branches before treating this heuristic as a regression.
+
+## Verification results
+
+- GitHub Actions run 39500658931 passed on implementation commit `b327596`: formatting, lint, types, production build, dependency audit and the complete unit/browser/form suites. The browser suite includes the two new summary/navigation journeys across five viewport widths.
+- Vercel preview `dpl_7AUBY2YfXM15yFEyWVt22jRQyMHB` reached READY. Hosted checks passed for home, customer overview, operations overview, invoice, operational queue, registration and customer documents at 390px and 1440px: HTTP 200, no horizontal overflow, no axe WCAG A/AA violations and no browser errors. Screenshots were inspected for hierarchy and responsive layout.
+- The homepage app image was recaptured from the actual revised fictional customer demo at 1280 × 900, with its explicit preview labels. Original logo and approved lifestyle image files are unchanged from main.
+- Source detector v0.13.0: before **0 errors / 2 warnings** (12 workspace files); after **0 errors / 1 warning** (13 files, including local SVG icons). The remaining shared document-request helper warning is a reviewed heuristic limitation: its callers catch failures and the UI has empty/error branches. No detector suppression was added.
+- No database migrations, API contracts, commercial rules, privileges or production flags were changed. This branch is for preview review; production remains on main `23ae5e8`.
