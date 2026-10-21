@@ -65,6 +65,26 @@ export default function Home() {
           </figure>
         </div>
       </section>
+      <nav
+        className="m-shipping-entry m-container"
+        aria-label="Shipping shortcuts"
+      >
+        <Link href="/tracking">
+          <span>01</span>
+          <strong>Track your package</strong>
+          <Arrow />
+        </Link>
+        <Link href="/how-it-works">
+          <span>02</span>
+          <strong>Plan your next purchase</strong>
+          <Arrow />
+        </Link>
+        <Link href="/help">
+          <span>03</span>
+          <strong>Get shipping help</strong>
+          <Arrow />
+        </Link>
+      </nav>
       <section id="the-experience" className="m-section m-account-story">
         <div className="m-container">
           <div className="m-section-heading">
