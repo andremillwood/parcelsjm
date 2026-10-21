@@ -179,7 +179,7 @@
 .w-address-card h2 {
   color: white;
 }
-.w-address-card p,
+.w-address-card p:not(.w-eyebrow),
 .w-address-card .w-eyebrow,
 .w-address-card .w-muted {
   color: #c8d5e4;
@@ -195,6 +195,10 @@
 }
 .w-address-card :focus-visible {
   outline-color: var(--w-yellow);
+}
+.w-address-card .w-pending {
+  color: white;
+  border-color: #ffffff38;
 }
 .w-address-card .w-dl > div {
   border-color: #ffffff30;

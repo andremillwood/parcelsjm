@@ -108,7 +108,7 @@
   background: var(--ink);
 }
 .m-campaign-hero .m-hero-lifestyle img {
-  object-position: 75% 46%;
+  object-position: 75% 30%;
 }
 .m-campaign-hero .m-hero-lifestyle::after {
   content: "";

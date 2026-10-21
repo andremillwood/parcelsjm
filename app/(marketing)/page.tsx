@@ -59,7 +59,7 @@ export default function Home() {
                 alt="Illustrative scene of a woman unpacking new sneakers in a sunlit Jamaican home"
                 fill
                 priority
-                sizes="(max-width: 900px) 100vw, 50vw"
+                sizes="100vw"
               />
             </div>
           </figure>
