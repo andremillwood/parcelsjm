@@ -1,0 +1,420 @@
+/* Owner-approved LogiHub-inspired visual direction. Original brand and content. */
+.marketing {
+  --control-radius: 999px;
+  --frame-radius: 8px;
+}
+.marketing h1 {
+  font-weight: 750;
+}
+.marketing h2 {
+  font-weight: 700;
+}
+.m-header {
+  background: white;
+  color: var(--ink);
+  border-bottom-color: var(--border);
+}
+.m-header-inner {
+  min-height: 104px;
+  gap: 28px;
+}
+.m-header .brand-logo {
+  background: var(--ink);
+  padding: 8px 12px;
+  border-radius: 0 0 24px 0;
+}
+.m-header .brand-logo img {
+  width: 126px;
+}
+.m-desktop-nav {
+  gap: 22px;
+}
+.m-desktop-nav a:hover,
+.m-desktop-nav a[aria-current] {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--yellow);
+  text-decoration-thickness: 3px;
+  text-underline-offset: 8px;
+}
+.m-header-actions {
+  gap: 20px;
+}
+.m-header-actions .m-button {
+  background: var(--yellow);
+  border-color: transparent;
+  color: var(--ink);
+}
+.m-header-actions .m-button:hover {
+  background: var(--ink);
+  color: white;
+}
+.m-header :focus-visible {
+  outline-color: #1664c0;
+}
+.m-menu-toggle {
+  color: var(--ink);
+  border-color: var(--border);
+  border-radius: 999px;
+}
+.m-mobile-nav a {
+  border-color: var(--border);
+}
+.m-campaign-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--ink);
+}
+.m-campaign-hero .m-hero-grid {
+  position: relative;
+  display: flex;
+  min-height: 690px;
+  padding-top: 88px;
+  padding-bottom: 128px;
+}
+.m-campaign-hero .m-hero-copy {
+  position: relative;
+  z-index: 2;
+  max-width: 640px;
+  align-self: center;
+}
+.m-campaign-hero h1 {
+  font-size: clamp(52px, 6vw, 80px);
+  line-height: 1.02;
+  letter-spacing: -0.055em;
+}
+.m-campaign-hero .m-eyebrow {
+  color: #e5edf6;
+}
+.m-campaign-hero .m-hero-copy > p:not(.m-small):not(.m-eyebrow) {
+  color: #e5edf6;
+  max-width: 430px;
+}
+.m-campaign-hero .m-hero-copy > .m-small {
+  color: #dce3eb;
+  max-width: 420px;
+}
+.m-campaign-hero .m-hero-lifestyle {
+  position: absolute;
+  inset: 0 calc((1248px - 100vw) / 2);
+  min-width: 100%;
+  z-index: 0;
+}
+.m-campaign-hero .m-hero-lifestyle .m-lifestyle-frame {
+  height: 100%;
+  aspect-ratio: auto;
+  clip-path: none;
+  background: var(--ink);
+}
+.m-campaign-hero .m-hero-lifestyle img {
+  object-position: 75% 30%;
+}
+.m-campaign-hero .m-hero-lifestyle::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    #07172bf5 0%,
+    #07172be8 30%,
+    #07172b82 53%,
+    #07172b12 78%
+  );
+}
+.m-shipping-entry {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: -48px;
+}
+.m-shipping-entry a {
+  background: white;
+  color: var(--ink);
+  min-height: 116px;
+  padding: 28px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 20px;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 12px 30px #07172b0b;
+}
+.m-shipping-entry a:first-child {
+  background: var(--yellow);
+  border-radius: 0 0 0 24px;
+}
+.m-shipping-entry a:last-child {
+  border-radius: 0 40px 0 0;
+}
+.m-shipping-entry a + a {
+  border-left: 1px solid var(--border);
+}
+.m-shipping-entry a:hover {
+  background: #f0f4f8;
+}
+.m-shipping-entry a:first-child:hover {
+  background: #ffda46;
+}
+.m-shipping-entry span {
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.m-shipping-entry strong {
+  font-size: 16px;
+  line-height: 1.4;
+  font-weight: 650;
+}
+.m-account-story {
+  padding-top: 112px;
+}
+.m-crafted-home .m-section-heading h2 {
+  font-size: clamp(36px, 4.4vw, 60px);
+}
+.m-demo-stage {
+  border-radius: 0 40px 0 0;
+  border: 8px solid #eef2f6;
+  box-shadow: 0 24px 50px #07172b12;
+}
+.m-detail-rows {
+  background: var(--navy);
+  color: white;
+  padding: 16px 40px;
+  border-radius: 0 0 40px 0;
+}
+.m-detail-row {
+  border-color: #ffffff30;
+  padding: 30px 0;
+  grid-template-columns: 1fr 1.8fr 2fr;
+}
+.m-detail-row:first-child {
+  border-top: 0;
+}
+.m-detail-row:last-child {
+  padding-bottom: 30px;
+}
+.m-detail-row h3 {
+  color: white;
+}
+.m-detail-row p,
+.m-detail-row .m-detail-label {
+  color: var(--on-dark);
+}
+.m-detail-row .m-detail-label {
+  color: var(--yellow);
+}
+.m-preparation {
+  background: #f1f4f7;
+}
+.m-preparation-steps {
+  gap: 32px;
+}
+.m-preparation-steps li {
+  border-top: 3px solid var(--ink);
+  padding-top: 32px;
+}
+.m-step-number {
+  font-size: 56px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 28px;
+}
+.m-business-story {
+  background: white;
+  color: var(--ink);
+}
+.m-business-story > .m-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 64px;
+}
+.m-business-lifestyle .m-lifestyle-frame {
+  aspect-ratio: 4/5;
+  border-radius: 0 64px 0 0;
+}
+.m-business-lifestyle img {
+  object-position: 40% center;
+}
+.m-business-caption {
+  display: block;
+  margin: 0;
+}
+.m-business-caption h2 {
+  font-size: clamp(36px, 4vw, 56px);
+}
+.m-business-caption > div + div {
+  margin-top: 32px;
+}
+.m-business-caption p {
+  color: var(--muted);
+}
+.m-business-caption .m-text-link {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: #aa8500;
+  text-underline-offset: 6px;
+}
+.m-business-story :focus-visible {
+  outline-color: #1664c0;
+}
+.m-questions {
+  background: var(--navy);
+  color: white;
+}
+.m-questions .m-faq details {
+  border-color: #ffffff38;
+}
+.m-questions .m-faq p,
+.m-questions .m-faq a {
+  color: #d3deeb;
+}
+.m-questions :focus-visible {
+  outline-color: var(--yellow);
+}
+.m-cta {
+  background: var(--yellow);
+}
+.m-cta h2 {
+  font-size: clamp(36px, 4.4vw, 60px);
+}
+.m-page-intro {
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 32px;
+}
+.m-page-intro h1 {
+  font-weight: 750;
+  max-width: 950px;
+}
+.m-full-steps li > span {
+  border-radius: 50%;
+}
+.m-form-panel {
+  border-radius: 0 32px 8px 8px;
+  box-shadow: 0 12px 36px #07172b08;
+}
+.m-status-block {
+  border-radius: 0 28px 0 0;
+}
+@media (min-width: 901px) and (max-width: 1248px) {
+  .m-campaign-hero .m-hero-lifestyle {
+    inset: 0;
+  }
+  .m-desktop-nav {
+    gap: 16px;
+  }
+  .m-header-inner {
+    gap: 20px;
+  }
+}
+@media (max-width: 900px) {
+  .m-campaign-hero .m-hero-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    min-height: 0;
+    padding-top: 48px;
+    padding-bottom: 64px;
+    gap: 40px;
+  }
+  .m-campaign-hero .m-hero-copy {
+    max-width: 620px;
+  }
+  .m-campaign-hero h1 {
+    font-size: clamp(48px, 8vw, 72px);
+  }
+  .m-campaign-hero .m-hero-lifestyle {
+    position: relative;
+    inset: auto;
+    min-width: 0;
+  }
+  .m-campaign-hero .m-hero-lifestyle .m-lifestyle-frame {
+    height: auto;
+    aspect-ratio: 16/9;
+    border-radius: 0 40px 0 0;
+  }
+  .m-campaign-hero .m-hero-lifestyle::after {
+    display: none;
+  }
+  .m-shipping-entry {
+    margin-top: -24px;
+  }
+  .m-shipping-entry a {
+    padding: 20px;
+    gap: 12px;
+    grid-template-columns: 1fr auto;
+  }
+  .m-shipping-entry span {
+    grid-column: 1/-1;
+  }
+  .m-shipping-entry strong {
+    font-size: 14px;
+  }
+  .m-business-story > .m-container {
+    gap: 32px;
+  }
+  .m-business-caption h2 {
+    font-size: 36px;
+  }
+  .m-account-story {
+    padding-top: 72px;
+  }
+}
+@media (max-width: 560px) {
+  .m-header-inner {
+    min-height: 96px;
+  }
+  .m-header .brand-logo img {
+    width: 112px;
+  }
+  .m-campaign-hero h1 {
+    font-size: clamp(44px, 11.5vw, 60px);
+  }
+  .m-campaign-hero .m-hero-lifestyle .m-lifestyle-frame {
+    aspect-ratio: 4/3;
+  }
+  .m-shipping-entry {
+    grid-template-columns: 1fr;
+  }
+  .m-shipping-entry a {
+    min-height: 76px;
+    grid-template-columns: auto 1fr auto;
+    padding: 20px 24px;
+    border-radius: 0 !important;
+  }
+  .m-shipping-entry span {
+    grid-column: auto;
+  }
+  .m-shipping-entry a + a {
+    border-left: 0;
+  }
+  .m-shipping-entry a:last-child {
+    border-radius: 0 0 28px 0 !important;
+  }
+  .m-detail-rows {
+    padding: 8px 24px;
+  }
+  .m-detail-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .m-detail-row > p:last-child {
+    grid-column: auto;
+  }
+  .m-preparation-steps li {
+    grid-template-columns: 52px 1fr;
+    padding-top: 24px;
+  }
+  .m-step-number {
+    font-size: 40px;
+  }
+  .m-business-story > .m-container {
+    grid-template-columns: 1fr;
+  }
+  .m-business-lifestyle .m-lifestyle-frame {
+    aspect-ratio: 4/3;
+  }
+  .m-business-caption h2 {
+    font-size: 40px;
+  }
+}

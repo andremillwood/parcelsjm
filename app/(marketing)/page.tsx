@@ -59,12 +59,32 @@ export default function Home() {
                 alt="Illustrative scene of a woman unpacking new sneakers in a sunlit Jamaican home"
                 fill
                 priority
-                sizes="(max-width: 900px) 100vw, 50vw"
+                sizes="100vw"
               />
             </div>
           </figure>
         </div>
       </section>
+      <nav
+        className="m-shipping-entry m-container"
+        aria-label="Shipping shortcuts"
+      >
+        <Link href="/tracking">
+          <span>01</span>
+          <strong>Track your package</strong>
+          <Arrow />
+        </Link>
+        <Link href="/how-it-works">
+          <span>02</span>
+          <strong>Plan your next purchase</strong>
+          <Arrow />
+        </Link>
+        <Link href="/help">
+          <span>03</span>
+          <strong>Get shipping help</strong>
+          <Arrow />
+        </Link>
+      </nav>
       <section id="the-experience" className="m-section m-account-story">
         <div className="m-container">
           <div className="m-section-heading">

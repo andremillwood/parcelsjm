@@ -20,3 +20,7 @@ No animation dependency, new font or component library is needed. All new shared
 ## Workspace contract — considered design pass
 
 Keep the `.workspace` scope. `--w-ink:#07172b`, `--w-yellow:#ffc800`, `--w-muted:#536477`, `--w-line:#dce3eb`, `--w-surface:#fff`, `--w-canvas:#f5f7fa`. Controls use `--w-radius-control:6px`; panels use `--w-radius-panel:8px`; 8/16/24/32px spacing tokens govern local grouping. Titles use existing Inter at 28–38px; section titles 21px; body/controls 13–14px; contextual labels 12px with normal case and tracking. Financial values and counts use tabular numerals. Yellow is reserved for primary actions, active-location edges, outstanding balances and urgent work. Status colors communicate actual states, with text always present. Local 18px stroke SVG icons share one style. No font, library or animation dependency is added.
+
+## Logistics visual extension
+
+Brand primitives remain unchanged. New scoped component sheets use the existing semantic colors. Marketing display 48–80px / 750 weight; product display 28–44px / 700; body remains Inter 14–16px. Pill actions use 999px radius; inputs 6px; work panels 8px; decorative image corners 40–64px. Navy header surfaces use white titles and #bdcada supporting text; light sidebar uses #07172b labels. A photo legibility scrim is functional, not a decorative background. Motions remain existing short CSS hovers only.

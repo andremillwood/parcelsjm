@@ -1,0 +1,315 @@
+/* Shared logistics identity; forms, data states and permissions remain unchanged. */
+.workspace {
+  --w-canvas: #f1f4f7;
+  --w-radius-control: 999px;
+  background: var(--w-canvas);
+  grid-template-columns: 236px minmax(0, 1fr);
+}
+.w-sidebar {
+  background: white;
+  color: var(--w-ink);
+  border-right: 1px solid var(--w-line);
+  padding: 24px 16px;
+}
+.w-sidebar .brand-logo {
+  background: var(--w-ink);
+  width: 172px;
+  padding: 12px 14px;
+  border-radius: 0 0 28px 0;
+  margin: 0 0 8px 8px;
+}
+.w-sidebar .brand-logo img {
+  width: 144px;
+}
+.w-sidebar .w-eyebrow,
+.w-sidebar-bottom small,
+.w-back {
+  color: var(--w-muted);
+}
+.w-sidebar nav a {
+  color: #33475c;
+  border-radius: 0 24px 24px 0;
+}
+.w-sidebar nav a[aria-current] {
+  background: var(--w-ink);
+  color: white;
+  border-left-color: var(--w-yellow);
+}
+.w-sidebar nav a:hover {
+  background: #e9eef3;
+  color: var(--w-ink);
+}
+.w-sidebar nav a[aria-current]:hover {
+  background: #183249;
+  color: white;
+}
+.w-sidebar-bottom {
+  border-top: 1px solid var(--w-line);
+  padding-top: 24px;
+  margin-top: 40px;
+}
+.w-back {
+  margin-top: auto;
+  padding-top: 24px;
+}
+.w-topbar {
+  background: var(--w-ink);
+  color: white;
+  border: 0;
+  min-height: 76px;
+}
+.w-breadcrumb > span:last-child {
+  color: white;
+}
+.w-breadcrumb > span[aria-hidden] {
+  color: #bdcada;
+}
+.w-topbar :focus-visible {
+  outline-color: var(--w-yellow);
+}
+.w-content {
+  padding: 32px;
+}
+.w-heading {
+  position: relative;
+  isolation: isolate;
+  padding: 36px 32px;
+  background: var(--w-ink);
+  color: white;
+  border-radius: 0 40px 0 0;
+  min-height: 188px;
+  overflow-wrap: anywhere;
+}
+.w-heading::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  right: 0;
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(45deg, transparent 49%, #19354f 50%);
+  border-radius: 0 40px 0 0;
+  pointer-events: none;
+}
+.w-heading > div {
+  min-width: 0;
+}
+.w-heading h1 {
+  color: white;
+  font-size: clamp(28px, 3.1vw, 44px);
+  font-weight: 700;
+  letter-spacing: -0.045em;
+}
+.w-heading .w-eyebrow {
+  color: var(--w-yellow);
+  font-size: 12px;
+}
+.w-heading .w-subtitle {
+  color: #c8d5e4;
+  font-size: 14px;
+  max-width: 600px;
+}
+.w-heading .w-button-secondary {
+  background: transparent;
+  border-color: #7a8da4;
+  color: white;
+}
+.w-heading .w-button-secondary:hover {
+  background: white;
+  color: var(--w-ink);
+}
+.w-heading :focus-visible {
+  outline-color: var(--w-yellow);
+}
+.w-button {
+  border-radius: 999px;
+  padding-inline: 22px;
+}
+.workspace input:not([type="checkbox"]):not([type="radio"]),
+.workspace select,
+.workspace textarea {
+  border-radius: 6px;
+}
+.w-demo {
+  padding: 12px 16px;
+  background: #e5ebf1;
+  border: 0;
+  border-left: 3px solid #8498ad;
+  font-size: 11px;
+  margin-bottom: 24px;
+}
+.w-summary-items {
+  border: 0;
+  border-radius: 0 24px 8px 8px;
+  box-shadow: 0 8px 20px #07172b06;
+}
+.w-summary-item {
+  padding: 24px;
+}
+.w-summary-primary {
+  background: var(--w-yellow);
+  border-left: 0;
+}
+.w-summary-primary span {
+  color: var(--w-ink);
+}
+.w-summary-primary:hover {
+  background: #ffda46;
+}
+.w-summary-item strong {
+  font-size: 36px;
+  font-weight: 700;
+}
+.w-panel {
+  box-shadow: 0 5px 16px #07172b04;
+  border-color: #d5dfe9;
+}
+.w-panel-heading h2,
+.w-section-title h2 {
+  font-weight: 650;
+}
+.w-address-card {
+  background: var(--w-ink);
+  color: white;
+  border: 0;
+  border-radius: 0 32px 8px 8px;
+  padding: 28px;
+}
+.w-address-card h2 {
+  color: white;
+}
+.w-address-card p:not(.w-eyebrow),
+.w-address-card .w-eyebrow,
+.w-address-card .w-muted {
+  color: #c8d5e4;
+}
+.w-address-card .w-button {
+  border-color: #a8b6c7;
+  background: transparent;
+  color: white;
+}
+.w-address-card .w-button:hover {
+  background: white;
+  color: var(--w-ink);
+}
+.w-address-card :focus-visible {
+  outline-color: var(--w-yellow);
+}
+.w-address-card .w-pending {
+  color: white;
+  border-color: #ffffff38;
+}
+.w-address-card .w-dl > div {
+  border-color: #ffffff30;
+}
+.w-package-row {
+  border-left: 3px solid transparent;
+  padding-top: 24px;
+  padding-bottom: 24px;
+}
+.w-package-row:hover {
+  border-left-color: var(--w-yellow);
+  background: #f5f8fb;
+}
+.w-package-icon {
+  background: #edf2f7;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+}
+.w-pill {
+  border-radius: 999px;
+  padding: 5px 10px;
+}
+.w-stat:first-child {
+  background: #fff8dc;
+}
+.w-stat strong {
+  font-weight: 700;
+}
+.w-task {
+  border-radius: 0 24px 8px 8px;
+}
+.w-task-heading h2 {
+  font-weight: 650;
+}
+.w-timeline > li > span {
+  width: 12px;
+  height: 12px;
+  background: var(--w-yellow);
+  border: 2px solid var(--w-ink);
+}
+.w-bottom {
+  border-top: 1px solid var(--w-line);
+  background: white;
+}
+@media (max-width: 1100px) {
+  .workspace {
+    grid-template-columns: 212px minmax(0, 1fr);
+  }
+  .w-heading {
+    padding: 28px;
+    gap: 20px;
+  }
+  .w-content {
+    padding: 24px;
+  }
+}
+@media (max-width: 900px) {
+  .workspace {
+    display: block;
+  }
+  .w-topbar {
+    padding: 0 24px;
+    min-height: 64px;
+  }
+  .w-heading {
+    min-height: 0;
+    padding: 28px 24px;
+  }
+  .w-mobile-menu {
+    background: white;
+    color: var(--w-ink);
+    border-bottom: 1px solid var(--w-line);
+  }
+  .w-mobile-menu nav a {
+    color: var(--w-ink);
+    border-color: var(--w-line);
+  }
+  .w-mobile-menu nav a[aria-current] {
+    background: var(--w-yellow);
+    color: var(--w-ink);
+  }
+}
+@media (max-width: 640px) {
+  .w-content {
+    padding: 20px 16px 40px;
+  }
+  .w-heading {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+    border-radius: 0 32px 0 0;
+  }
+  .w-heading h1 {
+    font-size: 32px;
+  }
+  .w-heading .w-button {
+    max-width: 100%;
+  }
+  .w-summary-item {
+    padding: 18px 20px;
+  }
+  .w-summary-item strong {
+    font-size: 28px;
+  }
+  .w-topbar {
+    padding: 0 16px;
+  }
+  .w-address-card {
+    padding: 24px;
+  }
+}

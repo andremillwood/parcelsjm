@@ -8,6 +8,7 @@ const links = [
   ["/rates", "Rates"],
   ["/business", "For business"],
   ["/help", "Help"],
+  ["/tracking", "Track"],
 ] as const;
 export function SiteHeader() {
   const path = usePathname();
@@ -65,7 +66,6 @@ export function SiteHeader() {
         >
           {[
             ...links,
-            ["/tracking", "Track your package"],
             ["/login", "Sign in"],
             ["/register", "Explore registration"],
           ].map(([href, label]) => (
