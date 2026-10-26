@@ -1,3 +1,5 @@
+import { Notifications } from "../../../../components/workspace/notifications";
+import { loadNotifications } from "../../../../lib/communications/load";
 import { Shipments } from "../../../../components/workspace/shipments";
 import { loadShipments } from "../../../../lib/shipments/load";
 import { Billing } from "../../../../components/workspace/billing";
@@ -34,6 +36,7 @@ export default async function AdminPage({
       "support",
       "billing",
       "audit",
+      "notifications",
       "settings",
     ].includes(section) &&
     !/^packages\/[a-f0-9-]{36}$/.test(section) &&
@@ -49,7 +52,11 @@ export default async function AdminPage({
       name={identity.profile.full_name || "Staff"}
       path={section}
     >
-      {section.startsWith("shipments") ? (
+      {section === "notifications" ? (
+        <Notifications
+          data={await loadNotifications(identity, await searchParams)}
+        />
+      ) : section.startsWith("shipments") ? (
         <Shipments
           id={section.split("/")[1]}
           data={await loadShipments(

@@ -46,11 +46,14 @@ export function StaffForm({
             d.effective = new Date(
               String(d.effective) + "-05:00",
             ).toISOString();
-          const endpoint = action.startsWith("billing-")
-            ? `/api/billing/${action.slice(8)}`
-            : action.startsWith("shipment-")
-              ? `/api/shipments/${action.slice(9)}`
-              : `/api/workspace/${action}`;
+          const endpoint =
+            action === "email-retry"
+              ? "/api/communications/retry"
+              : action.startsWith("billing-")
+                ? `/api/billing/${action.slice(8)}`
+                : action.startsWith("shipment-")
+                  ? `/api/shipments/${action.slice(9)}`
+                  : `/api/workspace/${action}`;
           const response = await fetch(endpoint, {
             method: "POST",
             headers: { "Content-Type": "application/json" },

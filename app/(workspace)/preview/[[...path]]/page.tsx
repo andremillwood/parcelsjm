@@ -1,3 +1,5 @@
+import { Notifications } from "../../../../components/workspace/notifications";
+import { demoNotifications } from "../../../../lib/communications/load";
 import { Shipments } from "../../../../components/workspace/shipments";
 import { demoShipments } from "../../../../lib/shipments/load";
 import { Billing } from "../../../../components/workspace/billing";
@@ -37,6 +39,7 @@ export default async function Preview({
         "shipments",
         "shipments/demo-batch",
         "audit",
+        "notifications",
         "settings",
       ]
     : [
@@ -98,7 +101,20 @@ export default async function Preview({
       name={admin ? "Operations team" : sampleData.name}
       path={section}
     >
-      {section.startsWith("shipments") ? (
+      {admin && section === "notifications" ? (
+        <Notifications
+          data={{
+            ...demoNotifications,
+            total: demoNotifications.rows.filter(
+              (r) => !query.status || r.state === query.status,
+            ).length,
+            state: typeof query.status === "string" ? query.status : "",
+            rows: demoNotifications.rows.filter(
+              (r) => !query.status || r.state === query.status,
+            ),
+          }}
+        />
+      ) : section.startsWith("shipments") ? (
         <Shipments id={section.split("/")[1]} data={demoShipments} />
       ) : section.startsWith("billing") ? (
         <Billing

@@ -32,6 +32,7 @@ export function WorkspaceShell({
         ["support", "Support"],
         ["billing", "Billing & collections"],
         ["audit", "Audit history"],
+        ["notifications", "Notifications"],
         ["settings", "Settings"],
       ]
     : [
@@ -57,6 +58,7 @@ export function WorkspaceShell({
     intake: "intake",
     audit: "audit",
     settings: "settings",
+    notifications: "support",
   };
   const current =
     links.find(

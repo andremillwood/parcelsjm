@@ -1,3 +1,5 @@
+import { scheduleEmails } from "../../../../lib/communications/schedule";
+import { emailStatusMessage } from "../../../../lib/communications/config";
 import { createHash } from "node:crypto";
 import { getIdentity } from "../../../../lib/auth/session";
 import { InputError, readJson, reply } from "../../../../lib/http/input";
@@ -47,10 +49,10 @@ export async function POST(
           409,
           "Request not saved. Check customer, package ownership and request limits.",
         );
+      scheduleEmails();
       return json({
         id: result.data,
-        message:
-          "Document requested. The customer can see it in their app; email remains deferred.",
+        message: `Document requested. The customer can see it in their app. ${emailStatusMessage()}`,
       });
     }
     if (action === "intent") {
@@ -138,10 +140,11 @@ export async function POST(
           409,
           "File confirmation failed. The upload may have expired or the request changed. Refresh before trying again.",
         );
+      scheduleEmails();
       return reply(
         valid ? 200 : 422,
         valid
-          ? "Uploaded securely. Your file is quarantined until malware scanning completes, then the team can review it. Email remains deferred."
+          ? `Uploaded securely. Your file is quarantined until malware scanning completes, then the team can review it. ${emailStatusMessage()}`
           : "File rejected: its contents or size did not match the selected PDF, JPEG or PNG. Please upload a valid replacement.",
       );
     }
@@ -159,9 +162,10 @@ export async function POST(
           409,
           "Review not saved. Refresh changed records; approval requires a clean malware scan. A reason is required for every decision.",
         );
+      scheduleEmails();
       return reply(
         200,
-        "Review saved in the customer history. Email remains deferred.",
+        `Review saved in the customer history. ${emailStatusMessage()}`,
       );
     }
     if (action === "download") {

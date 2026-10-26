@@ -1,0 +1,67 @@
+{
+  "confirmation": {
+    "subject": "Confirm your Parcels JA email",
+    "content_path": "emails/auth/confirmation.html",
+    "security_notification": false
+  },
+  "recovery": {
+    "subject": "Reset your Parcels JA password",
+    "content_path": "emails/auth/recovery.html",
+    "security_notification": false
+  },
+  "invite": {
+    "subject": "Your Parcels JA invitation",
+    "content_path": "emails/auth/invite.html",
+    "security_notification": false
+  },
+  "magic_link": {
+    "subject": "Your Parcels JA sign-in link",
+    "content_path": "emails/auth/magic_link.html",
+    "security_notification": false
+  },
+  "email_change": {
+    "subject": "Confirm your Parcels JA email change",
+    "content_path": "emails/auth/email_change.html",
+    "security_notification": false
+  },
+  "reauthentication": {
+    "subject": "Confirm your Parcels JA security action",
+    "content_path": "emails/auth/reauthentication.html",
+    "security_notification": false
+  },
+  "password_changed": {
+    "subject": "Your Parcels JA password changed",
+    "content_path": "emails/auth/password_changed.html",
+    "security_notification": true
+  },
+  "email_changed": {
+    "subject": "Your Parcels JA email address changed",
+    "content_path": "emails/auth/email_changed.html",
+    "security_notification": true
+  },
+  "phone_changed": {
+    "subject": "Your Parcels JA sign-in phone changed",
+    "content_path": "emails/auth/phone_changed.html",
+    "security_notification": true
+  },
+  "mfa_factor_enrolled": {
+    "subject": "A security factor was added to Parcels JA",
+    "content_path": "emails/auth/mfa_factor_enrolled.html",
+    "security_notification": true
+  },
+  "mfa_factor_unenrolled": {
+    "subject": "A security factor was removed from Parcels JA",
+    "content_path": "emails/auth/mfa_factor_unenrolled.html",
+    "security_notification": true
+  },
+  "identity_linked": {
+    "subject": "A sign-in method was linked to Parcels JA",
+    "content_path": "emails/auth/identity_linked.html",
+    "security_notification": true
+  },
+  "identity_unlinked": {
+    "subject": "A sign-in method was unlinked from Parcels JA",
+    "content_path": "emails/auth/identity_unlinked.html",
+    "security_notification": true
+  }
+}
