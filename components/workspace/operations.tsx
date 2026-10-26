@@ -1,3 +1,4 @@
+import { emailConfig } from "../../lib/communications/config";
 import { NEXT_STATES } from "../../lib/billing/pricing";
 import { Pagination, RecordSearch } from "./pagination";
 import { Documents } from "./documents";
@@ -332,8 +333,8 @@ function OperationsContent({
           ))
         ) : (
           <Empty title="No support requests available">
-            Requests visible to your role appear here. Email remains deferred;
-            responses are available in the customer workspace.
+            Requests visible to your role appear here. Email delivery is tracked
+            separately; responses are available in the customer workspace.
           </Empty>
         )}
       </>
@@ -380,7 +381,14 @@ function OperationsContent({
             {[
               ["Supabase", "Identity and package schema connected"],
               ["Warehouse addresses", "No approved warehouse configured"],
-              ["Resend", "Deferred by owner"],
+              [
+                "Resend",
+                data.demo
+                  ? "Demo sends no email"
+                  : emailConfig()
+                    ? "Configured; delivery outcomes in Notifications"
+                    : "Not activated",
+              ],
               ["DMD", "Not connected — automation deferred"],
               ["Pricing", "Approval required"],
               [
@@ -462,8 +470,8 @@ function OperationsContent({
         </aside>
       </div>
       <Notice>
-        Resend and DMD are not connected in this preview. No notification or
-        partner sync is claimed.
+        Demo changes do not send email. DMD remains disconnected; no partner
+        sync is claimed.
       </Notice>
     </>
   );

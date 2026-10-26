@@ -1,3 +1,5 @@
+import { scheduleEmails } from "../../../../lib/communications/schedule";
+import { emailStatusMessage } from "../../../../lib/communications/config";
 import { getIdentity } from "../../../../lib/auth/session";
 import { readJson, reply, InputError } from "../../../../lib/http/input";
 import { billingSchemas } from "../../../../lib/billing/schema";
@@ -135,7 +137,8 @@ export async function POST(
         409,
         "Not recorded. Refresh and check the invoice version, role, payment reference, outstanding balance and required approvals.",
       );
-    return reply(200, "Recorded. Email notifications remain deferred.");
+    scheduleEmails();
+    return reply(200, `Recorded. ${emailStatusMessage()}`);
   } catch (e) {
     if (e instanceof InputError) return reply(e.status, e.message);
     if (e instanceof Error && e.name === "ZodError")

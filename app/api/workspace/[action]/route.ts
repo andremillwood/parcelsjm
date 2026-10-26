@@ -1,3 +1,5 @@
+import { scheduleEmails } from "../../../../lib/communications/schedule";
+import { emailStatusMessage } from "../../../../lib/communications/config";
 import { getIdentity } from "../../../../lib/auth/session";
 import { readJson, InputError, reply } from "../../../../lib/http/input";
 import { workspaceSchemas } from "../../../../lib/workspace/schema";
@@ -167,11 +169,12 @@ export async function POST(
         409,
         "The change was not saved. Check permissions, onboarding, duplicate references and current record state, then refresh.",
       );
+    scheduleEmails();
     return reply(
       200,
       action === "profile"
         ? "Profile saved and onboarding completed."
-        : "Saved. Email notifications remain deferred.",
+        : `Saved. ${emailStatusMessage()}`,
     );
   } catch (error) {
     if (error instanceof InputError) return reply(error.status, error.message);

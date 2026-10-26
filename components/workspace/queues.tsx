@@ -22,8 +22,8 @@ export function Queues({
       </Heading>
       <Notice>
         Priority and due dates are staff decisions, not delivery promises. Files
-        remain quarantined until an approved scanner clears them. Email remains
-        deferred.
+        remain quarantined until an approved scanner clears them. Email delivery
+        is tracked separately.
       </Notice>
       {data.error && <p role="alert">{data.error}</p>}
       <form method="get" className="w-panel w-pad w-queue-filters">
