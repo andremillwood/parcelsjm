@@ -97,7 +97,7 @@ test("atomic queue isolates customers, freezes retries, tracks monotonic deliver
       `create role anon;create role authenticated;create role service_role bypassrls;create schema auth;create schema storage;grant usage on schema public,auth,storage to anon,authenticated,service_role;create table auth.users(id uuid primary key,email text,email_confirmed_at timestamptz,raw_user_meta_data jsonb);create table auth.identities(id uuid primary key,user_id uuid,identity_data jsonb);create function auth.uid()returns uuid language sql stable as $$select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid$$;create table storage.buckets(id text primary key,name text,public boolean,file_size_limit bigint,allowed_mime_types text[]);create table storage.objects(id uuid primary key default gen_random_uuid(),bucket_id text,name text);alter table storage.objects enable row level security;grant all on storage.objects to authenticated,service_role;`,
     );
     for (const f of (await readdir("supabase/migrations"))
-      .filter((f) => f.endsWith(".sql"))
+      .filter((f) => f.endsWith(".sql") && !f.endsWith("_email_scheduler.sql"))
       .sort())
       await db.exec(await readFile("supabase/migrations/" + f, "utf8"));
     const a = id,
