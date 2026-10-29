@@ -56,3 +56,7 @@ The operator command composition stays: heading/action, compact activity summary
 ## LogiHub visual direction — owner approved
 
 The owner explicitly wants a strong aesthetic cue from LogiHub across marketing and signed-in experiences, superseding the previous restrained reskin. Preserve original logo, navy/yellow, Jamaican lifestyle assets, routes, section order and all operational/security behavior. Use full-width photographic composition, bold Inter, light/dark contrast, pill actions and one clipped parcel-label corner motif. Marketing variance 6; product variance 4; motion 2; density 5 marketing / 7 operations. Sidebar becomes light, content headers navy; forms and queues remain legible work surfaces. No sliders, fabricated metrics, testimonials, partner logos, foreign addresses or unsupported services. Existing text and all CTAs remain. No production release until preview review. Signup disabled, Resend/DMD deferred, draft policies and document quarantine retained.
+
+## Public product illustration constraint — 29 October 2026
+
+Public marketing must not display development banners, including labels baked into old screenshots. Use a responsive account illustration or a verified current product capture; label example account content honestly and link users to their real account. Do not change policy, signup or operational release gates as a cosmetic fix.

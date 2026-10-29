@@ -1,3 +1,4 @@
+import { AccountIllustration } from "../../components/marketing/account-illustration";
 import Image from "next/image";
 import Link from "next/link";
 import { Arrow, ButtonLink, CTA, Eyebrow } from "../../components/marketing/ui";
@@ -5,7 +6,7 @@ import { FAQ } from "../../components/marketing/content";
 import { pageMetadata } from "../../lib/metadata";
 export const metadata = pageMetadata(
   "For the things you can’t wait to make yours.",
-  "Shopping in the US, living in Jamaica? Explore Parcels JA: your packages, pre-alerts and documents in one place. Registration and rates are not yet active.",
+  "Shopping in the US, living in Jamaica? Explore Parcels JA: your packages, pre-alerts and documents in one place. Track your shipments and arrange delivery or pickup.",
   "/",
 );
 const features = [
@@ -97,27 +98,7 @@ export default function Home() {
               can see what’s submitted and what comes next.
             </p>
           </div>
-          <figure className="m-demo-proof">
-            <Link
-              className="m-demo-stage"
-              href="/app"
-              aria-label="Open the customer app demo"
-            >
-              <Image
-                src="/marketing/customer-app-demo.webp"
-                alt="The actual Parcels JA customer demo, showing fictional package records, outstanding actions and pre-alert navigation"
-                width={1280}
-                height={900}
-                sizes="(max-width: 900px) 100vw, 1168px"
-              />
-              <span className="m-demo-open">
-                Open your account <Arrow />
-              </span>
-            </Link>
-            <figcaption>
-              Customer app demo. Fictional sample packages, no account needed.
-            </figcaption>
-          </figure>
+          <AccountIllustration />
           <div className="m-detail-rows">
             {features.map(([label, title, copy]) => (
               <article className="m-detail-row" key={label}>
