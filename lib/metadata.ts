@@ -4,7 +4,7 @@ export function pageMetadata(
   description: string,
   path: string,
 ): Metadata {
-  // Canonical production domain comes from the PRD; preview remains noindex.
+  // Canonical production domain.
   const url = `https://parcelsjm.com${path}`;
   return {
     title: `${title} | Parcels JA`,

@@ -42,14 +42,13 @@ export default function Home() {
               in one Parcels JA account.
             </p>
             <div className="m-campaign-actions">
-              <ButtonLink href="/register">Explore registration</ButtonLink>
-              <Link className="m-hero-demo" href="/preview/app">
-                Try the customer app demo <Arrow />
+              <ButtonLink href="/register">Create account</ButtonLink>
+              <Link className="m-hero-demo" href="/app">
+                Open your account <Arrow />
               </Link>
             </div>
             <p className="m-small">
-              Registration preview. Shipping address activation is not yet
-              available.
+              Verify your email to activate your assigned US shipping address.
             </p>
           </div>
           <figure className="m-lifestyle m-hero-lifestyle">
@@ -101,7 +100,7 @@ export default function Home() {
           <figure className="m-demo-proof">
             <Link
               className="m-demo-stage"
-              href="/preview/app"
+              href="/app"
               aria-label="Open the customer app demo"
             >
               <Image
@@ -112,7 +111,7 @@ export default function Home() {
                 sizes="(max-width: 900px) 100vw, 1168px"
               />
               <span className="m-demo-open">
-                Try the customer app demo <Arrow />
+                Open your account <Arrow />
               </span>
             </Link>
             <figcaption>

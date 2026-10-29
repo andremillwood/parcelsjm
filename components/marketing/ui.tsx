@@ -74,12 +74,12 @@ export function CTA() {
             <br />
             Parcels JA account.
           </h2>
-          <p>Explore how your Parcels JA account will work.</p>
+          <p>Keep your packages, documents and delivery choices together.</p>
         </div>
         <div>
-          <ButtonLink href="/register">Explore registration</ButtonLink>
+          <ButtonLink href="/register">Create account</ButtonLink>
           <p className="m-small">
-            Registration preview. Address activation is not yet available.
+            Verify your email, then follow the steps in your account.
           </p>
         </div>
       </div>

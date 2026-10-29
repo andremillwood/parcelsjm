@@ -1,5 +1,14 @@
 import type { MetadataRoute } from "next";
 export default function sitemap(): MetadataRoute.Sitemap {
-  // Public launch is explicitly gated; do not advertise preview/demo URLs.
-  return [];
+  return [
+    "",
+    "/how-it-works",
+    "/services",
+    "/rates",
+    "/business",
+    "/help",
+    "/contact",
+    "/about",
+    "/tracking",
+  ].map((path) => ({ url: `https://parcelsjm.com${path}` }));
 }

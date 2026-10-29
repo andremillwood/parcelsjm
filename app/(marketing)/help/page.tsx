@@ -4,7 +4,7 @@ import { FAQ } from "../../../components/marketing/content";
 import { pageMetadata } from "../../../lib/metadata";
 export const metadata = pageMetadata(
   "Help & FAQs",
-  "Clear answers about account activation, rates, documents and the planned Parcels JA experience.",
+  "Clear answers about account activation, rates, documents and the Parcels JA experience.",
   "/help",
 );
 export default function Help() {
@@ -27,7 +27,7 @@ export default function Help() {
             <Link className="m-text-link" href="/how-it-works">
               How it works guide
             </Link>{" "}
-            walks through the planned journey.
+            walks through the shipping journey.
           </p>
           <ButtonLink href="/contact" secondary>
             Ask a question

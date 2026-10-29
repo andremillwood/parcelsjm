@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import "@fontsource-variable/inter";
 import "./globals.css";
 export const metadata: Metadata = {
-  title: "Parcels JA | Development preview",
+  title: "Parcels JA | Your shipping workspace",
   description:
-    "Preview the planned Parcels JA customer experience. Registration and shipping services are not activated in this demonstration.",
-  robots: { index: false, follow: false },
+    "Manage your Parcels JA account, track shipments, and arrange delivery or pickup.",
+  robots: { index: true, follow: true },
   icons: {
     icon: { url: "/brand/parcels-ja-original.jpeg", type: "image/jpeg" },
   },
@@ -17,10 +17,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <a className="skip-link" href="#main-content">
           Skip to content
         </a>
-        <div className="preview-banner">
-          Development preview — public registration and shipping quotes remain
-          gated.
-        </div>
         {children}
       </body>
     </html>

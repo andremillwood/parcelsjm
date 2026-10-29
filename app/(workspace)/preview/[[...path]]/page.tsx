@@ -20,6 +20,7 @@ export default async function Preview({
   params: Promise<{ path?: string[] }>;
   searchParams: Promise<QueryParams>;
 }) {
+  if (process.env.ENABLE_DESIGN_PREVIEWS !== "true") notFound();
   const { path = [] } = await params;
   const admin = path[0] === "admin";
   if (!["app", "admin"].includes(path[0])) notFound();

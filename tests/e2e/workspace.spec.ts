@@ -74,3 +74,17 @@ test("preview pre-alert validates required fields and does not persist a fiction
   await page.getByRole("button", { name: "Check preview" }).click();
   await expect(page.getByRole("status")).toContainText("No record was saved");
 });
+
+test("new fulfillment actions require authentication", async ({ request }) => {
+  for (const action of [
+    "fulfillment",
+    "location",
+    "location-status",
+    "ticket",
+    "ticket-email",
+    "customer-status",
+  ])
+    expect(
+      (await request.post(`/api/workspace/${action}`, { data: {} })).status(),
+    ).toBe(401);
+});

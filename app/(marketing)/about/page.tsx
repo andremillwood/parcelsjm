@@ -22,19 +22,18 @@ export default function About() {
         <div>
           <h2>Clarity is the starting point.</h2>
           <p className="m-prose">
-            Parcels JA is developing a shared place for your package
-            information, documents and required actions. The goal is practical:
-            help you understand the next step without piecing together scattered
-            updates.
+            Parcels JA brings together your package details in one place with
+            documents and required actions. The goal is practical: help you
+            understand the next step without piecing together scattered updates.
           </p>
           <ButtonLink href="/how-it-works" secondary>
             Explore the journey
           </ButtonLink>
         </div>
         <Notice>
-          Company legal details, official support contacts and operational
-          policies are still being confirmed for publication. This preview does
-          not claim service history, customer numbers or delivery performance.
+          Choose delivery to your preferred address or pickup. Our pickup
+          location is being established; wait for your ticket to confirm where
+          and when to collect.
         </Notice>
       </div>
     </div>

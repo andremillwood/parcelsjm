@@ -1,48 +1,55 @@
 import { z } from "zod";
-export const registrationSchema = z.object({
-  action: z.literal("register"),
-  email: z
-    .email("Enter a valid email address.")
-    .max(254, "Use an email address of 254 characters or fewer."),
-  password: z
-    .string()
-    .min(12, "Use at least 12 characters.")
-    .max(128, "Use 128 characters or fewer."),
-  fullName: z
-    .string()
-    .trim()
-    .min(2, "Enter your full name.")
-    .max(120, "Use 120 characters or fewer."),
-  phone: z
-    .string()
-    .trim()
-    .min(7, "Enter a contact phone number.")
-    .max(30, "Use 30 characters or fewer."),
-  trn: z
-    .string()
-    .trim()
-    .regex(
-      /^\d{3}[ -]?\d{3}[ -]?\d{3}$/,
-      "Enter your 9-digit TRN, with optional spaces or hyphens.",
-    )
-    .transform((value) => value.replace(/[ -]/g, "")),
-  homeAddress: z
-    .string()
-    .trim()
-    .min(
-      10,
-      "Enter your full residential address, including town, parish and country.",
-    )
-    .max(500, "Use 500 characters or fewer.")
-    .refine(
-      (value) => !value.includes("\0"),
-      "Remove unsupported characters from your address.",
-    ),
-  accountType: z.enum(["personal", "business"]),
-  consent: z.literal(true, {
-    error: "Confirm the acknowledgement to continue.",
-  }),
-});
+export const registrationSchema = z
+  .object({
+    action: z.literal("register"),
+    email: z
+      .email("Enter a valid email address.")
+      .max(254, "Use an email address of 254 characters or fewer."),
+    password: z
+      .string()
+      .min(12, "Use at least 12 characters.")
+      .max(128, "Use 128 characters or fewer."),
+    fullName: z
+      .string()
+      .trim()
+      .min(2, "Enter your full name.")
+      .max(120, "Use 120 characters or fewer."),
+    phone: z
+      .string()
+      .trim()
+      .min(7, "Enter a contact phone number.")
+      .max(30, "Use 30 characters or fewer."),
+    trn: z
+      .string()
+      .trim()
+      .regex(
+        /^\d{3}[ -]?\d{3}[ -]?\d{3}$/,
+        "Enter your 9-digit TRN, with optional spaces or hyphens.",
+      )
+      .transform((value) => value.replace(/[ -]/g, "")),
+    homeAddress: z
+      .string()
+      .trim()
+      .min(
+        10,
+        "Enter your full residential address, including town, parish and country.",
+      )
+      .max(500, "Use 500 characters or fewer.")
+      .refine(
+        (value) => !value.includes("\0"),
+        "Remove unsupported characters from your address.",
+      ),
+    fulfillmentMethod: z.enum(["delivery", "pickup"]).default("pickup"),
+    deliveryAddress: z.string().trim().min(10).max(500).optional(),
+    accountType: z.enum(["personal", "business"]),
+    consent: z.literal(true, {
+      error: "Confirm the acknowledgement to continue.",
+    }),
+  })
+  .refine((d) => d.fulfillmentMethod !== "delivery" || !!d.deliveryAddress, {
+    path: ["deliveryAddress"],
+    message: "Enter the address where you want packages delivered.",
+  });
 export const registrationFields = [
   "accountType",
   "fullName",
@@ -50,6 +57,8 @@ export const registrationFields = [
   "phone",
   "trn",
   "homeAddress",
+  "fulfillmentMethod",
+  "deliveryAddress",
   "password",
   "confirmPassword",
   "consent",

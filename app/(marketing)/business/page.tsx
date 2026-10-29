@@ -43,16 +43,16 @@ export default function Business() {
         <div>
           <h2>Start with your needs.</h2>
           <p className="m-prose">
-            The planned business account brings packages and their documents
-            into one customer view. Special pricing, volume arrangements and
-            service availability must be approved before booking.
+            Your business account brings packages and their documents into one
+            customer view. Special pricing, volume arrangements and service
+            availability must be approved before booking.
           </p>
           <Notice>
-            No automatic discount, priority handling or commercial rate is
-            promised in this preview.
+            Business pricing and service arrangements are confirmed individually
+            before booking.
           </Notice>
           <ButtonLink href="/register?type=business" secondary>
-            Preview a business account
+            Create a business account
           </ButtonLink>
         </div>
         <LeadForm kind="business" available={leadsAvailable()} />

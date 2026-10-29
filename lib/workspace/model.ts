@@ -13,7 +13,36 @@ export type PackageRecord = {
   declared_currency: string;
   created_at: string;
 };
+export type PickupLocation = {
+  id: string;
+  name: string;
+  address: string;
+  parish: string;
+  hours: string;
+  active: boolean;
+};
+export type Fulfillment = {
+  method: "pickup" | "delivery";
+  address: string;
+  location_id: string | null;
+};
+export type PickupTicket = {
+  id: string;
+  package_id: string;
+  profile_id: string;
+  location_name: string;
+  address: string;
+  hours: string;
+  available_at: string;
+  instructions: string;
+  email_state: string;
+};
 export type WorkspaceData = {
+  locations?: PickupLocation[];
+  fulfillment?: (Fulfillment & { package_id: string })[];
+  preference?: Fulfillment;
+  customerPreferences?: (Fulfillment & { profile_id: string })[];
+  tickets?: PickupTicket[];
   pagination?: import("./pagination").Pagination;
   documents?: DocumentData;
   name: string;

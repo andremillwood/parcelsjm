@@ -38,6 +38,8 @@ export function StaffForm({
         setBusy(true);
         try {
           const d = Object.fromEntries(new FormData(e.currentTarget));
+          if (action === "ticket")
+            d.available = new Date(String(d.available)).toISOString();
           if (action === "event" || action === "correction")
             d.occurred = new Date(String(d.occurred)).toISOString();
           if ((action === "queue" || action === "billing-draft") && d.due)

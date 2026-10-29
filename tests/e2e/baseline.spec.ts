@@ -1,19 +1,19 @@
 import { expect, test } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
-for (const path of ["/", "/rates", "/register", "/dashboard"]) {
-  test(`${path}: accessible demo, no page overflow or runtime errors`, async ({
+for (const path of ["/", "/rates", "/register", "/login"]) {
+  test(`${path}: accessible public page, no page overflow or runtime errors`, async ({
     page,
   }, testInfo) => {
     const errors: string[] = [];
     page.on("pageerror", (error) => errors.push(error.message));
     const response = await page.goto(path);
     expect(response?.status()).toBe(200);
-    expect(response?.headers()["x-robots-tag"]).toContain("noindex");
+    expect(response?.headers()["x-robots-tag"]).toBeUndefined();
     await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
     await expect(
       page.getByText("Development preview", { exact: false }),
-    ).toBeVisible();
+    ).toHaveCount(0);
     await expect(
       page
         .getByRole("img", { name: "Parcels JA — Freight, Shipping, Delivery" })
@@ -44,44 +44,26 @@ for (const path of ["/", "/rates", "/register", "/dashboard"]) {
   });
 }
 
-test("registration validates without creating an account or transmitting input", async ({
+test("registration collects identity and fulfillment details and fails closed without configuration", async ({
   page,
+  request,
 }) => {
-  const writes: string[] = [];
-  page.on("request", (request) => {
-    if (["POST", "PUT", "PATCH"].includes(request.method()))
-      writes.push(request.url());
-  });
   await page.goto("/register");
-  await page.getByRole("button", { name: "Preview registration" }).click();
-  await expect(page.getByRole("status")).toHaveCount(0);
-  await page.getByLabel("Full name").fill("Demo Customer");
-  await page.getByLabel("Email", { exact: true }).fill("demo@example.test");
-  await page.getByLabel("Phone").fill("8765550100");
-  await page
-    .getByLabel("TRN (Taxpayer Registration Number)", { exact: true })
-    .fill("012-345-678");
-  await page
-    .getByLabel("Home address", { exact: true })
-    .fill("Sample district, Sample town, Jamaica");
-  await page
-    .getByLabel("Sample password", { exact: true })
-    .fill("SamplePassword123!");
-  await page
-    .getByLabel("Confirm sample password", { exact: true })
-    .fill("SamplePassword123!");
-  await page.getByRole("checkbox").check();
-  await page
-    .getByRole("radio", { name: "Business / reseller", exact: false })
-    .check();
-  await page.getByRole("button", { name: "Preview registration" }).click();
   await expect(
     page.getByLabel("TRN (Taxpayer Registration Number)", { exact: true }),
-  ).toHaveValue("");
-  await expect(page.getByRole("status")).toContainText(
-    "No account was created",
-  );
-  expect(writes).toEqual([]);
+  ).toBeVisible();
+  await expect(page.getByLabel("Home address", { exact: true })).toBeVisible();
+  await expect(
+    page.getByLabel("How would you like to receive your packages?"),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Create account" }),
+  ).toBeDisabled();
+  expect(
+    (
+      await request.post("/api/auth", { data: { action: "register" } })
+    ).status(),
+  ).toBe(503);
 });
 
 test("rates remain unavailable and unknown routes are honest 404s", async ({

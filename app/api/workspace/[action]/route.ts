@@ -1,3 +1,4 @@
+import { sendPickupTicket } from "../../../../lib/fulfillment/email";
 import { getIdentity } from "../../../../lib/auth/session";
 import { readJson, InputError, reply } from "../../../../lib/http/input";
 import { workspaceSchemas } from "../../../../lib/workspace/schema";
@@ -14,6 +15,11 @@ export async function POST(
     const body = await readJson(request);
     const { client } = identity;
     const staffActions: Record<string, string[]> = {
+      location: ["owner", "operations"],
+      "location-status": ["owner", "operations"],
+      "customer-status": ["owner"],
+      ticket: ["owner", "operations"],
+      "ticket-email": ["owner", "operations"],
       correction: ["owner", "operations"],
       event: ["owner", "operations"],
       intake: ["owner", "operations"],
@@ -36,6 +42,30 @@ export async function POST(
     // Queue authorization is source-specific and is enforced atomically by its RPC.
     let result;
     switch (action) {
+      case "ticket-email": {
+        const d = workspaceSchemas["ticket-email"].parse(body);
+        const ticket = await client
+          .from("pickup_tickets")
+          .select("id")
+          .eq("id", d.ticketId)
+          .single();
+        if (ticket.error) return reply(404, "Ticket unavailable.");
+        return reply(200, await sendPickupTicket(d.ticketId));
+      }
+      case "location":
+      case "location-status":
+      case "customer-status":
+      case "fulfillment":
+      case "ticket": {
+        const d = workspaceSchemas[action].parse(body);
+        result = await client.rpc("manage_fulfillment", {
+          p_action: action,
+          p_data: d,
+        });
+        if (!result.error && action === "ticket")
+          return reply(200, await sendPickupTicket(result.data));
+        break;
+      }
       case "pre-alert": {
         const d = workspaceSchemas["pre-alert"].parse(body);
         result = await client.rpc("create_pre_alert", {
@@ -171,7 +201,7 @@ export async function POST(
       200,
       action === "profile"
         ? "Profile saved and onboarding completed."
-        : "Saved. Email notifications remain deferred.",
+        : "Saved. The updated record is available in the customer account.",
     );
   } catch (error) {
     if (error instanceof InputError) return reply(error.status, error.message);

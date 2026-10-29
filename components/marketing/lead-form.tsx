@@ -25,9 +25,9 @@ export function LeadForm({
       </h2>
       {!available && (
         <Notice>
-          <strong>Inquiries are temporarily unavailable.</strong> This form is a
-          preview and cannot send or save information yet. Please return once
-          inquiry service and privacy information are confirmed.
+          <strong>Inquiries are temporarily unavailable.</strong> Please try
+          again later. Existing customers can send a support request from their
+          account.
         </Notice>
       )}
       <form

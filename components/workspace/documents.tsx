@@ -379,7 +379,7 @@ export function Documents({
       <Notice>
         Files are private. Unscanned files remain quarantined and cannot be
         opened or approved. A document approval does not mean customs clearance.
-        Email notifications remain deferred.
+        Check this page for document requests and review updates.
       </Notice>
       {admin && (docs.canRequest || data.demo) && (
         <DocumentRequestForm data={data} packageId={packageId} />

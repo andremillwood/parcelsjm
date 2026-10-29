@@ -16,7 +16,7 @@ export default function Contact() {
         title="A question is a good place to start."
       >
         <p>
-          Ask about getting started, your business needs or the planned shipping
+          Ask about getting started, your business needs or the shipping
           experience.
         </p>
       </PageIntro>
@@ -25,13 +25,13 @@ export default function Contact() {
           <h2>Keep your documents private.</h2>
           <p className="m-prose">
             This inquiry form is for general questions. Package invoices and
-            identity documents belong in the future authenticated document
-            workflow.
+            identity documents belong in the private document section in your
+            account.
           </p>
           <Notice>
-            Official contact details, support hours and pickup locations are
-            still being confirmed. No response-time guarantee is offered in this
-            preview.
+            For an existing shipment, sign in and send a support request from
+            your account. Pickup locations and availability are confirmed on
+            your pickup ticket.
           </Notice>
         </div>
         <LeadForm available={leadsAvailable()} />

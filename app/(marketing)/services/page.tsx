@@ -6,7 +6,7 @@ import {
 import { pageMetadata } from "../../../lib/metadata";
 export const metadata = pageMetadata(
   "Services",
-  "Explore the planned Parcels JA experience. Routes, coverage and service commitments require confirmation before booking.",
+  "Explore the Parcels JA experience. Routes, coverage and service commitments require confirmation before booking.",
   "/services",
 );
 export default function Services() {
@@ -17,8 +17,8 @@ export default function Services() {
         title="One place for the details that matter."
       >
         <p>
-          Our planned customer experience focuses on US purchases coming to
-          Jamaica, with clear information and required actions along the way.
+          Our customer experience focuses on US purchases coming to Jamaica,
+          with clear information and required actions along the way.
         </p>
       </PageIntro>
       <Notice>

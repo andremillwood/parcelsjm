@@ -13,7 +13,7 @@ export function SiteFooter() {
               to What Matters.
             </p>
             <p className="m-small">
-              The Parcels JA experience, in development.
+              Your packages. Your next step. All in one place.
             </p>
           </div>
           <div>
@@ -35,12 +35,14 @@ export function SiteFooter() {
             <Link href="/legal/terms">Terms</Link>
             <Link href="/legal/privacy">Privacy</Link>
             <Link href="/legal/shipping-policy">Shipping policy</Link>
-            <Link href="/dashboard">Customer app demo</Link>
+            <Link href="/app">My account</Link>
           </div>
         </div>
         <div className="m-footer-bottom">
           <span>© {new Date().getFullYear()} Parcels JA</span>
-          <span>No live shipping bookings or quotes in this preview.</span>
+          <span>
+            Delivery and pickup arrangements are confirmed in your account.
+          </span>
           <a href="#main-content">Back to content ↑</a>
         </div>
       </div>

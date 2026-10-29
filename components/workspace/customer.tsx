@@ -1,3 +1,5 @@
+import { ShippingAddress } from "./shipping-address";
+import { PackageFulfillment } from "./fulfillment";
 import { Pagination, RecordSearch } from "./pagination";
 import { Documents } from "./documents";
 import { label, type WorkspaceData } from "../../lib/workspace/model";
@@ -30,6 +32,13 @@ function CustomerContent({
         >
           {p?.carrier_tracking}
         </Heading>
+        {p && !data.demo && (
+          <PackageFulfillment
+            data={data}
+            packageId={p.id}
+            admin={!!rootOverride}
+          />
+        )}
         {p ? (
           <>
             <div className="w-detail-grid">
@@ -193,8 +202,8 @@ function CustomerContent({
           Clear, approved charges. No estimated balance presented as an invoice.
         </Heading>
         <Empty title="No issued invoices">
-          Shipping rates and cost rules still require approval. No payment is
-          due from this preview.
+          Your issued invoices will appear here. Wait for a confirmed invoice
+          and payment instructions before paying.
         </Empty>
         <Notice>
           Online payments are not connected. An approved invoice and payment
@@ -246,10 +255,14 @@ function CustomerContent({
         />
         <section className="w-panel w-pad">
           <h2>Shipping address</h2>
-          <Notice>
-            {data.shippingAddress ??
-              "Address activation pending. A verified warehouse and unique shipping identifier must be assigned before you send a package."}
-          </Notice>
+          {data.shippingAddress ? (
+            <ShippingAddress address={data.shippingAddress} />
+          ) : (
+            <Notice>
+              Address activation pending. Verify your email and complete your
+              contact details before shipping.
+            </Notice>
+          )}
         </section>
       </>
     );
@@ -320,10 +333,15 @@ function CustomerContent({
               ? "Address active"
               : "Address activation pending"}
           </span>
-          <p>
-            {data.shippingAddress ??
-              "Your approved address and shipping identifier will appear here once assigned. Please do not send packages before activation."}
-          </p>
+          {data.shippingAddress ? (
+            <ShippingAddress address={data.shippingAddress} />
+          ) : (
+            <p>
+              Your shipping address will appear here once your email and account
+              details are confirmed. Please do not send packages before
+              activation.
+            </p>
+          )}
           <Action href={`${root}/profile`} secondary>
             Review your profile
           </Action>

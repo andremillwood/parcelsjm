@@ -133,3 +133,31 @@ test("signup blocks duplicate sends and recovers from network failure", async ({
   expect(count).toBe(1);
   await expect(button).toBeEnabled();
 });
+
+test("signup collects a separate delivery address", async ({ page }) => {
+  let submitted: Record<string, unknown> | undefined;
+  await page.route("**/api/auth", async (route) => {
+    submitted = route.request().postDataJSON();
+    await route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({ message: "Check your email" }),
+    });
+  });
+  await page.goto("/register");
+  await fill(page);
+  await page
+    .getByLabel("How would you like to receive your packages?")
+    .selectOption("delivery");
+  await page.getByRole("button", { name: "Create account" }).click();
+  await expect(
+    page.getByLabel("Delivery address", { exact: true }),
+  ).toBeFocused();
+  await page
+    .getByLabel("Delivery address", { exact: true })
+    .fill("20 Sample Road, Kingston, Jamaica");
+  await page.getByRole("button", { name: "Create account" }).click();
+  await expect(page.getByRole("status")).toContainText("Check your email");
+  expect(submitted?.fulfillmentMethod).toBe("delivery");
+  expect(submitted?.deliveryAddress).toBe("20 Sample Road, Kingston, Jamaica");
+});

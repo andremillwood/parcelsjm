@@ -4,6 +4,40 @@ const text = (min: number, max: number) => z.string().trim().min(min).max(max);
 const reason = text(5, 2000),
   uuid = z.uuid();
 export const workspaceSchemas = {
+  fulfillment: z
+    .object({
+      packageId: uuid,
+      method: z.enum(["delivery", "pickup"]),
+      address: text(0, 500).default(""),
+      locationId: z.union([uuid, z.literal("")]).default(""),
+    })
+    .refine((d) => d.method !== "delivery" || d.address.length >= 10),
+  location: z.object({
+    name: text(2, 120),
+    address: text(10, 500),
+    parish: text(2, 80),
+    hours: text(3, 300),
+    reason,
+  }),
+  "location-status": z.object({
+    id: uuid,
+    active: z.enum(["true", "false"]),
+    reason,
+  }),
+  "customer-status": z.object({
+    profileId: uuid,
+    expected: z.enum(["active", "suspended"]),
+    status: z.enum(["active", "suspended"]),
+    reason,
+  }),
+  ticket: z.object({
+    packageId: uuid,
+    locationId: uuid,
+    available: z.iso.datetime(),
+    instructions: text(5, 1000),
+    reason,
+  }),
+  "ticket-email": z.object({ ticketId: uuid }),
   "pre-alert": z.object({
     requestId: uuid,
     tracking: text(1, 120),

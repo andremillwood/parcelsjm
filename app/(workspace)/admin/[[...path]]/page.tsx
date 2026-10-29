@@ -35,6 +35,7 @@ export default async function AdminPage({
       "billing",
       "audit",
       "settings",
+      "locations",
     ].includes(section) &&
     !/^packages\/[a-f0-9-]{36}$/.test(section) &&
     !/^billing\/[a-f0-9-]{36}$/.test(section) &&

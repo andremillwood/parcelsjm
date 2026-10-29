@@ -17,8 +17,7 @@ export function AuthForm({
     <div className="m-form-panel">
       {!available && (
         <div className="m-notice">
-          Live account access is not activated. You can explore the labelled
-          customer workspace preview below.
+          Account access is temporarily unavailable. Please try again later.
         </div>
       )}
       <form
@@ -109,11 +108,6 @@ export function AuthForm({
           </Link>
         </p>
       )}
-      <p>
-        <Link className="m-text-link" href="/preview/app">
-          Explore the customer workspace preview ↗
-        </Link>
-      </p>
     </div>
   );
 }

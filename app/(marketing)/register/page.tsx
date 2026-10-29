@@ -4,7 +4,7 @@ import { PageIntro } from "../../../components/marketing/ui";
 import { pageMetadata } from "../../../lib/metadata";
 export const metadata = pageMetadata(
   "Get started",
-  "Explore personal and business registration. Accounts and shipping address activation are not yet available.",
+  "Create your personal or business account with your address, TRN and delivery preference.",
   "/register",
 );
 export default async function Register({
@@ -20,12 +20,11 @@ export default async function Register({
         title="Create your Parcels JA account."
       >
         <p>
-          Personal purchases or business imports. See what getting started will
-          look like.
+          Create your account, verify your email, and choose delivery or pickup.
         </p>
       </PageIntro>
       <RegistrationForm
-        mode={registrationAvailable() ? "live" : "preview"}
+        mode={registrationAvailable() ? "live" : "unavailable"}
         initialType={type === "business" ? "business" : "personal"}
       />
     </div>

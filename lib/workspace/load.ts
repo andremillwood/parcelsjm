@@ -1,3 +1,4 @@
+import { formatShippingAddress } from "../shipping/address";
 import { SHIPMENT_STATES } from "../billing/pricing";
 import "server-only";
 import type { getIdentity } from "../auth/session";
@@ -91,6 +92,32 @@ export async function loadWorkspace(
   if (packages.error || support.error || events.error)
     data.error =
       "Some records could not be loaded. Please retry; counts may be incomplete.";
+  const [locations, fulfillment, tickets, preference] = await Promise.all([
+    c
+      .from("pickup_locations")
+      .select("id,name,address,parish,hours,active")
+      .order("parish"),
+    c
+      .from("package_fulfillment")
+      .select("package_id,method,address,location_id"),
+    c
+      .from("pickup_tickets")
+      .select(
+        "id,package_id,profile_id,location_name,address,hours,available_at,instructions,email_state",
+      ),
+    c
+      .from("fulfillment_preferences")
+      .select("method,address,location_id")
+      .eq("profile_id", identity.user.id)
+      .maybeSingle(),
+  ]);
+  data.locations = locations.data ?? [];
+  data.fulfillment = fulfillment.data ?? [];
+  data.tickets = tickets.data ?? [];
+  data.preference = preference.data ?? undefined;
+  if (locations.error || fulfillment.error || tickets.error || preference.error)
+    data.error =
+      "Delivery choices could not be loaded. Refresh before making arrangements.";
   const roles = await c
     .from("admin_role_assignments")
     .select("role")
@@ -153,6 +180,12 @@ export async function loadWorkspace(
     data.error =
       "Document records could not be loaded. Refresh before taking action.";
   if (admin) {
+    const preferences = await c
+      .from("fulfillment_preferences")
+      .select("profile_id,method,address,location_id");
+    data.customerPreferences = preferences.data ?? [];
+    if (preferences.error)
+      data.error = "Customer delivery preferences could not be loaded.";
     function staffList(
       table: string,
       fields: string,
@@ -220,16 +253,17 @@ export async function loadWorkspace(
         .eq("active", true)
         .maybeSingle();
       if (w) {
-        data.shippingAddress = [
-          shipping.assigned_prefix,
-          shipping.customer_code,
-          shipping.unit_identifier,
-          ...w.address_lines,
-          w.city,
-          w.region,
-          w.postal_code,
-          w.country,
-        ].join(", ");
+        data.shippingAddress = formatShippingAddress({
+          fullName: identity.profile.full_name,
+          prefix: shipping.assigned_prefix,
+          customerCode: shipping.customer_code,
+          unit: shipping.unit_identifier,
+          addressLines: w.address_lines,
+          city: w.city,
+          region: w.region,
+          postalCode: w.postal_code,
+          country: w.country,
+        });
         data.customerCode = shipping.customer_code;
       }
     }

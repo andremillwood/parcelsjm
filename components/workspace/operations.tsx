@@ -47,6 +47,70 @@ function OperationsContent({
       <>
         <CustomerWorkspace path={path} data={data} rootOverride={root} />
         {p &&
+          p.status === "ready_for_pickup" &&
+          !data.demo &&
+          (data.tickets?.find((t) => t.package_id === p.id) ? (
+            <StaffForm
+              action="ticket-email"
+              title="Retry pickup ticket email"
+              fields={[
+                {
+                  name: "ticketId",
+                  label: "Ticket",
+                  type: "hidden",
+                  value: data.tickets.find((t) => t.package_id === p.id)!.id,
+                },
+              ]}
+            />
+          ) : (
+            <>
+              <Notice>
+                Issue only after confirming the customer wants pickup and the
+                package is ready. Confirm the location with the customer before
+                issuing a ticket.
+              </Notice>
+              {data.locations?.some((l) => l.active) ? (
+                <StaffForm
+                  action="ticket"
+                  title="Issue pickup ticket"
+                  fields={[
+                    {
+                      name: "packageId",
+                      label: "Package",
+                      type: "hidden",
+                      value: p.id,
+                    },
+                    {
+                      name: "locationId",
+                      label: "Confirmed pickup location",
+                      options: data.locations
+                        .filter((l) => l.active)
+                        .map((l) => ({
+                          value: l.id,
+                          label: `${l.name} · ${l.parish}`,
+                        })),
+                    },
+                    {
+                      name: "available",
+                      label: "Available from (your local time)",
+                      type: "datetime-local",
+                    },
+                    { name: "instructions", label: "Collection instructions" },
+                    {
+                      name: "reason",
+                      label: "Readiness evidence / DMD manifest reference",
+                    },
+                  ]}
+                />
+              ) : (
+                <Notice>
+                  Add a confirmed pickup location in Locations before issuing a
+                  ticket.
+                </Notice>
+              )}
+            </>
+          ))}
+        {p &&
           latest &&
           [
             "pre_alerted",
@@ -139,7 +203,7 @@ function OperationsContent({
                   label: value.replaceAll("_", " "),
                 })),
               },
-              { name: "source", label: "Evidence / source reference" },
+              { name: "source", label: "DMD manifest / evidence reference" },
               {
                 name: "occurred",
                 label: "Event time (your local time)",
@@ -197,6 +261,44 @@ function OperationsContent({
                     <h3>{c.full_name || "Pending profile"}</h3>
                     <Pill value={c.account_status} />
                     <p className="w-muted">Account reference: {c.id}</p>
+                    <PackageList
+                      packages={data.packages.filter(
+                        (p) => p.profile_id === c.id,
+                      )}
+                      root={root}
+                    />
+                    {["active", "suspended"].includes(c.account_status) && (
+                      <StaffForm
+                        action="customer-status"
+                        title="Manage customer access (owner only)"
+                        fields={[
+                          {
+                            name: "profileId",
+                            label: "Customer",
+                            type: "hidden",
+                            value: c.id,
+                          },
+                          {
+                            name: "expected",
+                            label: "Current status",
+                            type: "hidden",
+                            value: c.account_status,
+                          },
+                          {
+                            name: "status",
+                            label: "Account access",
+                            options: [
+                              { value: "active", label: "Active" },
+                              { value: "suspended", label: "Suspended" },
+                            ],
+                          },
+                          {
+                            name: "reason",
+                            label: "Reason for account change",
+                          },
+                        ]}
+                      />
+                    )}
                     {c.account_status === "active" &&
                       !!data.warehouses?.length && (
                         <StaffForm
@@ -253,7 +355,7 @@ function OperationsContent({
           title="Record a verified observation"
           fields={[
             { name: "tracking", label: "Full carrier tracking reference" },
-            { name: "source", label: "Evidence / source reference" },
+            { name: "source", label: "DMD manifest / evidence reference" },
             { name: "reason", label: "Audit reason" },
           ]}
         />
@@ -332,8 +434,8 @@ function OperationsContent({
           ))
         ) : (
           <Empty title="No support requests available">
-            Requests visible to your role appear here. Email remains deferred;
-            responses are available in the customer workspace.
+            Requests visible to your role appear here. Responses are available
+            in the customer workspace.
           </Empty>
         )}
       </>
@@ -366,6 +468,55 @@ function OperationsContent({
         )}
       </>
     );
+  if (path === "locations")
+    return (
+      <>
+        <Heading eyebrow="Collection network" title="Pickup locations">
+          Publish real collection locations with an address and opening hours.
+          Customers can compare locations by parish.
+        </Heading>
+        <StaffForm
+          action="location"
+          title="Add a pickup location"
+          fields={[
+            { name: "name", label: "Location name" },
+            { name: "address", label: "Full street / district address" },
+            { name: "parish", label: "Parish" },
+            { name: "hours", label: "Opening hours" },
+            { name: "reason", label: "Verification / audit reason" },
+          ]}
+        />
+        {!data.locations?.length && (
+          <Empty title="Pickup location to be established">
+            Add a location only when its address and opening hours are
+            confirmed.
+          </Empty>
+        )}
+        {data.locations?.map((l) => (
+          <section className="w-panel w-pad" key={l.id}>
+            <h2>{l.name}</h2>
+            <p>
+              {l.address} · {l.parish}
+            </p>
+            <p>{l.hours}</p>
+            <StaffForm
+              action="location-status"
+              title={l.active ? "Pause this location" : "Reopen this location"}
+              fields={[
+                { name: "id", label: "Location", type: "hidden", value: l.id },
+                {
+                  name: "active",
+                  label: "Availability",
+                  type: "hidden",
+                  value: l.active ? "false" : "true",
+                },
+                { name: "reason", label: "Reason for availability change" },
+              ]}
+            />
+          </section>
+        ))}
+      </>
+    );
   if (path === "settings")
     return (
       <>
@@ -379,9 +530,18 @@ function OperationsContent({
           <dl className="w-dl">
             {[
               ["Supabase", "Identity and package schema connected"],
-              ["Warehouse addresses", "No approved warehouse configured"],
-              ["Resend", "Deferred by owner"],
-              ["DMD", "Not connected — automation deferred"],
+              [
+                "Warehouse addresses",
+                `${data.warehouses?.length ?? 0} active warehouses`,
+              ],
+              [
+                "Pickup ticket email",
+                "Delivery status and retries are available on each package",
+              ],
+              [
+                "DMD",
+                "Manual manifest reconciliation through intake and package events",
+              ],
               ["Pricing", "Approval required"],
               [
                 "Document scanning",
@@ -462,8 +622,8 @@ function OperationsContent({
         </aside>
       </div>
       <Notice>
-        Resend and DMD are not connected in this preview. No notification or
-        partner sync is claimed.
+        Use the DMD manifest reference when recording each verified shipment
+        event. Pickup ticket email status is shown on the package record.
       </Notice>
     </>
   );

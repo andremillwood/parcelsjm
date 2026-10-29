@@ -32,6 +32,7 @@ export function WorkspaceShell({
         ["support", "Support"],
         ["billing", "Billing & collections"],
         ["audit", "Audit history"],
+        ["locations", "Locations"],
         ["settings", "Settings"],
       ]
     : [

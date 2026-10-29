@@ -2,12 +2,12 @@ export const faqs = [
   {
     question: "Can I register and start shipping now?",
     answer:
-      "Not through this preview. You can explore the personal and business registration journey, but no account or shipping address is created yet.",
+      "Create a personal or business account using your home address and 9-digit TRN, then verify your email. Wait for your assigned US shipping address before sending packages.",
   },
   {
     question: "When will I receive a US shipping address?",
     answer:
-      "After registration is enabled, your account must be verified and assigned an approved warehouse address and identifier. Until then, address activation will show as pending. Do not ship to an unconfirmed address.",
+      "Your account must be verified and assigned an approved warehouse address and identifier. Until then, address activation will show as pending. Do not ship to an unconfirmed address.",
   },
   {
     question: "Where can I see shipping rates?",
@@ -22,19 +22,16 @@ export const faqs = [
   {
     question: "How will package tracking work?",
     answer:
-      "The planned customer account will display verified shipment events, when they occurred, and any action you need to take. The current app demo contains fictional records and cannot track a real package.",
+      "Sign in to see verified shipment events, when they occurred, and any action you need to take.",
   },
   {
     question: "Do you offer pickup or local delivery?",
     answer:
-      "Pickup arrangements and delivery coverage must be confirmed before booking. This preview does not confirm locations, delivery areas or transit times.",
+      "Choose delivery to your preferred address or pickup in your account. Our pickup location is being established. Your pickup ticket will confirm where and when your package is available; wait for confirmation before travelling.",
   },
 ];
 export const steps = [
-  [
-    "Create your account",
-    "Choose personal or business and verify your email when registration becomes available.",
-  ],
+  ["Create your account", "Choose personal or business and verify your email."],
   [
     "Wait for address activation",
     "Use only the warehouse address and unique identifier assigned to your verified account.",

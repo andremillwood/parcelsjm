@@ -42,9 +42,11 @@ export function RegistrationForm({
   mode,
   initialType = "personal",
 }: {
-  mode: "preview" | "live";
+  mode: "preview" | "live" | "unavailable";
   initialType?: "personal" | "business";
 }) {
+  const unavailable = mode === "unavailable";
+  const [fulfillmentMethod, setFulfillmentMethod] = useState("pickup");
   const preview = mode === "preview";
   const [type, setType] = useState(initialType);
   const [errors, setErrors] = useState<RegistrationErrors>({});
@@ -73,6 +75,11 @@ export function RegistrationForm({
   }
   return (
     <div className="m-form-panel m-signup-panel">
+      {unavailable && (
+        <Notice>
+          Registration is temporarily unavailable. Please check back soon.
+        </Notice>
+      )}
       {preview && (
         <Notice>
           <strong>Registration preview.</strong> No account is created and no
@@ -89,7 +96,7 @@ export function RegistrationForm({
         }}
         onSubmit={async (event) => {
           event.preventDefault();
-          if (inFlight.current) return;
+          if (inFlight.current || unavailable) return;
           const form = event.currentTarget,
             data = new FormData(form);
           setComplete(false);
@@ -102,6 +109,10 @@ export function RegistrationForm({
             trn: data.get("trn"),
             homeAddress: data.get("homeAddress"),
             password: data.get("password"),
+            fulfillmentMethod: data.get("fulfillmentMethod"),
+            ...(fulfillmentMethod === "delivery"
+              ? { deliveryAddress: data.get("deliveryAddress") }
+              : {}),
             accountType: type,
             consent: data.get("consent") === "on",
           });
@@ -167,7 +178,7 @@ export function RegistrationForm({
           }
         }}
       >
-        <fieldset disabled={busy} className="m-signup-fields">
+        <fieldset disabled={busy || unavailable} className="m-signup-fields">
           <legend className="sr-only">Your registration details</legend>
           <fieldset className="m-options">
             <legend>How will you use Parcels JA?</legend>
@@ -289,6 +300,45 @@ export function RegistrationForm({
               />
             </Field>
           </fieldset>
+          <fieldset className="m-signup-group">
+            <legend>Delivery or pickup</legend>
+            <Field
+              name="fulfillmentMethod"
+              label="How would you like to receive your packages?"
+              error={errors.fulfillmentMethod}
+            >
+              <select
+                {...props("fulfillmentMethod")}
+                value={fulfillmentMethod}
+                onChange={(e) => setFulfillmentMethod(e.target.value)}
+              >
+                <option value="pickup">Pick up at a collection location</option>
+                <option value="delivery">Deliver to my chosen address</option>
+              </select>
+            </Field>
+            {fulfillmentMethod === "delivery" ? (
+              <Field
+                name="deliveryAddress"
+                label="Delivery address"
+                error={errors.deliveryAddress}
+              >
+                <textarea
+                  {...props("deliveryAddress")}
+                  required
+                  minLength={10}
+                  maxLength={500}
+                  rows={3}
+                  autoComplete="shipping street-address"
+                />
+              </Field>
+            ) : (
+              <p className="m-small">
+                Our pickup location is being established. Your pickup ticket
+                will confirm where and when your package is available. Choose a
+                convenient location in your account once locations are listed.
+              </p>
+            )}
+          </fieldset>
           <label className="m-checkbox">
             <input {...props("consent")} type="checkbox" required />
             <span>
@@ -311,8 +361,9 @@ export function RegistrationForm({
           )}
           {!preview && (
             <p className="m-small">
-              Email verification comes first. Shipping activation requires a
-              separately approved address.
+              Email verification comes first. Your US shipping address is
+              included in the confirmation email and can be copied from your
+              dashboard after verification.
             </p>
           )}
           <button className="m-button" type="submit">

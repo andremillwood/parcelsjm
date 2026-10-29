@@ -6,7 +6,7 @@ import {
 import { pageMetadata } from "../../../lib/metadata";
 export const metadata = pageMetadata(
   "Tracking",
-  "Private tracking will be available in your authenticated customer account. No public package lookup is offered in this preview.",
+  "Sign in to view your shipment tracking and delivery or pickup arrangements.",
   "/tracking",
 );
 export default function Page() {
@@ -17,18 +17,18 @@ export default function Page() {
         title="Your package details belong to you."
       >
         <p>
-          Private tracking will be available in your authenticated customer
-          account. No public package lookup is offered in this preview.
+          Sign in to view verified tracking updates, package documents and your
+          delivery or pickup arrangements.
         </p>
       </PageIntro>
       <Notice>
-        Not connected. No live account, tracking or address activation is
-        available yet.
+        Package information is private. Sign in with the account used for your
+        shipment.
       </Notice>
       <div className="m-link-row">
-        <ButtonLink href="/login">Explore sign-in</ButtonLink>
-        <ButtonLink href="/dashboard" secondary>
-          View the fictional app demo
+        <ButtonLink href="/login">Sign in</ButtonLink>
+        <ButtonLink href="/app" secondary>
+          My packages
         </ButtonLink>
       </div>
     </div>

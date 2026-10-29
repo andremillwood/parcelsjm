@@ -3,7 +3,7 @@ import { steps } from "../../../components/marketing/content";
 import { pageMetadata } from "../../../lib/metadata";
 export const metadata = pageMetadata(
   "How it works",
-  "Understand the planned journey from account verification and address assignment to documents, tracking and collection.",
+  "Understand the shipping journey from account verification and address assignment to documents, tracking and collection.",
   "/how-it-works",
 );
 export default function HowItWorks() {
@@ -11,18 +11,18 @@ export default function HowItWorks() {
     <>
       <div className="m-container m-content-bottom">
         <PageIntro
-          eyebrow="The planned journey"
+          eyebrow="The shipping journey"
           title="From your cart to your next step."
         >
           <p>
-            Six steps to understand before you ship. Live registration and
-            shipping arrangements are still being prepared.
+            Six steps to keep your purchases, documents and collection
+            arrangements together.
           </p>
         </PageIntro>
         <Notice>
           Do not send a package until your account has an approved warehouse
-          address and shipping identifier. No warehouse address is published in
-          this preview.
+          address and shipping identifier. Use the exact address shown in your
+          account.
         </Notice>
         <ol className="m-full-steps">
           {steps.map(([title, copy], i) => (

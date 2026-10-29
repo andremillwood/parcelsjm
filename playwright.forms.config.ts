@@ -23,7 +23,7 @@ export default defineConfig({
       AUTH_ENABLED: "true",
       ACCOUNT_POLICIES_APPROVED: "true",
       ACCOUNT_POLICY_VERSION: "fictional-test-policy",
-      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: "fictional-key",
+      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: "fictional-publishable-key",
       LEAD_CAPTURE_ENABLED: "true",
       LEAD_PRIVACY_APPROVED: "true",
       LEAD_PRIVACY_VERSION: "fictional-test-policy",

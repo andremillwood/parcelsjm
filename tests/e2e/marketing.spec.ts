@@ -41,7 +41,7 @@ test("home acquisition CTAs and business registration preserve intent", async ({
 }) => {
   await page.goto("/");
   await page
-    .getByRole("link", { name: "Explore registration", exact: false })
+    .getByRole("link", { name: "Create account", exact: false })
     .first()
     .click();
   await expect(page).toHaveURL(/\/register$/);
@@ -55,7 +55,7 @@ test("home acquisition CTAs and business registration preserve intent", async ({
     .click();
   await expect(page).toHaveURL(/\/register\?type=business/);
   await expect(
-    page.getByRole("radio", { name: /Business \/ reseller/ }),
+    page.getByRole("radio", { name: "Business / reseller", exact: false }),
   ).toBeChecked();
 });
 test("unconfigured inquiry form and API fail closed", async ({
@@ -76,7 +76,7 @@ test("unconfigured inquiry form and API fail closed", async ({
   ).toBe(503);
   expect((await request.post("/api/contact/retry")).status()).toBe(401);
   await expect((await request.get("/robots.txt")).text()).resolves.toContain(
-    "Disallow: /",
+    "Disallow: /admin",
   );
 });
 test("mobile menu supports keyboard dismissal and navigation", async ({

@@ -1,3 +1,4 @@
+import { sendSignupAddress } from "../../../lib/shipping/email";
 import { readJson, InputError } from "../../../lib/http/input";
 import { authAvailable, registrationAvailable } from "../../../lib/auth/config";
 import { authSchema, registrationErrors } from "../../../lib/auth/schema";
@@ -62,7 +63,12 @@ export async function POST(request: Request) {
     if (data.action === "register") {
       if (!registrationAvailable())
         return reply(503, "Registration awaits approved account policies.");
-      const { error } = await client.auth.signUp({
+      if (data.fulfillmentMethod === "delivery" && !data.deliveryAddress)
+        return reply(
+          400,
+          "Enter the address where you want packages delivered.",
+        );
+      const { data: signup, error } = await client.auth.signUp({
         email: data.email,
         password: data.password,
         options: {
@@ -73,6 +79,11 @@ export async function POST(request: Request) {
             trn: data.trn,
             home_address: data.homeAddress,
             account_type: data.accountType,
+            fulfillment_method: data.fulfillmentMethod,
+            delivery_address:
+              data.fulfillmentMethod === "delivery"
+                ? data.deliveryAddress
+                : undefined,
             policy_version: process.env.ACCOUNT_POLICY_VERSION,
           },
         },
@@ -83,9 +94,16 @@ export async function POST(request: Request) {
           "Registration could not be completed. Please try again later.",
         );
       // Auth create responses can echo input metadata. Never return user/session payloads here.
+      if (signup.user?.id && signup.user.identities?.length) {
+        try {
+          await sendSignupAddress(signup.user.id);
+        } catch {
+          /* Signup succeeded; pending address email is retried after verification. */
+        }
+      }
       return reply(
         200,
-        "If registration can proceed, check your email to verify your account. No shipping address is active yet.",
+        "If registration can proceed, check your email to verify your account. Your assigned US shipping address is included in the signup email and becomes available to copy from your dashboard after verification.",
       );
     }
     if (data.action === "reset") {
