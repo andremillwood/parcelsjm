@@ -348,8 +348,9 @@ export function RegistrationForm({
                 <>
                   I accept the <Link href="/legal/terms">terms</Link> and
                   acknowledge the{" "}
-                  <Link href="/legal/privacy">privacy policy</Link>. This does
-                  not subscribe me to marketing.
+                  <Link href="/legal/privacy">privacy policy</Link> and{" "}
+                  <Link href="/legal/shipping-policy">shipping policy</Link>.
+                  This does not subscribe me to marketing.
                 </>
               )}
             </span>
@@ -397,7 +398,7 @@ export function RegistrationForm({
               <strong>Address activation pending.</strong>{" "}
               {preview
                 ? "In the live journey, you’ll verify your email before completing onboarding. A shipping address is assigned separately after approval."
-                : "Once your email is verified, sign in to complete onboarding. A shipping address is assigned separately after approval."}
+                : "Verify your email, then sign in to copy your assigned US shipping address and add your first pre-alert."}
             </p>
             <Link
               className="m-text-link"

@@ -1,10 +1,10 @@
-import { PolicyDraft } from "../../../../components/marketing/policy-draft";
+import { PolicyPage } from "../../../../components/marketing/policy-page";
 import { pageMetadata } from "../../../../lib/metadata";
 export const metadata = pageMetadata(
-  "Terms — draft",
-  "Draft policy for review. Approval pending; public signup remains disabled.",
+  "Terms of service",
+  "Parcels JA terms of service, effective 29 October 2026.",
   "/legal/terms",
 );
 export default function Policy() {
-  return <PolicyDraft kind="terms" />;
+  return <PolicyPage kind="terms" />;
 }

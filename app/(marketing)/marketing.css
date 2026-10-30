@@ -1926,3 +1926,54 @@
     gap: 4px;
   }
 }
+
+/* Public rates: one readable schedule and one contextual next step. */
+.m-rate-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+.m-rate-table caption {
+  text-align: left;
+  padding: 0 0 20px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.m-rate-table th,
+.m-rate-table td {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+.m-rate-table thead {
+  background: var(--ink);
+  color: white;
+}
+.m-rate-table td {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.m-rate-table thead th:last-child {
+  text-align: right;
+}
+.m-rate-table tbody th {
+  font-weight: 500;
+}
+.m-rate-table tbody tr:nth-child(even) {
+  background: var(--surface);
+}
+.m-rate-details p {
+  line-height: 1.75;
+  color: var(--muted);
+  margin: 16px 0;
+}
+.m-rate-details .m-button {
+  margin-top: 12px;
+}
+@media (max-width: 560px) {
+  .m-rate-table th,
+  .m-rate-table td {
+    padding: 14px 12px;
+    font-size: 14px;
+  }
+}

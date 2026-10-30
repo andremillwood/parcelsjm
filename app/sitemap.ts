@@ -10,5 +10,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/contact",
     "/about",
     "/tracking",
+    "/register",
+    "/legal/terms",
+    "/legal/privacy",
+    "/legal/shipping-policy",
   ].map((path) => ({ url: `https://parcelsjm.com${path}` }));
 }

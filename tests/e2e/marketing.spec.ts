@@ -58,17 +58,17 @@ test("home acquisition CTAs and business registration preserve intent", async ({
     page.getByRole("radio", { name: "Business / reseller", exact: false }),
   ).toBeChecked();
 });
-test("unconfigured inquiry form and API fail closed", async ({
+test("unconfigured inquiry provides contact fallback and API fails closed", async ({
   page,
   request,
 }) => {
   await page.goto("/contact");
   await expect(
-    page.getByRole("button", { name: "Sending unavailable" }),
-  ).toBeDisabled();
+    page.getByRole("link", { name: "Email Parcels JA" }),
+  ).toHaveAttribute("href", "mailto:support@parcelsjm.com");
   await expect(
     page.getByRole("textbox", { name: "Name", exact: true }),
-  ).toBeDisabled();
+  ).toHaveCount(0);
   expect(
     (
       await request.post("/api/contact", { data: { name: "Fictional" } })

@@ -26,10 +26,7 @@ export default function Page() {
         shipment.
       </Notice>
       <div className="m-link-row">
-        <ButtonLink href="/login">Sign in</ButtonLink>
-        <ButtonLink href="/app" secondary>
-          My packages
-        </ButtonLink>
+        <ButtonLink href="/app/packages">View my packages</ButtonLink>
       </div>
     </div>
   );

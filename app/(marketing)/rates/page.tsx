@@ -1,48 +1,62 @@
-import { PageIntro, Notice } from "../../../components/marketing/ui";
-import { LeadForm } from "../../../components/marketing/lead-form";
-import { leadsAvailable } from "../../../lib/leads/config";
+import { PageIntro, ButtonLink } from "../../../components/marketing/ui";
+import { APPROVED_RATE_CENTS, jmd } from "../../../lib/billing/pricing";
 import { pageMetadata } from "../../../lib/metadata";
-export const dynamic = "force-dynamic";
 export const metadata = pageMetadata(
-  "Rates being updated",
-  "Shipping estimates are unavailable until the complete public quoting rules are confirmed.",
+  "Shipping rates",
+  "View Parcels JA shipping charges in JMD for packages up to 10 lb. Customs, delivery and storage charges are assessed separately.",
   "/rates",
 );
 export default function Rates() {
   return (
     <div className="m-container m-content-bottom">
       <PageIntro
-        eyebrow="Know the cost before you commit"
-        title="Clear costs start with confirmed rates."
+        eyebrow="Plan your purchase"
+        title="Your shipping rate, by weight."
       >
         <p>
-          The shipping schedule is approved for staff-issued invoices. A
-          complete public estimate also needs the applicable separate charges.
+          Shipping charges in Jamaican dollars. Measured weight is rounded up to
+          the next whole pound.
         </p>
       </PageIntro>
-      <div className="m-split">
-        <div>
-          <Notice>
-            <strong>Estimate unavailable.</strong> The public calculator is not
-            activated. Customs duties/taxes, local delivery and storage are
-            separate assessed charges, so the shipping price alone is not a
-            complete quote.
-          </Notice>
-          <h2>What to look for in your quote</h2>
-          <ul className="m-policy-list">
-            <li>The currency, effective date and weight calculation basis.</li>
-            <li>
-              Freight and handling charges, with their inclusions explained.
-            </li>
-            <li>Any assessed customs duties and taxes, shown separately.</li>
-            <li>Pickup or local delivery charges, only where confirmed.</li>
-          </ul>
-          <p className="m-prose">
-            No price, fee, exchange rate or delivery option shown here should be
-            treated as a booking commitment.
-          </p>
+      <div className="m-split m-rates-layout">
+        <div className="m-rate-table-wrap">
+          <table className="m-rate-table">
+            <caption>Shipping schedule · effective 29 October 2026</caption>
+            <thead>
+              <tr>
+                <th scope="col">Billable weight</th>
+                <th scope="col">Shipping charge (JMD)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {APPROVED_RATE_CENTS.map((amount, index) => (
+                <tr key={index}>
+                  <th scope="row">{index + 1} lb</th>
+                  <td>{jmd(amount)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-        <LeadForm kind="rates" available={leadsAvailable()} />
+        <aside className="m-rate-details">
+          <h2>Know what is separate.</h2>
+          <p>
+            These are shipping charges, not the total landed cost. Customs
+            duties and taxes, local delivery and storage are assessed separately
+            and shown on your itemized invoice.
+          </p>
+          <p>
+            For example, a 1.2 lb package is billed at the 2 lb shipping rate.
+            Packages over 10 lb need an individual quote.
+          </p>
+          <p>
+            Confirm delivery availability and any additional charges before
+            ordering.
+          </p>
+          <ButtonLink href="/contact" secondary>
+            Ask about your shipment
+          </ButtonLink>
+        </aside>
       </div>
     </div>
   );

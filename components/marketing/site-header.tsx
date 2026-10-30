@@ -40,12 +40,16 @@ export function SiteHeader() {
           ))}
         </nav>
         <div className="m-header-actions">
-          <Link className="m-signin" href="/login">
-            Sign in
-          </Link>
-          <Link className="m-button m-button-small" href="/register">
-            Explore registration
-          </Link>
+          {path !== "/login" && (
+            <Link className="m-signin" href="/login">
+              Sign in
+            </Link>
+          )}
+          {path !== "/register" && path !== "/" && (
+            <Link className="m-button m-button-small" href="/register">
+              Create account
+            </Link>
+          )}
         </div>
         <button
           ref={trigger}
@@ -66,8 +70,8 @@ export function SiteHeader() {
         >
           {[
             ...links,
-            ["/login", "Sign in"],
-            ["/register", "Explore registration"],
+            ...(path === "/login" ? [] : [["/login", "Sign in"]]),
+            ...(path === "/register" ? [] : [["/register", "Create account"]]),
           ].map(([href, label]) => (
             <Link
               key={href}

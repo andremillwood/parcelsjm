@@ -14,6 +14,29 @@ export function LeadForm({
   );
   const [message, setMessage] = useState("");
   const [requestId, setRequestId] = useState<string>();
+  if (!available)
+    return (
+      <div className="m-form-panel" id="inquiry">
+        <h2>
+          {kind === "business"
+            ? "Discuss your business shipping"
+            : kind === "rates"
+              ? "Ask about your shipment"
+              : "Talk to Parcels JA"}
+        </h2>
+        <p>
+          Email our team with your question. Include a tracking reference if you
+          have one; keep TRNs and identity documents out of email.
+        </p>
+        <a className="m-button" href="mailto:support@parcelsjm.com">
+          Email Parcels JA
+        </a>
+        <p className="m-small">
+          Existing customers can manage shipment enquiries in the support
+          section of their account.
+        </p>
+      </div>
+    );
   return (
     <div className="m-form-panel" id="inquiry">
       <h2>

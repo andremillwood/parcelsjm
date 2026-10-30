@@ -1,7 +1,8 @@
 import { RegistrationForm } from "../../../components/auth/registration-form";
-import { registrationAvailable } from "../../../lib/auth/config";
+import { registrationReady } from "../../../lib/auth/provider";
 import { PageIntro } from "../../../components/marketing/ui";
 import { pageMetadata } from "../../../lib/metadata";
+export const dynamic = "force-dynamic";
 export const metadata = pageMetadata(
   "Get started",
   "Create your personal or business account with your address, TRN and delivery preference.",
@@ -24,7 +25,7 @@ export default async function Register({
         </p>
       </PageIntro>
       <RegistrationForm
-        mode={registrationAvailable() ? "live" : "unavailable"}
+        mode={(await registrationReady()) ? "live" : "unavailable"}
         initialType={type === "business" ? "business" : "personal"}
       />
     </div>

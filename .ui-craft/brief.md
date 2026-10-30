@@ -60,3 +60,7 @@ The owner explicitly wants a strong aesthetic cue from LogiHub across marketing 
 ## Public product illustration constraint — 29 October 2026
 
 Public marketing must not display development banners, including labels baked into old screenshots. Use a responsive account illustration or a verified current product capture; label example account content honestly and link users to their real account. Do not change policy, signup or operational release gates as a cosmetic fix.
+
+## Public activation and action hierarchy — 29 October 2026
+
+The owner approved the prepared policies, confirmed the release migration was run and requested activation. This supersedes historical signup, policy and pricing exclusions for this release. Publish version 2026-10-29 without draft placeholders. Keep the established navy/yellow, Inter, lifestyle imagery and CSS-only interactions. One primary action per section: remove the hero account link beside signup, suppress redundant header signup on the homepage and registration page, and use a single account destination for tracking. Preserve meaningful navigation between different tasks. Publish approved shipping charges with separate charges clearly explained; no invented fee, delivery promise or pickup address. Provider signup and email settings must be verified independently; approval never changes document scan results or staff permissions.

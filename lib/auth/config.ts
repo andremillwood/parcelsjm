@@ -1,3 +1,4 @@
+import { POLICY_VERSION } from "../policies/current";
 export function authAvailable() {
   return (
     process.env.AUTH_ENABLED === "true" &&
@@ -28,6 +29,6 @@ export function registrationAvailable() {
   return (
     authAvailable() &&
     process.env.ACCOUNT_POLICIES_APPROVED === "true" &&
-    !!process.env.ACCOUNT_POLICY_VERSION
+    process.env.ACCOUNT_POLICY_VERSION === POLICY_VERSION
   );
 }

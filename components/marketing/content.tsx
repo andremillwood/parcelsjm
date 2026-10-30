@@ -12,7 +12,7 @@ export const faqs = [
   {
     question: "Where can I see shipping rates?",
     answer:
-      "The Rates page explains the current availability. An estimate will only be available after an approved rate card and its charge inclusions are published. Historical prices are not live quotes.",
+      "The Rates page lists our JMD shipping schedule for 1–10 lb. Measured weight is rounded up to the next pound. Customs duties and taxes, local delivery and storage are assessed separately; packages over 10 lb need an individual quote.",
   },
   {
     question: "What documents should I prepare?",

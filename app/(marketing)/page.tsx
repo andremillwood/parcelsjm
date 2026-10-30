@@ -44,9 +44,6 @@ export default function Home() {
             </p>
             <div className="m-campaign-actions">
               <ButtonLink href="/register">Create account</ButtonLink>
-              <Link className="m-hero-demo" href="/app">
-                Open your account <Arrow />
-              </Link>
             </div>
             <p className="m-small">
               Verify your email to activate your assigned US shipping address.
@@ -122,7 +119,7 @@ export default function Home() {
             {[
               [
                 "Start with your account",
-                "Registration and address activation are not yet open. Explore the steps so you know what to expect.",
+                "Create your account with your home address and TRN. Verify your email to activate your personal US shipping address.",
               ],
               [
                 "Prepare your purchase",

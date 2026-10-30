@@ -1,3 +1,4 @@
+import { registrationReady } from "../../../lib/auth/provider";
 import { sendSignupAddress } from "../../../lib/shipping/email";
 import { readJson, InputError } from "../../../lib/http/input";
 import { authAvailable, registrationAvailable } from "../../../lib/auth/config";
@@ -20,9 +21,12 @@ export async function POST(request: Request) {
       typeof body === "object" &&
       "action" in body &&
       body.action === "register" &&
-      !registrationAvailable()
+      !(await registrationReady())
     )
-      return reply(503, "Registration awaits approved account policies.");
+      return reply(
+        503,
+        "Registration is temporarily unavailable. Please try again later.",
+      );
     input = authSchema.safeParse(body);
   } catch (error) {
     return reply(
@@ -62,7 +66,10 @@ export async function POST(request: Request) {
     }
     if (data.action === "register") {
       if (!registrationAvailable())
-        return reply(503, "Registration awaits approved account policies.");
+        return reply(
+          503,
+          "Registration is temporarily unavailable. Please try again later.",
+        );
       if (data.fulfillmentMethod === "delivery" && !data.deliveryAddress)
         return reply(
           400,
